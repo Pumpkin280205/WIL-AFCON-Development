@@ -1,0 +1,66 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<WIL_Afcon.Models.Employee>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<h1>Employees</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add Employee</a>
+</p>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Employee Number</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Department ID</th>
+                <th>Device User ID</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>@employee.EmployeeNumber</td>
+                    <td>@employee.FirstName @employee.LastName</td>
+                    <td>@employee.Email</td>
+                    <td>@employee.PhoneNumber</td>
+                    <td>@employee.DepartmentId</td>
+                    <td>@employee.DeviceUserId</td>
+                    <td>
+                        @(employee.IsActive ? "Active" : "Inactive")
+                    </td>
+                    <td>
+                        <a asp-action="Details"
+                           asp-route-id="@employee.Id">
+                            Details
+                        </a>
+                        |
+                        <a asp-action="Edit"
+                           asp-route-id="@employee.Id">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No employees found.</p>
+}

@@ -1,0 +1,537 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\WIL_AFCON\\WIL_Afcon\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\views\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\views\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\views\\employee\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\views\\employee\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\views\\department\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\views\\department\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\models\\department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\models\\department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\repositories\\employeerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\repositories\\employeerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\services\\employeeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\services\\employeeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\views\\department\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\views\\department\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\services\\interfaces\\idepartmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\services\\interfaces\\idepartmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\repositories\\interfaces\\iemployeerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\repositories\\interfaces\\iemployeerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\repositories\\interfaces\\iattendancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\repositories\\interfaces\\iattendancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\views\\employee\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\views\\employee\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\views\\employee\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\views\\employee\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\services\\attendanceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\services\\attendanceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\services\\interfaces\\iattendanceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\services\\interfaces\\iattendanceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\services\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\services\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\services\\interfaces\\iemployeeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\services\\interfaces\\iemployeeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\repositories\\attendancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\repositories\\attendancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\repositories\\departmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\repositories\\departmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\repositories\\interfaces\\idepartmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\repositories\\interfaces\\idepartmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\models\\attendance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\models\\attendance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\models\\breakrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\models\\breakrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\data\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\data\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|c:\\wil_afcon\\wil_afcon\\wil_afcon\\data\\mongodbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0568B092-E30D-A1F7-288C-27172978259B}|WIL_Afcon\\WIL_Afcon.csproj|solutionrelative:wil_afcon\\data\\mongodbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Login.cshtml",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Views\\Login.cshtml",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Login.cshtml",
+              "RelativeToolTip": "WIL_Afcon\\Views\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-17T16:08:56.602Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "WIL_Afcon\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-17T16:08:28.661Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Employee.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\Employee.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Models\\Employee.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\Employee.cs",
+              "RelativeToolTip": "WIL_Afcon\\Models\\Employee.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T09:08:24.114Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "EmployeeController.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Controllers\\EmployeeController.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Controllers\\EmployeeController.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Controllers\\EmployeeController.cs",
+              "RelativeToolTip": "WIL_Afcon\\Controllers\\EmployeeController.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAowEIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-17T06:10:05.528Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Employee\\Create.cshtml",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Views\\Employee\\Create.cshtml",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Employee\\Create.cshtml",
+              "RelativeToolTip": "WIL_Afcon\\Views\\Employee\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-17T06:14:53.17Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Department.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\Department.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Models\\Department.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\Department.cs",
+              "RelativeToolTip": "WIL_Afcon\\Models\\Department.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T09:08:05.404Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Department\\Create.cshtml",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Views\\Department\\Create.cshtml",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Department\\Create.cshtml",
+              "RelativeToolTip": "WIL_Afcon\\Views\\Department\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-17T13:12:42.783Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Program.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Program.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Program.cs",
+              "RelativeToolTip": "WIL_Afcon\\Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAIwCcAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T08:23:28.188Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\appsettings.json",
+              "RelativeDocumentMoniker": "WIL_Afcon\\appsettings.json",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\appsettings.json",
+              "RelativeToolTip": "WIL_Afcon\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-08-16T08:18:24.814Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "EmployeeService.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\EmployeeService.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Services\\EmployeeService.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\EmployeeService.cs",
+              "RelativeToolTip": "WIL_Afcon\\Services\\EmployeeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:29:35.837Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IEmployeeRepository.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\Interfaces\\IEmployeeRepository.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Repositories\\Interfaces\\IEmployeeRepository.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\Interfaces\\IEmployeeRepository.cs",
+              "RelativeToolTip": "WIL_Afcon\\Repositories\\Interfaces\\IEmployeeRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T13:22:39.673Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "EmployeeRepository.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\EmployeeRepository.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Repositories\\EmployeeRepository.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\EmployeeRepository.cs",
+              "RelativeToolTip": "WIL_Afcon\\Repositories\\EmployeeRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T13:24:02.406Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "DepartmentController.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Controllers\\DepartmentController.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Controllers\\DepartmentController.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Controllers\\DepartmentController.cs",
+              "RelativeToolTip": "WIL_Afcon\\Controllers\\DepartmentController.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAwwFIAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-17T13:02:47.687Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Department\\Index.cshtml",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Views\\Department\\Index.cshtml",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Department\\Index.cshtml",
+              "RelativeToolTip": "WIL_Afcon\\Views\\Department\\Index.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAkwDQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-17T13:10:57.772Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IDepartmentService.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\Interfaces\\IDepartmentService.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Services\\Interfaces\\IDepartmentService.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\Interfaces\\IDepartmentService.cs",
+              "RelativeToolTip": "WIL_Afcon\\Services\\Interfaces\\IDepartmentService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:28:58.153Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "IAttendanceRepository.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\Interfaces\\IAttendanceRepository.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Repositories\\Interfaces\\IAttendanceRepository.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\Interfaces\\IAttendanceRepository.cs",
+              "RelativeToolTip": "WIL_Afcon\\Repositories\\Interfaces\\IAttendanceRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T13:23:20.03Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Employee\\Index.cshtml",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Views\\Employee\\Index.cshtml",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Employee\\Index.cshtml",
+              "RelativeToolTip": "WIL_Afcon\\Views\\Employee\\Index.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAYwCgAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-17T06:14:32.937Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "DepartmentService.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\DepartmentService.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Services\\DepartmentService.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\DepartmentService.cs",
+              "RelativeToolTip": "WIL_Afcon\\Services\\DepartmentService.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAIwC8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:29:58.624Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "AttendanceService.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\AttendanceService.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Services\\AttendanceService.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\AttendanceService.cs",
+              "RelativeToolTip": "WIL_Afcon\\Services\\AttendanceService.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAIwDAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:30:20.176Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Employee\\Details.cshtml",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Views\\Employee\\Details.cshtml",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Employee\\Details.cshtml",
+              "RelativeToolTip": "WIL_Afcon\\Views\\Employee\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-17T06:15:29.411Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Employee\\Edit.cshtml",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Views\\Employee\\Edit.cshtml",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Employee\\Edit.cshtml",
+              "RelativeToolTip": "WIL_Afcon\\Views\\Employee\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-17T06:15:53.681Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "IAttendanceService.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\Interfaces\\IAttendanceService.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Services\\Interfaces\\IAttendanceService.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\Interfaces\\IAttendanceService.cs",
+              "RelativeToolTip": "WIL_Afcon\\Services\\Interfaces\\IAttendanceService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:29:16.305Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "IEmployeeService.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\Interfaces\\IEmployeeService.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Services\\Interfaces\\IEmployeeService.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Services\\Interfaces\\IEmployeeService.cs",
+              "RelativeToolTip": "WIL_Afcon\\Services\\Interfaces\\IEmployeeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:28:34.16Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "AttendanceRepository.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\AttendanceRepository.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Repositories\\AttendanceRepository.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\AttendanceRepository.cs",
+              "RelativeToolTip": "WIL_Afcon\\Repositories\\AttendanceRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T13:24:39.297Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "DepartmentRepository.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\DepartmentRepository.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Repositories\\DepartmentRepository.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\DepartmentRepository.cs",
+              "RelativeToolTip": "WIL_Afcon\\Repositories\\DepartmentRepository.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAIwDEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T13:24:22.365Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "IDepartmentRepository.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\Interfaces\\IDepartmentRepository.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Repositories\\Interfaces\\IDepartmentRepository.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Repositories\\Interfaces\\IDepartmentRepository.cs",
+              "RelativeToolTip": "WIL_Afcon\\Repositories\\Interfaces\\IDepartmentRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T13:23:00.683Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "BreakRecord.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\BreakRecord.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Models\\BreakRecord.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\BreakRecord.cs",
+              "RelativeToolTip": "WIL_Afcon\\Models\\BreakRecord.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T09:08:39.098Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "WIL_Afcon\\Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T09:07:44.057Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Attendance.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\Attendance.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Models\\Attendance.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Models\\Attendance.cs",
+              "RelativeToolTip": "WIL_Afcon\\Models\\Attendance.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T09:07:39.783Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "WIL_Afcon\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-08-16T09:03:46.019Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "MongoDbSettings.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Data\\MongoDbSettings.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Data\\MongoDbSettings.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Data\\MongoDbSettings.cs",
+              "RelativeToolTip": "WIL_Afcon\\Data\\MongoDbSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T08:11:41.524Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "MongoDbContext.cs",
+              "DocumentMoniker": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Data\\MongoDbContext.cs",
+              "RelativeDocumentMoniker": "WIL_Afcon\\Data\\MongoDbContext.cs",
+              "ToolTip": "C:\\WIL_AFCON\\WIL_Afcon\\WIL_Afcon\\Data\\MongoDbContext.cs",
+              "RelativeToolTip": "WIL_Afcon\\Data\\MongoDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T08:11:22.834Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

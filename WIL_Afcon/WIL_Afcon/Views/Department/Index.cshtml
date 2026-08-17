@@ -1,0 +1,53 @@
+﻿@model List<WIL_Afcon.Models.Department>
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<h1>Departments</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add Department</a>
+</p>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Department Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var department in Model)
+            {
+                <tr>
+                    <td>@department.DepartmentName</td>
+                    <td>@department.Description</td>
+                    <td>
+                        @(department.IsActive ? "Active" : "Inactive")
+                    </td>
+                    <td>
+                        <a asp-action="Details"
+                           asp-route-id="@department.Id">
+                            Details
+                        </a>
+                        |
+                        <a asp-action="Edit"
+                           asp-route-id="@department.Id">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No departments found.</p>
+}
