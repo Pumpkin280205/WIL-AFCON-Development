@@ -54,6 +54,8 @@ namespace WIL_Afcon.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
+
+
         {
             await _signInManager.SignOutAsync();
 
