@@ -24,6 +24,10 @@ builder.Services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(
     {
         mongo.ConnectionString =
             builder.Configuration["MongoDbSettings:ConnectionString"]!;
+
+        mongo.RolesCollection = "Roles";
+        mongo.UsersCollection = "Users";
+        mongo.MigrationCollection = "_Migrations";
     });
 
 // Repositories
@@ -37,7 +41,13 @@ builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
 
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    await IdentitySetup.InitializeAsync(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
