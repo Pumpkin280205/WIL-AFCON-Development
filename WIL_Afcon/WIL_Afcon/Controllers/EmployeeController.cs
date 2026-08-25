@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WIL_Afcon.Models;
 using WIL_Afcon.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WIL_Afcon.Controllers
 {
@@ -9,6 +10,7 @@ namespace WIL_Afcon.Controllers
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
 
+       
         public EmployeeController(
             IEmployeeService employeeService,
             IDepartmentService departmentService)
@@ -18,6 +20,7 @@ namespace WIL_Afcon.Controllers
         }
 
         // GET: /Employee
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var employees = await _employeeService.GetAllAsync();
@@ -26,6 +29,7 @@ namespace WIL_Afcon.Controllers
         }
 
         // GET: /Employee/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(string id)
         {
             var employee = await _employeeService.GetByIdAsync(id);
@@ -39,6 +43,7 @@ namespace WIL_Afcon.Controllers
         }
 
         // GET: /Employee/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             var departments = await _departmentService.GetAllAsync();
@@ -67,6 +72,7 @@ namespace WIL_Afcon.Controllers
         }
 
         // GET: /Employee/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)
         {
             var employee = await _employeeService.GetByIdAsync(id);

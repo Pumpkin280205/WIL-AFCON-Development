@@ -1,0 +1,60 @@
+﻿@model List<WIL_Afcon.Models.Attendance>
+
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<div class="container mt-4">
+    <h1>Attendance</h1>
+
+    @if (!Model.Any())
+    {
+        <p>No attendance records found.</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Employee</th>
+                    <th>Clock In</th>
+                    <th>Clock Out</th>
+                    <th>Status</th>
+                    <th>Working Minutes</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var attendance in Model)
+                {
+                    <tr>
+                        <td>
+                            @attendance.AttendanceDate.ToShortDateString()
+                        </td>
+
+                        <td>
+                            @attendance.EmployeeId
+                        </td>
+
+                        <td>
+                            @(attendance.ClockInTime?.ToString("HH:mm") ?? "-")
+                        </td>
+
+                        <td>
+                            @(attendance.ClockOutTime?.ToString("HH:mm") ?? "-")
+                        </td>
+
+                        <td>
+                            @attendance.AttendanceStatus
+                        </td>
+
+                        <td>
+                            @attendance.WorkingMinutes
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

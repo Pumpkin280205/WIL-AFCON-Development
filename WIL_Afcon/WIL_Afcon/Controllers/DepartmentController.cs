@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WIL_Afcon.Models;
 using WIL_Afcon.Services.Interfaces;
 
@@ -14,7 +15,9 @@ namespace WIL_Afcon.Controllers
         }
 
         // GET: /Department
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
+
         {
             var departments = await _departmentService.GetAllAsync();
 
@@ -22,6 +25,7 @@ namespace WIL_Afcon.Controllers
         }
 
         // GET: /Department/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(string id)
         {
             var department = await _departmentService.GetByIdAsync(id);
@@ -35,6 +39,7 @@ namespace WIL_Afcon.Controllers
         }
 
         // GET: /Department/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +61,7 @@ namespace WIL_Afcon.Controllers
         }
 
         // GET: /Department/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)
         {
             var department = await _departmentService.GetByIdAsync(id);

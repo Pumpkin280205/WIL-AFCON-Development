@@ -45,5 +45,12 @@ namespace WIL_Afcon.Repositories
             await _employees.DeleteOneAsync(
                 employee => employee.Id == id);
         }
+
+        public async Task<Employee?> GetByUserIdAsync(string userId)
+        {
+            return await _employees
+                .Find(employee => employee.UserId == userId)
+                .FirstOrDefaultAsync();
+        }
     }
 }

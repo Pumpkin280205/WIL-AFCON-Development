@@ -44,5 +44,10 @@ namespace WIL_Afcon.Services
 
             await _employeeRepository.UpdateAsync(employee);
         }
+
+        public async Task<Employee?> GetByUserIdAsync(string userId)
+        {
+            return await _employeeRepository.GetByUserIdAsync(userId);
+        }
     }
 }

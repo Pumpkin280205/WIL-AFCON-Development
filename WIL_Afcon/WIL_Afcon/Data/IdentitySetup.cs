@@ -6,7 +6,7 @@ namespace WIL_Afcon.Data
     public static class IdentitySetup
     {
         public static async Task InitializeAsync(
-     IServiceProvider services)
+            IServiceProvider services)
         {
             var roleManager =
                 services.GetRequiredService<RoleManager<MongoRole>>();
@@ -30,6 +30,56 @@ namespace WIL_Afcon.Data
                         "Failed to create Admin role: " +
                         string.Join(", ",
                             result.Errors.Select(e => e.Description)));
+                }
+            }
+
+            // Admin account details
+            var adminEmail = "admin@afcon.com";
+            var adminPassword = "AfconAdmin123!";
+
+            // Check if the Admin user already exists
+            var adminUser =
+                await userManager.FindByEmailAsync(adminEmail);
+
+            if (adminUser == null)
+            {
+                adminUser = new MongoUser
+                {
+                    UserName = adminEmail,
+                    Email = adminEmail,
+                    EmailConfirmed = true
+                };
+
+                var userResult =
+                    await userManager.CreateAsync(
+                        adminUser,
+                        adminPassword);
+
+                if (!userResult.Succeeded)
+                {
+                    throw new Exception(
+                        "Failed to create Admin user: " +
+                        string.Join(", ",
+                            userResult.Errors.Select(e => e.Description)));
+                }
+            }
+
+            // Make sure the Admin user has the Admin role
+            if (!await userManager.IsInRoleAsync(
+                adminUser,
+                "Admin"))
+            {
+                var roleResult =
+                    await userManager.AddToRoleAsync(
+                        adminUser,
+                        "Admin");
+
+                if (!roleResult.Succeeded)
+                {
+                    throw new Exception(
+                        "Failed to assign Admin role: " +
+                        string.Join(", ",
+                            roleResult.Errors.Select(e => e.Description)));
                 }
             }
         }

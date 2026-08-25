@@ -13,5 +13,7 @@ namespace WIL_Afcon.Services.Interfaces
         Task UpdateAsync(Employee employee);
 
         Task DeactivateAsync(string id);
+
+        Task<Employee?> GetByUserIdAsync(string userId);
     }
 }
