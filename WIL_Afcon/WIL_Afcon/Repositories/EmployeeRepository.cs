@@ -28,6 +28,22 @@ namespace WIL_Afcon.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Employee?> GetByEmailAsync(string email)
+        {
+            return await _employees
+                .Find(employee => employee.Email == email)
+                .FirstOrDefaultAsync();
+        }
+
+   public async Task<Employee?> GetByUserIdAsync(string userId)
+        {
+            return await _employees
+                .Find(employee => employee.UserId == userId)
+                .FirstOrDefaultAsync();
+        }
+
+
+
         public async Task CreateAsync(Employee employee)
         {
             await _employees.InsertOneAsync(employee);
@@ -46,11 +62,7 @@ namespace WIL_Afcon.Repositories
                 employee => employee.Id == id);
         }
 
-        public async Task<Employee?> GetByUserIdAsync(string userId)
-        {
-            return await _employees
-                .Find(employee => employee.UserId == userId)
-                .FirstOrDefaultAsync();
-        }
+     
+       
     }
 }

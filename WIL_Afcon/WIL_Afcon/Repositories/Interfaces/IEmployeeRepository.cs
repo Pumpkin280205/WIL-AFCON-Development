@@ -9,5 +9,7 @@ namespace WIL_Afcon.Repositories.Interfaces
         Task UpdateAsync(Employee employee);
         Task DeleteAsync(string id);
         Task<Employee?> GetByUserIdAsync(string userId);
+
+        Task<Employee?> GetByEmailAsync(string email);
     }
 }

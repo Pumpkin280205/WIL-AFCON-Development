@@ -33,6 +33,25 @@ namespace WIL_Afcon.Data
                 }
             }
 
+            var employeeExists =
+    await roleManager.RoleExistsAsync("Employee");
+
+            if (!employeeExists)
+            {
+                var employeeRole = new MongoRole("Employee");
+
+                var result =
+                    await roleManager.CreateAsync(employeeRole);
+
+                if (!result.Succeeded)
+                {
+                    throw new Exception(
+                        "Failed to create Employee role: " +
+                        string.Join(", ",
+                            result.Errors.Select(e => e.Description)));
+                }
+            }
+
             // Admin account details
             var adminEmail = "admin@afcon.com";
             var adminPassword = "AfconAdmin123!";
@@ -82,6 +101,60 @@ namespace WIL_Afcon.Data
                             roleResult.Errors.Select(e => e.Description)));
                 }
             }
+
+
+
+            // Employee account details
+            var employeeEmail = "employee@afcon.com";
+            var employeePassword = "AfconEmployee123!";
+
+            // Check if the Employee user already exists
+            var employeeUser =
+                await userManager.FindByEmailAsync(employeeEmail);
+
+            if (employeeUser == null)
+            {
+                employeeUser = new MongoUser
+                {
+                    UserName = employeeEmail,
+                    Email = employeeEmail,
+                    EmailConfirmed = true
+                };
+
+                var userResult =
+                    await userManager.CreateAsync(
+                        employeeUser,
+                        employeePassword);
+
+                if (!userResult.Succeeded)
+                {
+                    throw new Exception(
+                        "Failed to create Employee user: " +
+                        string.Join(", ",
+                            userResult.Errors.Select(e => e.Description)));
+                }
+            }
+
+            // Make sure the Employee user has the Employee role
+            if (!await userManager.IsInRoleAsync(
+                employeeUser,
+                "Employee"))
+            {
+                var roleResult =
+                    await userManager.AddToRoleAsync(
+                        employeeUser,
+                        "Employee");
+
+                if (!roleResult.Succeeded)
+                {
+                    throw new Exception(
+                        "Failed to assign Employee role: " +
+                        string.Join(", ",
+                            roleResult.Errors.Select(e => e.Description)));
+                }
+            }
         }
+
+
     }
 }

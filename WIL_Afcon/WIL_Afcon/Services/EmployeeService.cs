@@ -23,6 +23,11 @@ namespace WIL_Afcon.Services
             return await _employeeRepository.GetByIdAsync(id);
         }
 
+        public async Task<Employee?> GetByEmailAsync(string email)
+        {
+            return await _employeeRepository.GetByEmailAsync(email);
+        }
+
         public async Task CreateAsync(Employee employee)
         {
             await _employeeRepository.CreateAsync(employee);

@@ -15,5 +15,7 @@ namespace WIL_Afcon.Services.Interfaces
         Task DeactivateAsync(string id);
 
         Task<Employee?> GetByUserIdAsync(string userId);
+
+        Task<Employee?> GetByEmailAsync(string email);
     }
 }

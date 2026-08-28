@@ -54,7 +54,9 @@ namespace WIL_Afcon.Controllers
         }
 
         // POST: /Employee/Create
+
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee)
         {
@@ -87,6 +89,7 @@ namespace WIL_Afcon.Controllers
 
         // POST: /Employee/Edit
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Employee employee)
         {
@@ -102,6 +105,7 @@ namespace WIL_Afcon.Controllers
 
         // POST: /Employee/Deactivate
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Deactivate(string id)
         {
@@ -109,5 +113,29 @@ namespace WIL_Afcon.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
+        // GET: /Employee/Dashboard
+        [Authorize(Roles = "Employee")]
+        public async Task<IActionResult> Dashboard()
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var employee = await _employeeService.GetByUserIdAsync(userId);
+
+            if (employee == null)
+            {
+                return NotFound("Employee record could not be found.");
+            }
+
+            return View(employee);
+        }
+
+
     }
 }

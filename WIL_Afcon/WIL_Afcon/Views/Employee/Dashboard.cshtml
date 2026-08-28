@@ -1,0 +1,58 @@
+﻿@model WIL_Afcon.Models.Employee
+
+@{
+    ViewData["Title"] = "Employee Dashboard";
+}
+
+<div class="container mt-4">
+
+    <h1>Welcome, @Model.FirstName @Model.LastName</h1>
+
+    <p class="text-muted">
+        Employee Dashboard
+    </p>
+
+    <hr />
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Employee Number</h5>
+                    <p class="card-text">@Model.EmployeeNumber</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Email</h5>
+                    <p class="card-text">@Model.Email</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Status</h5>
+                    <p class="card-text">
+                        @(Model.IsActive ? "Active" : "Inactive")
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-4">
+        <a asp-controller="Attendance"
+           asp-action="Index"
+           class="btn btn-primary">
+            My Attendance
+        </a>
+    </div>
+
+</div>
