@@ -9,6 +9,12 @@ namespace WIL_Afcon.Repositories.Interfaces
 
         Task<List<Attendance>> GetByEmployeeIdAsync(string employeeId);
 
+        Task<Attendance?> GetByEmployeeAndDateAsync(
+           string employeeId,
+           DateTime date);
+
+        Task<List<Attendance>> GetByDateRangeAsync(DateTime from, DateTime to);
+
         Task CreateAsync(Attendance attendance);
 
         Task UpdateAsync(Attendance attendance);

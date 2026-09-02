@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using WIL_Afcon.Models.Enums;
 
 namespace WIL_Afcon.Models
 {
@@ -18,12 +19,17 @@ namespace WIL_Afcon.Models
 
         public DateTime? ClockOutTime { get; set; }
 
-        public string AttendanceStatus { get; set; } = string.Empty;
+        [BsonRepresentation(BsonType.String)]
+        public AttendanceStatus AttendanceStatus { get; set; }
+            = AttendanceStatus.Absent;
 
         public int WorkingMinutes { get; set; }
 
         public List<BreakRecord> Breaks { get; set; } = new();
 
         public string? Documentation { get; set; }
+
+        [BsonIgnore]
+        public bool IsOnBreak => Breaks.Any(b => b.EndTime == null);
     }
 }

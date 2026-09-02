@@ -1,0 +1,102 @@
+﻿@model List<WIL_Afcon.Models.Attendance>
+
+@{
+    ViewData["Title"] = "My Attendance";
+
+    var today = ViewBag.Today as WIL_Afcon.Models.Attendance;
+    var clockedIn = today?.ClockInTime != null;
+    var clockedOut = today?.ClockOutTime != null;
+    var onBreak = today?.Breaks.Any(b => b.EndTime == null) ?? false;
+}
+
+<div class="container mt-4">
+    <h1>My Attendance</h1>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-warning">@TempData["Error"]</div>
+    }
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">
+                Today &ndash; @DateTime.Today.ToShortDateString()
+            </h5>
+
+            <p class="card-text">
+                Clock In: @(today?.ClockInTime?.ToString("HH:mm") ?? "-")
+                &nbsp;|&nbsp;
+                Clock Out: @(today?.ClockOutTime?.ToString("HH:mm") ?? "-")
+                &nbsp;|&nbsp;
+                Status: @(today?.AttendanceStatus.ToString() ?? "-")
+            </p>
+
+            <div class="d-flex gap-2">
+                <form asp-action="ClockIn" method="post">
+                    <button type="submit" class="btn btn-success"
+                            disabled="@(clockedIn ? "disabled" : null)">
+                        Clock In
+                    </button>
+                </form>
+
+                <form asp-action="StartBreak" method="post">
+                    <button type="submit" class="btn btn-outline-secondary"
+                            disabled="@((!clockedIn || clockedOut || onBreak)
+                                                                    ? "disabled" : null)">
+                        Start Break
+                    </button>
+                </form>
+
+                <form asp-action="EndBreak" method="post">
+                    <button type="submit" class="btn btn-outline-secondary"
+                            disabled="@(onBreak ? null : "disabled")">
+                        End Break
+                    </button>
+                </form>
+
+                <form asp-action="ClockOut" method="post">
+                    <button type="submit" class="btn btn-danger"
+                            disabled="@((!clockedIn || clockedOut)
+                                                                    ? "disabled" : null)">
+                        Clock Out
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h4>History</h4>
+
+    @if (!Model.Any())
+    {
+        <p>No attendance records found.</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Clock In</th>
+                    <th>Clock Out</th>
+                    <th>Breaks</th>
+                    <th>Status</th>
+                    <th>Working Minutes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    <tr>
+                        <td>@a.AttendanceDate.ToShortDateString()</td>
+                        <td>@(a.ClockInTime?.ToString("HH:mm") ?? "-")</td>
+                        <td>@(a.ClockOutTime?.ToString("HH:mm") ?? "-")</td>
+                        <td>@a.Breaks.Count</td>
+                        <td>@a.AttendanceStatus</td>
+                        <td>@a.WorkingMinutes</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

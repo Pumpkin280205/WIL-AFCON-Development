@@ -36,6 +36,34 @@ namespace WIL_Afcon.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Attendance?> GetByEmployeeAndDateAsync(
+           string employeeId,
+           DateTime date)
+        {
+            var start = date.Date;
+            var end = start.AddDays(1);
+
+            return await _attendance
+                .Find(attendance =>
+                    attendance.EmployeeId == employeeId &&
+                    attendance.AttendanceDate >= start &&
+                    attendance.AttendanceDate < end)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Attendance>> GetByDateRangeAsync(DateTime from,DateTime to)
+        {
+            var start = from.Date;
+            var end = to.Date.AddDays(1);
+
+            return await _attendance
+                .Find(attendance =>
+                    attendance.AttendanceDate >= start &&
+                    attendance.AttendanceDate < end)
+                .SortByDescending(attendance => attendance.AttendanceDate)
+                .ToListAsync();
+        }
+
         public async Task CreateAsync(Attendance attendance)
         {
             await _attendance.InsertOneAsync(attendance);
