@@ -1,0 +1,6 @@
+@WIL_Afcon.API_HostAddress = http://localhost:5199
+
+GET {{WIL_Afcon.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
