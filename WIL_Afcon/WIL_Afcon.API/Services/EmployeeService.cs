@@ -37,5 +37,38 @@ namespace WIL_Afcon.API.Services
         {
             return await _employeeRepository.GetByUserIdAsync(userId);
         }
+
+        public async Task<Employee?> GetByDeviceUserIdAsync(string deviceUserId)
+        {
+            return await _employeeRepository.GetByDeviceUserIdAsync(deviceUserId);
+        }
+
+        public async Task<Employee?> UpdateDeviceBindingAsync(string employeeId, string? deviceUserId)
+        {
+            var employee = await _employeeRepository.GetByIdAsync(employeeId);
+            if (employee is null)
+            {
+                return null;
+            }
+
+            var normalised = string.IsNullOrWhiteSpace(deviceUserId)
+                ? null
+                : deviceUserId.Trim();
+
+            if (normalised is not null)
+            {
+                var existing = await _employeeRepository.GetByDeviceUserIdAsync(normalised);
+                if (existing is not null && existing.Id != employeeId)
+                {
+                    throw new InvalidOperationException(
+                        $"Device user '{normalised}' is already bound to employee {existing.Id}.");
+                }
+            }
+
+            employee.DeviceUserId = normalised;
+            await _employeeRepository.UpdateAsync(employee);
+
+            return employee;
+        }
     }
 }

@@ -34,6 +34,11 @@ namespace WIL_Afcon.API.Repositories
             return await _employees.Find(e => e.UserId == userId).FirstOrDefaultAsync();
         }
 
+        public async Task<Employee?> GetByDeviceUserIdAsync(string deviceUserId)
+        {
+            return await _employees.Find(e => e.DeviceUserId == deviceUserId).FirstOrDefaultAsync();
+        }
+
         public async Task CreateAsync(Employee employee)
         {
             await _employees.InsertOneAsync(employee);

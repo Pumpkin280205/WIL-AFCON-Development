@@ -1,6 +1,78 @@
 @WIL_Afcon.API_HostAddress = http://localhost:5199
+@token = afcon-dev-token
+@employeeId = REPLACE_WITH_A_REAL_EMPLOYEE_OBJECTID
+@deviceUserId = 42
 
-GET {{WIL_Afcon.API_HostAddress}}/weatherforecast/
+### Health of the biometric-terminal integration (last event seen, counts)
+GET {{WIL_Afcon.API_HostAddress}}/api/attendance/device/health
 Accept: application/json
+
+### Bind a terminal "Employee No." to an employee
+PUT {{WIL_Afcon.API_HostAddress}}/api/employees/{{employeeId}}/device-binding
+Content-Type: application/json
+
+{
+  "deviceUserId": "{{deviceUserId}}"
+}
+
+### Unbind it again
+PUT {{WIL_Afcon.API_HostAddress}}/api/employees/{{employeeId}}/device-binding
+Content-Type: application/json
+
+{
+  "deviceUserId": null
+}
+
+### Which employee is a device user mapped to?
+GET {{WIL_Afcon.API_HostAddress}}/api/employees/by-device/{{deviceUserId}}
+Accept: application/json
+
+### Simulate a Hikvision check-in push (no hardware needed)
+POST {{WIL_Afcon.API_HostAddress}}/api/attendance/hikvision-event?token={{token}}
+Content-Type: application/json
+
+{
+  "eventType": "AccessControllerEvent",
+  "dateTime": "2026-09-07T08:01:00+02:00",
+  "AccessControllerEvent": {
+    "employeeNoString": "{{deviceUserId}}",
+    "name": "Test Person",
+    "attendanceStatus": "checkIn",
+    "majorEventType": 5,
+    "subEventType": 75,
+    "serialNo": 1001,
+    "currentVerifyMode": "faceOrFpOrCardOrPw",
+    "doorNo": 1
+  }
+}
+
+### Simulate a check-out
+POST {{WIL_Afcon.API_HostAddress}}/api/attendance/hikvision-event?token={{token}}
+Content-Type: application/json
+
+{
+  "eventType": "AccessControllerEvent",
+  "dateTime": "2026-09-07T17:05:00+02:00",
+  "AccessControllerEvent": {
+    "employeeNoString": "{{deviceUserId}}",
+    "name": "Test Person",
+    "attendanceStatus": "checkOut",
+    "serialNo": 1002
+  }
+}
+
+### Simulate a scan with no attendanceStatus (terminal Attendance Status disabled -> inferred)
+POST {{WIL_Afcon.API_HostAddress}}/api/attendance/hikvision-event?token={{token}}
+Content-Type: application/json
+
+{
+  "eventType": "AccessControllerEvent",
+  "dateTime": "2026-09-07T08:02:00+02:00",
+  "AccessControllerEvent": {
+    "employeeNoString": "{{deviceUserId}}",
+    "name": "Test Person",
+    "serialNo": 1003
+  }
+}
 
 ###

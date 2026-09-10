@@ -1,3 +1,4 @@
+using WIL_Afcon.API.Configuration;
 using WIL_Afcon.API.Data;
 using WIL_Afcon.API.Repositories;
 using WIL_Afcon.API.Repositories.Interfaces;
@@ -19,6 +20,12 @@ builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+
+// Biometric terminal (Hikvision DS-K1T67MF) integration
+builder.Services.Configure<HikvisionDeviceOptions>(
+    builder.Configuration.GetSection(HikvisionDeviceOptions.SectionName));
+builder.Services.AddSingleton<DeviceHealthTracker>();
+builder.Services.AddScoped<IDeviceEventService, DeviceEventService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

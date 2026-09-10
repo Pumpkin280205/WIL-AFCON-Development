@@ -11,5 +11,6 @@ namespace WIL_Afcon.API.Repositories.Interfaces
         Task DeleteAsync(string id);
         Task<Employee?> GetByUserIdAsync(string userId);
         Task<Employee?> GetByEmailAsync(string email);
+        Task<Employee?> GetByDeviceUserIdAsync(string deviceUserId);
     }
 }
