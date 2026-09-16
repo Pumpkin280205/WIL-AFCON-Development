@@ -41,12 +41,13 @@ namespace WIL_Afcon.API.Services
         public bool IsDuplicate(string key, TimeSpan window)
         {
             var now = DateTime.UtcNow;
-            var isDuplicate = _recentPunches.TryGetValue(key, out var last)
-                              && now - last < window;
+
+            var found = _recentPunches.TryGetValue(key, out var last);
+
+            var isDuplicate = found && now - last < window;
 
             _recentPunches[key] = now;
 
-            // Opportunistic cleanup so the dictionary cannot grow without bound.
             foreach (var entry in _recentPunches)
             {
                 if (now - entry.Value > TimeSpan.FromMinutes(10))

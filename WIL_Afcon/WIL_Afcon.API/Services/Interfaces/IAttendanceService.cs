@@ -7,10 +7,10 @@ namespace WIL_Afcon.API.Services.Interfaces
         Task<List<Attendance>> GetAllAsync();
         Task<List<Attendance>> GetByEmployeeIdAsync(string employeeId);
         Task<Attendance?> GetTodayForEmployeeAsync(string employeeId);
-        Task<Attendance> ClockInAsync(string employeeId);
-        Task<Attendance> ClockOutAsync(string employeeId);
-        Task<Attendance> StartBreakAsync(string employeeId);
-        Task<Attendance> EndBreakAsync(string employeeId);
+        Task<Attendance> ClockInAsync(string employeeId, DateTimeOffset? eventTime = null);
+        Task<Attendance> ClockOutAsync(string employeeId, DateTimeOffset? eventTime = null);
+        Task<Attendance> StartBreakAsync(string employeeId, DateTimeOffset? eventTime = null);
+        Task<Attendance> EndBreakAsync(string employeeId, DateTimeOffset? eventTime = null);
         Task<List<Attendance>> GetListForAdminAsync(DateTime from, DateTime to);
     }
 }

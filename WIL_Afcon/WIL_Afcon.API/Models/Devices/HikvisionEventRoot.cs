@@ -44,6 +44,10 @@ namespace WIL_Afcon.API.Models.Devices
         [JsonPropertyName("currentVerifyMode")]
         public string? CurrentVerifyMode { get; set; }
 
+
+        [JsonPropertyName("inductiveEventType")]
+        public string? InductiveEventType { get; set; }
+
         /// <summary>Per-event serial number from the terminal. Stable across re-POSTs of
         /// the same punch, so it is the best de-duplication key when present.</summary>
         [JsonPropertyName("serialNo")]
@@ -51,5 +55,8 @@ namespace WIL_Afcon.API.Models.Devices
 
         [JsonPropertyName("doorNo")]
         public int? DoorNo { get; set; }
+
+        [JsonPropertyName("time")]
+        public DateTimeOffset? Time { get; set; }
     }
 }

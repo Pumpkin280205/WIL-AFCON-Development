@@ -33,32 +33,39 @@ namespace WIL_Afcon.API.Services
         {
             _health.MarkEventReceived();
 
-            var deviceUserId = deviceEvent?.EmployeeNoString?.Trim();
-            if (string.IsNullOrEmpty(deviceUserId))
+            var employeeNumber = deviceEvent?.EmployeeNoString?.Trim();
+            if (string.IsNullOrEmpty(employeeNumber))
             {
-                // Keep-alive ping, door/tamper event, or a failed authentication -
-                // nothing to record, but the terminal is clearly alive.
                 return "ignored: keep-alive or non-authentication event (no person attached)";
             }
+
+            if (!string.IsNullOrWhiteSpace(deviceEvent.InductiveEventType) &&
+    !deviceEvent.InductiveEventType.Equals(
+        "authenticated",
+        StringComparison.OrdinalIgnoreCase))
+            {
+                return $"ignored: authentication was not successful ({deviceEvent.InductiveEventType})";
+            }
+
 
             var window = TimeSpan.FromSeconds(Math.Max(1, _options.DedupeWindowSeconds));
             var dedupeKey = deviceEvent!.SerialNo is { } serial
                 ? $"serial:{serial}"
-                : $"{deviceUserId}:{deviceEvent.AttendanceStatus}";
+                : $"{employeeNumber}:{deviceEvent.AttendanceStatus}";
 
             if (_health.IsDuplicate(dedupeKey, window))
             {
                 return $"ignored: duplicate within {window.TotalSeconds:0}s ({dedupeKey})";
             }
 
-            var employee = await _employees.GetByDeviceUserIdAsync(deviceUserId);
+            var employee = await _employees.GetByEmployeeNumberAsync(employeeNumber);
             if (employee is null)
             {
                 _logger.LogWarning(
                     "Hikvision punch for unbound device user '{DeviceUserId}' ({Name}). " +
                     "Bind it with PUT /api/employees/{{id}}/device-binding.",
-                    deviceUserId, deviceEvent.Name);
-                return $"ignored: no employee bound to device user '{deviceUserId}'";
+                    employeeNumber, deviceEvent.Name);
+                return $"ignored: no employee bound to device user '{employeeNumber}'";
             }
 
             var action = MapAction(deviceEvent.AttendanceStatus);
@@ -67,11 +74,11 @@ namespace WIL_Afcon.API.Services
             {
                 var updated = action switch
                 {
-                    PunchAction.ClockIn => await _attendance.ClockInAsync(employee.Id),
-                    PunchAction.ClockOut => await _attendance.ClockOutAsync(employee.Id),
-                    PunchAction.StartBreak => await _attendance.StartBreakAsync(employee.Id),
-                    PunchAction.EndBreak => await _attendance.EndBreakAsync(employee.Id),
-                    _ => await InferAndApplyAsync(employee.Id),
+                    PunchAction.ClockIn => await _attendance.ClockInAsync(employee.Id, deviceEvent.Time),
+                    PunchAction.ClockOut => await _attendance.ClockOutAsync(employee.Id, deviceEvent.Time),
+                    PunchAction.StartBreak => await _attendance.StartBreakAsync(employee.Id, deviceEvent.Time),
+                    PunchAction.EndBreak => await _attendance.EndBreakAsync(employee.Id, deviceEvent.Time),
+                    _ => await InferAndApplyAsync(employee.Id, deviceEvent.Time),
                 };
 
                 _health.MarkPunchApplied();
@@ -119,24 +126,20 @@ namespace WIL_Afcon.API.Services
         /// scan arrives with an empty attendanceStatus: derive the next sensible step
         /// from today's record.
         /// </summary>
-        private async Task<Attendance> InferAndApplyAsync(string employeeId)
+        private async Task<Attendance> InferAndApplyAsync(
+       string employeeId,
+       DateTimeOffset? eventTime)
         {
             var today = await _attendance.GetTodayForEmployeeAsync(employeeId);
 
             if (today?.ClockInTime is null)
-            {
-                return await _attendance.ClockInAsync(employeeId);
-            }
+                return await _attendance.ClockInAsync(employeeId, eventTime);
 
             if (today.IsOnBreak)
-            {
-                return await _attendance.EndBreakAsync(employeeId);
-            }
+                return await _attendance.EndBreakAsync(employeeId, eventTime);
 
             if (today.ClockOutTime is null)
-            {
-                return await _attendance.ClockOutAsync(employeeId);
-            }
+                return await _attendance.ClockOutAsync(employeeId, eventTime);
 
             throw new InvalidOperationException(
                 "This employee has already clocked in and out today.");

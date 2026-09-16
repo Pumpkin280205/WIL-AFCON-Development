@@ -88,16 +88,36 @@ namespace WIL_Afcon.API.Controllers
         public ActionResult<DeviceHealthResponse> Health()
             => Ok(_deviceEvents.GetHealth());
 
+        //private bool IsRequestAuthorised()
+        //{
+        //    var expected = _options.InboundToken;
+        //    if (string.IsNullOrWhiteSpace(expected))
+        //    {
+        //        return true; // no token configured - accept everything (LAN-only setup)
+        //    }
+
+        //    var provided = Request.Query["token"].FirstOrDefault()
+        //                   ?? Request.Headers["X-Device-Token"].FirstOrDefault();
+
+        //    return string.Equals(provided, expected, StringComparison.Ordinal);
+        //}
+
         private bool IsRequestAuthorised()
         {
             var expected = _options.InboundToken;
-            if (string.IsNullOrWhiteSpace(expected))
-            {
-                return true; // no token configured - accept everything (LAN-only setup)
-            }
 
             var provided = Request.Query["token"].FirstOrDefault()
                            ?? Request.Headers["X-Device-Token"].FirstOrDefault();
+
+            _logger.LogInformation(
+                "Hikvision auth check: Expected token configured = {ExpectedConfigured}, Provided token = {Provided}",
+                !string.IsNullOrWhiteSpace(expected),
+                !string.IsNullOrWhiteSpace(provided));
+
+            if (string.IsNullOrWhiteSpace(expected))
+            {
+                return true;
+            }
 
             return string.Equals(provided, expected, StringComparison.Ordinal);
         }
@@ -136,6 +156,10 @@ namespace WIL_Afcon.API.Controllers
             using var bodyReader = new StreamReader(Request.Body);
             return await bodyReader.ReadToEndAsync();
         }
+
+
+
+
 
         private static bool LooksLikePayload(string? text)
         {
