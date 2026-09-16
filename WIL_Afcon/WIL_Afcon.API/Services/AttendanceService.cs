@@ -31,25 +31,31 @@ namespace WIL_Afcon.API.Services
             return await _attendanceRepository.GetByEmployeeAndDateAsync(employeeId, DateTime.Today);
         }
 
-        public async Task<Attendance> ClockInAsync(string employeeId)
+        public async Task<Attendance> ClockInAsync(
+     string employeeId,
+     DateTimeOffset? eventTime = null)
         {
-            var record = await _attendanceRepository.GetByEmployeeAndDateAsync(employeeId, DateTime.UtcNow);
+            var effectiveTime = eventTime?.LocalDateTime ?? DateTime.Now;
+            var attendanceDate = effectiveTime.Date;
+
+            var record = await _attendanceRepository
+                .GetByEmployeeAndDateAsync(employeeId, attendanceDate);
 
             record ??= new Attendance
             {
                 EmployeeId = employeeId,
-                AttendanceDate = DateTime.Today
+                AttendanceDate = attendanceDate
             };
 
             if (record.ClockInTime != null)
             {
-                throw new InvalidOperationException("This employee has already clocked in today.");
+                throw new InvalidOperationException(
+                    "This employee has already clocked in today.");
             }
 
-            var now = DateTime.Now;
+            record.ClockInTime = effectiveTime;
 
-            record.ClockInTime = now;
-            record.AttendanceStatus = now.TimeOfDay > LateThreshold
+            record.AttendanceStatus = effectiveTime.TimeOfDay > LateThreshold
                 ? AttendanceStatus.Late
                 : AttendanceStatus.Present;
 
@@ -65,11 +71,13 @@ namespace WIL_Afcon.API.Services
             return record;
         }
 
-        public async Task<Attendance> ClockOutAsync(string employeeId)
+        public async Task<Attendance> ClockOutAsync(
+      string employeeId,
+      DateTimeOffset? eventTime = null)
         {
             var record = await GetOpenRecordAsync(employeeId);
 
-            var now = DateTime.UtcNow;
+            var now = eventTime?.LocalDateTime ?? DateTime.Now;
 
             var openBreak = record.Breaks.FirstOrDefault(b => b.EndTime == null);
             if (openBreak != null)
@@ -87,7 +95,9 @@ namespace WIL_Afcon.API.Services
             return record;
         }
 
-        public async Task<Attendance> StartBreakAsync(string employeeId)
+        public async Task<Attendance> StartBreakAsync(
+     string employeeId,
+     DateTimeOffset? eventTime = null)
         {
             var record = await GetOpenRecordAsync(employeeId);
 
@@ -96,14 +106,21 @@ namespace WIL_Afcon.API.Services
                 throw new InvalidOperationException("This employee is already on a break.");
             }
 
-            record.Breaks.Add(new BreakRecord { StartTime = DateTime.UtcNow });
+            var startTime = eventTime?.LocalDateTime ?? DateTime.Now;
+
+            record.Breaks.Add(new BreakRecord
+            {
+                StartTime = startTime
+            });
 
             await _attendanceRepository.UpdateAsync(record);
 
             return record;
         }
 
-        public async Task<Attendance> EndBreakAsync(string employeeId)
+        public async Task<Attendance> EndBreakAsync(
+    string employeeId,
+    DateTimeOffset? eventTime = null)
         {
             var record = await GetOpenRecordAsync(employeeId);
 
@@ -113,7 +130,7 @@ namespace WIL_Afcon.API.Services
                 throw new InvalidOperationException("This employee is not currently on a break.");
             }
 
-            var now = DateTime.UtcNow;
+            var now = eventTime?.LocalDateTime ?? DateTime.Now;
             openBreak.EndTime = now;
             openBreak.DurationMinutes = ToMinutes(openBreak.StartTime, now);
 

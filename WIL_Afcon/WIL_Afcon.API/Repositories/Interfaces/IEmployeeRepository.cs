@@ -12,5 +12,7 @@ namespace WIL_Afcon.API.Repositories.Interfaces
         Task<Employee?> GetByUserIdAsync(string userId);
         Task<Employee?> GetByEmailAsync(string email);
         Task<Employee?> GetByDeviceUserIdAsync(string deviceUserId);
+
+        Task<Employee?> GetByEmployeeNumberAsync(string employeeNumber);
     }
 }
