@@ -4,6 +4,8 @@ using WIL_Afcon.API.Models;
 using WIL_Afcon.API.Models.Devices;
 using WIL_Afcon.API.Repositories.Interfaces;
 using WIL_Afcon.API.Services.Interfaces;
+using Microsoft.AspNetCore.SignalR;
+using WIL_Afcon.API.RealTime;
 
 namespace WIL_Afcon.API.Services
 {
@@ -15,18 +17,22 @@ namespace WIL_Afcon.API.Services
         private readonly HikvisionDeviceOptions _options;
         private readonly ILogger<DeviceEventService> _logger;
 
+        private readonly IHubContext<RealtimeAttendance> _hubContext;
+
         public DeviceEventService(
             IAttendanceService attendance,
             IEmployeeRepository employees,
             DeviceHealthTracker health,
             IOptions<HikvisionDeviceOptions> options,
-            ILogger<DeviceEventService> logger)
+            ILogger<DeviceEventService> logger, 
+            IHubContext<RealtimeAttendance> hubContext)
         {
             _attendance = attendance;
             _employees = employees;
             _health = health;
             _options = options.Value;
             _logger = logger;
+            _hubContext = hubContext;
         }
 
         public async Task<string> HandleHikvisionEventAsync(AccessControllerEvent? deviceEvent)
@@ -82,6 +88,19 @@ namespace WIL_Afcon.API.Services
                 };
 
                 _health.MarkPunchApplied();
+                await _hubContext.Clients.All.SendAsync(
+    "AttendanceUpdated",
+    new
+    {
+        EmployeeId = employee.Id,
+        EmployeeName = $"{employee.FirstName} {employee.LastName}",
+        EmployeeNumber = employee.EmployeeNumber,
+        Action = action.ToString(),
+        AttendanceStatus = updated.AttendanceStatus.ToString(),
+        EventTime = deviceEvent.Time
+    });
+
+
 
                 return $"applied {action} for {employee.FirstName} {employee.LastName} " +
                        $"({employee.Id}); status now {updated.AttendanceStatus}";

@@ -1,5 +1,6 @@
 using WIL_Afcon.API.Configuration;
 using WIL_Afcon.API.Data;
+using WIL_Afcon.API.RealTime;
 using WIL_Afcon.API.Repositories;
 using WIL_Afcon.API.Repositories.Interfaces;
 using WIL_Afcon.API.Services;
@@ -8,6 +9,7 @@ using WIL_Afcon.API.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 
 builder.Services.AddSingleton<MongoDbContext>();
 
@@ -30,13 +32,26 @@ builder.Services.AddScoped<IDeviceEventService, DeviceEventService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll", policy =>
+//    {
+//        policy.AllowAnyOrigin()
+//              .AllowAnyMethod()
+//              .AllowAnyHeader();
+//    });
+//});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins(
+                "https://localhost:7073",
+                "http://localhost:5084")
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
     });
 });
 
@@ -52,5 +67,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<RealtimeAttendance>("/attendanceHub");
 
 app.Run();
