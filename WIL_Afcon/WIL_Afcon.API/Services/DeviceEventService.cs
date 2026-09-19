@@ -64,7 +64,7 @@ namespace WIL_Afcon.API.Services
                 return $"ignored: duplicate within {window.TotalSeconds:0}s ({dedupeKey})";
             }
 
-            var employee = await _employees.GetByEmployeeNumberAsync(employeeNumber);
+            var employee = await _employees.GetByDeviceUserIdAsync(employeeNumber);
             if (employee is null)
             {
                 _logger.LogWarning(
