@@ -84,6 +84,8 @@ namespace WIL_Afcon.Controllers
                 return NotFound();
             }
 
+            ViewBag.Departments = await _departmentService.GetAllAsync();
+
             return View(employee);
         }
 
@@ -95,6 +97,7 @@ namespace WIL_Afcon.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Departments = await _departmentService.GetAllAsync();
                 return View(employee);
             }
 
