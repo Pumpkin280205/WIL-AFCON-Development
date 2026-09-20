@@ -64,7 +64,9 @@ namespace WIL_Afcon.API.Services
                 return $"ignored: duplicate within {window.TotalSeconds:0}s ({dedupeKey})";
             }
 
+
             var employee = await _employees.GetByDeviceUserIdAsync(employeeNumber);
+
             if (employee is null)
             {
                 _logger.LogWarning(
@@ -72,6 +74,11 @@ namespace WIL_Afcon.API.Services
                     "Bind it with PUT /api/employees/{{id}}/device-binding.",
                     employeeNumber, deviceEvent.Name);
                 return $"ignored: no employee bound to device user '{employeeNumber}'";
+            }
+
+            if (!employee.IsActive)
+            {
+                return $"ignored: employee '{employee.FirstName} {employee.LastName}' is inactive";
             }
 
             var action = MapAction(deviceEvent.AttendanceStatus);
