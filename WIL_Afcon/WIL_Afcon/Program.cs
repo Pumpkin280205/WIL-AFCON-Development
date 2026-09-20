@@ -38,7 +38,8 @@ builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 
 // Services
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+//builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddHttpClient<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
