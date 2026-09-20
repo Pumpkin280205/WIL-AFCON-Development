@@ -30,9 +30,11 @@ namespace WIL_Afcon.API.Services
 
             var scheme = _options.UseHttps ? "https" : "http";
 
-            var url =
-                $"{scheme}://{_options.Host}:{_options.Port}" +
-                "/ISAPI/AccessControl/UserInfoDetail/Delete?format=json";
+            var baseUrl =
+                $"{scheme}://{_options.Host}:{_options.Port}";
+
+            var deleteUrl =
+                $"{baseUrl}/ISAPI/AccessControl/UserInfoDetail/Delete?format=json";
 
             var requestBody = new
             {
@@ -41,11 +43,11 @@ namespace WIL_Afcon.API.Services
                     mode = "all",
                     EmployeeNoList = new[]
                     {
-                        new
-                        {
-                            employeeNo = deviceUserId
-                        }
-                    }
+                new
+                {
+                    employeeNo = deviceUserId
+                }
+            }
                 }
             };
 
@@ -60,33 +62,108 @@ namespace WIL_Afcon.API.Services
 
             using var client = new HttpClient(handler);
 
-            using var request = new HttpRequestMessage(
-                HttpMethod.Put,
-                url);
-
-            request.Content = new StringContent(
-                json,
-                Encoding.UTF8,
-                "application/json");
-
             try
             {
-                var response = await client.SendAsync(request);
+                // Step 1: Start the deletion
+                using var deleteRequest = new HttpRequestMessage(
+                    HttpMethod.Put,
+                    deleteUrl);
 
-                var responseBody = await response.Content.ReadAsStringAsync();
+                deleteRequest.Content = new StringContent(
+                    json,
+                    Encoding.UTF8,
+                    "application/json");
+
+                var deleteResponse = await client.SendAsync(deleteRequest);
+
+                var deleteResponseBody =
+                    await deleteResponse.Content.ReadAsStringAsync();
 
                 _logger.LogInformation(
                     "Hikvision delete response for device user {DeviceUserId}: {StatusCode} {Response}",
                     deviceUserId,
-                    response.StatusCode,
-                    responseBody);
+                    deleteResponse.StatusCode,
+                    deleteResponseBody);
 
-                if (!response.IsSuccessStatusCode)
+                if (!deleteResponse.IsSuccessStatusCode)
                 {
                     return false;
                 }
 
-                return true;
+                // Step 2: Wait for Hikvision to actually finish deleting
+                var processUrl =
+                    $"{baseUrl}/ISAPI/AccessControl/UserInfoDetail/DeleteProcess?format=json";
+
+                for (var attempt = 0; attempt < 20; attempt++)
+                {
+                    await Task.Delay(500);
+
+                    using var processRequest = new HttpRequestMessage(
+                        HttpMethod.Get,
+                        processUrl);
+
+                    var processResponse = await client.SendAsync(processRequest);
+
+                    var processResponseBody =
+                        await processResponse.Content.ReadAsStringAsync();
+
+                    _logger.LogInformation(
+                        "Hikvision delete process for device user {DeviceUserId}: {StatusCode} {Response}",
+                        deviceUserId,
+                        processResponse.StatusCode,
+                        processResponseBody);
+
+                    if (!processResponse.IsSuccessStatusCode)
+                    {
+                        return false;
+                    }
+
+                    try
+                    {
+                        using var document =
+                            JsonDocument.Parse(processResponseBody);
+
+                        if (document.RootElement.TryGetProperty(
+                                "UserInfoDetailDeleteProcess",
+                                out var process))
+                        {
+                            var status = process
+                                .GetProperty("status")
+                                .GetString();
+
+                            if (string.Equals(
+                                    status,
+                                    "success",
+                                    StringComparison.OrdinalIgnoreCase))
+                            {
+                                return true;
+                            }
+
+                            if (!string.Equals(
+                                    status,
+                                    "processing",
+                                    StringComparison.OrdinalIgnoreCase))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    catch (JsonException ex)
+                    {
+                        _logger.LogError(
+                            ex,
+                            "Could not parse Hikvision delete process response for device user {DeviceUserId}.",
+                            deviceUserId);
+
+                        return false;
+                    }
+                }
+
+                _logger.LogWarning(
+                    "Hikvision deletion timed out for device user {DeviceUserId}.",
+                    deviceUserId);
+
+                return false;
             }
             catch (Exception ex)
             {
