@@ -79,7 +79,6 @@ namespace WIL_Afcon.API.Controllers
             var outcome = await _deviceEvents.HandleHikvisionEventAsync(deviceEvent);
             _logger.LogInformation("Hikvision event outcome: {Outcome}", outcome);
 
-            // Always 200 quickly - a non-2xx makes the terminal queue and re-POST.
             return Ok();
         }
 
@@ -88,20 +87,7 @@ namespace WIL_Afcon.API.Controllers
         public ActionResult<DeviceHealthResponse> Health()
             => Ok(_deviceEvents.GetHealth());
 
-        //private bool IsRequestAuthorised()
-        //{
-        //    var expected = _options.InboundToken;
-        //    if (string.IsNullOrWhiteSpace(expected))
-        //    {
-        //        return true; // no token configured - accept everything (LAN-only setup)
-        //    }
-
-        //    var provided = Request.Query["token"].FirstOrDefault()
-        //                   ?? Request.Headers["X-Device-Token"].FirstOrDefault();
-
-        //    return string.Equals(provided, expected, StringComparison.Ordinal);
-        //}
-
+       
         private bool IsRequestAuthorised()
         {
             var expected = _options.InboundToken;

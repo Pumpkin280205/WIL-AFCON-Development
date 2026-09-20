@@ -32,15 +32,7 @@ builder.Services.AddScoped<IDeviceEventService, DeviceEventService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("AllowAll", policy =>
-//    {
-//        policy.AllowAnyOrigin()
-//              .AllowAnyMethod()
-//              .AllowAnyHeader();
-//    });
-//});
+
 
 builder.Services.AddCors(options =>
 {
