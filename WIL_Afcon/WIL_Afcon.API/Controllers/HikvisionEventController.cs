@@ -1,8 +1,9 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 using WIL_Afcon.API.Configuration;
 using WIL_Afcon.API.Models.Devices;
+using WIL_Afcon.API.Services;
 using WIL_Afcon.API.Services.Interfaces;
 
 namespace WIL_Afcon.API.Controllers
@@ -19,15 +20,18 @@ namespace WIL_Afcon.API.Controllers
         private readonly IDeviceEventService _deviceEvents;
         private readonly HikvisionDeviceOptions _options;
         private readonly ILogger<HikvisionEventController> _logger;
+        private readonly IHikvisionService _hikvisionService;
 
         public HikvisionEventController(
             IDeviceEventService deviceEvents,
             IOptions<HikvisionDeviceOptions> options,
-            ILogger<HikvisionEventController> logger)
+            ILogger<HikvisionEventController> logger,
+            IHikvisionService hikvisionService)
         {
             _deviceEvents = deviceEvents;
             _options = options.Value;
             _logger = logger;
+            _hikvisionService = hikvisionService;
         }
 
         // POST: api/attendance/hikvision-event
@@ -107,6 +111,37 @@ namespace WIL_Afcon.API.Controllers
 
             return string.Equals(provided, expected, StringComparison.Ordinal);
         }
+
+
+        // DELETE: api/attendance/device/employee/{deviceUserId}
+        [HttpDelete("device/employee/{deviceUserId}")]
+        public async Task<IActionResult> DeleteEmployeeFromDevice(string deviceUserId)
+        {
+            if (string.IsNullOrWhiteSpace(deviceUserId))
+            {
+                return BadRequest(new
+                {
+                    message = "Device user ID is required."
+                });
+            }
+
+            var deleted = await _hikvisionService.DeleteEmployeeAsync(deviceUserId);
+
+            if (!deleted)
+            {
+                return StatusCode(502, new
+                {
+                    message = "The employee could not be removed from the Hikvision device."
+                });
+            }
+
+            return Ok(new
+            {
+                message = "Employee removed from the Hikvision device.",
+                deviceUserId
+            });
+        }
+
 
         private async Task<string?> ReadPayloadAsync()
         {
