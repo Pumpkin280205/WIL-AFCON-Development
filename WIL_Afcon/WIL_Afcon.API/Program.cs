@@ -30,6 +30,10 @@ builder.Services.Configure<HikvisionDeviceOptions>(
 builder.Services.AddSingleton<DeviceHealthTracker>();
 builder.Services.AddScoped<IDeviceEventService, DeviceEventService>();
 
+// Work-day rules for biometric scans (clock in / break / clock out)
+builder.Services.Configure<WorkScheduleOptions>(
+    builder.Configuration.GetSection(WorkScheduleOptions.SectionName));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
