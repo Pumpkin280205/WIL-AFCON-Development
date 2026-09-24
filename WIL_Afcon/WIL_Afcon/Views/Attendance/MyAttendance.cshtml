@@ -1,103 +1,130 @@
 ﻿@model List<WIL_Afcon.Models.Attendance>
 
+@functions {
+    // MongoDB returns UTC - convert to local time for display.
+    private static string ShowTime(DateTime? value)
+        => value.HasValue ? value.Value.ToLocalTime().ToString("HH:mm") : "-";
+
+    private static string StatusBadge(WIL_Afcon.Models.Enums.AttendanceStatus status)
+        => status switch
+        {
+            WIL_Afcon.Models.Enums.AttendanceStatus.Present => "bg-success",
+            WIL_Afcon.Models.Enums.AttendanceStatus.Late => "bg-warning text-dark",
+            WIL_Afcon.Models.Enums.AttendanceStatus.Absent => "bg-secondary",
+            _ => "bg-info text-dark"
+        };
+}
+
 @{
     ViewData["Title"] = "My Attendance";
 
     var today = ViewBag.Today as WIL_Afcon.Models.Attendance;
-    var clockedIn = today?.ClockInTime != null;
-    var clockedOut = today?.ClockOutTime != null;
-    var onBreak = today?.Breaks.Any(b => b.EndTime == null) ?? false;
+
+    string nextScan;
+    if (today?.ClockInTime == null)
+    {
+        nextScan = "Clock In";
+    }
+    else if (today.ClockOutTime != null)
+    {
+        nextScan = "Nothing - you have clocked out for today";
+    }
+    else if (today.IsOnBreak)
+    {
+        nextScan = "End Break";
+    }
+    else if (!today.Breaks.Any())
+    {
+        nextScan = "Start Break (or Clock Out if it is the end of the work day)";
+    }
+    else
+    {
+        nextScan = "Clock Out (end of the work day)";
+    }
 }
 
 <div class="container mt-4">
     <h1>My Attendance</h1>
 
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-warning">@TempData["Error"]</div>
-    }
-
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">
-                Today &ndash; @DateTime.Today.ToShortDateString()
-            </h5>
-
-            <p class="card-text">
-                Clock In: @(today?.ClockInTime?.ToString("HH:mm") ?? "-")
-                &nbsp;|&nbsp;
-                Clock Out: @(today?.ClockOutTime?.ToString("HH:mm") ?? "-")
-                &nbsp;|&nbsp;
-                Status: @(today?.AttendanceStatus.ToString() ?? "-")
-            </p>
-
-            <div class="d-flex gap-2">
-                <form asp-action="ClockIn" method="post">
-                    <button type="submit" class="btn btn-success"
-                            disabled="@(clockedIn ? "disabled" : null)">
-                        Clock In
-                    </button>
-                </form>
-
-                <form asp-action="StartBreak" method="post">
-                    <button type="submit" class="btn btn-outline-secondary"
-                            disabled="@((!clockedIn || clockedOut || onBreak)
-                                                                    ? "disabled" : null)">
-                        Start Break
-                    </button>
-                </form>
-
-                <form asp-action="EndBreak" method="post">
-                    <button type="submit" class="btn btn-outline-secondary"
-                            disabled="@(onBreak ? null : "disabled")">
-                        End Break
-                    </button>
-                </form>
-
-                <form asp-action="ClockOut" method="post">
-                    <button type="submit" class="btn btn-danger"
-                            disabled="@((!clockedIn || clockedOut)
-                                                                    ? "disabled" : null)">
-                        Clock Out
-                    </button>
-                </form>
-            </div>
-        </div>
+    <div class="alert alert-info">
+        <strong>Today &ndash; @DateTime.Today.ToString("yyyy/MM/dd")</strong><br />
+        Scan your fingerprint / face on the device to record attendance.
+        Your next scan will record: <strong>@nextScan</strong>
     </div>
-
-    <h4>History</h4>
 
     @if (!Model.Any())
     {
-        <p>No attendance records found.</p>
+        <p>No attendance records yet. Scan on the device to clock in.</p>
     }
     else
     {
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Clock In</th>
-                    <th>Clock Out</th>
-                    <th>Breaks</th>
-                    <th>Status</th>
-                    <th>Working Minutes</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var a in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead>
                     <tr>
-                        <td>@a.AttendanceDate.ToShortDateString()</td>
-                        <td>@(a.ClockInTime?.ToString("HH:mm") ?? "-")</td>
-                        <td>@(a.ClockOutTime?.ToString("HH:mm") ?? "-")</td>
-                        <td>@a.Breaks.Count</td>
-                        <td>@a.AttendanceStatus</td>
-                        <td>@a.WorkingMinutes</td>
+                        <th>Date</th>
+                        <th>Clock In</th>
+                        <th>Break Start</th>
+                        <th>Break End</th>
+                        <th>Clock Out</th>
+                        <th>Break (min)</th>
+                        <th>Working Minutes</th>
+                        <th>Status</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var a in Model)
+                    {
+                        var date = a.AttendanceDate.ToLocalTime().Date;
+                        var isToday = date == DateTime.Today;
+                        var firstBreak = a.Breaks.OrderBy(b => b.StartTime).FirstOrDefault();
+                        var extraBreaks = Math.Max(0, a.Breaks.Count - 1);
+                        var breakMinutes = a.Breaks.Sum(b => b.DurationMinutes);
+
+                        <tr class="@(isToday ? "table-primary fw-semibold" : "")">
+                            <td>
+                                @date.ToString("yyyy/MM/dd")
+                                @if (isToday)
+                                {
+                                    <span class="badge bg-primary ms-1">Today</span>
+                                }
+                            </td>
+                            <td>@ShowTime(a.ClockInTime)</td>
+                            <td>
+                                @ShowTime(firstBreak?.StartTime)
+                                @if (extraBreaks > 0)
+                                {
+                                    <small class="text-muted">(+@extraBreaks more)</small>
+                                }
+                            </td>
+                            <td>
+                                @if (firstBreak != null && firstBreak.EndTime == null)
+                                {
+                                    <span class="badge bg-warning text-dark">On break</span>
+                                }
+                                else
+                                {
+                                    @ShowTime(firstBreak?.EndTime)
+                                }
+                            </td>
+                            <td>@ShowTime(a.ClockOutTime)</td>
+                            <td>@(a.Breaks.Any() ? breakMinutes.ToString() : "-")</td>
+                            <td>
+                                @if (a.ClockInTime != null && a.ClockOutTime == null)
+                                {
+                                    <span class="text-muted">@(isToday ? "In progress" : "Not clocked out")</span>
+                                }
+                                else
+                                {
+                                    @a.WorkingMinutes
+                                }
+                            </td>
+                            <td><span class="badge @StatusBadge(a.AttendanceStatus)">@a.AttendanceStatus</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
 </div>
 

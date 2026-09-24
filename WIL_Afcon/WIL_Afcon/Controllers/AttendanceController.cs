@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WIL_Afcon.Models;
-using WIL_Afcon.Services.Interfaces;    
+using WIL_Afcon.Services.Interfaces;
+
 namespace WIL_Afcon.Controllers
 {
     [Authorize]
@@ -35,8 +36,8 @@ namespace WIL_Afcon.Controllers
             return View(records);
         }
 
-
-        // GET: /Attendance/MyAttendance  (Employee – own history + today)
+        // GET: /Attendance/MyAttendance  (Employee – own history incl. today)
+        // Attendance is recorded ONLY by scanning on the Hikvision device.
         [Authorize(Roles = "Employee")]
         public async Task<IActionResult> MyAttendance()
         {
@@ -56,52 +57,6 @@ namespace WIL_Afcon.Controllers
             return View(records
                 .OrderByDescending(a => a.AttendanceDate)
                 .ToList());
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Employee")]
-        [ValidateAntiForgeryToken]
-        public Task<IActionResult> ClockIn()
-            => RunEmployeeActionAsync(id => _attendanceService.ClockInAsync(id));
-
-        [HttpPost]
-        [Authorize(Roles = "Employee")]
-        [ValidateAntiForgeryToken]
-        public Task<IActionResult> ClockOut()
-           => RunEmployeeActionAsync(id => _attendanceService.ClockOutAsync(id));
-
-        [HttpPost]
-        [Authorize(Roles = "Employee")]
-        [ValidateAntiForgeryToken]
-        public Task<IActionResult> StartBreak()
-            => RunEmployeeActionAsync(id => _attendanceService.StartBreakAsync(id));
-
-        [HttpPost]
-        [Authorize(Roles = "Employee")]
-        [ValidateAntiForgeryToken]
-        public Task<IActionResult> EndBreak()
-            => RunEmployeeActionAsync(id => _attendanceService.EndBreakAsync(id));
-
-        private async Task<IActionResult> RunEmployeeActionAsync(
-            Func<string, Task> action)
-        {
-            var employee = await GetCurrentEmployeeAsync();
-
-            if (employee == null)
-            {
-                return NotFound("Employee record could not be found.");
-            }
-
-            try
-            {
-                await action(employee.Id);
-            }
-            catch (InvalidOperationException ex)
-            {
-                TempData["Error"] = ex.Message;
-            }
-
-            return RedirectToAction(nameof(MyAttendance));
         }
 
         private async Task<Employee?> GetCurrentEmployeeAsync()
