@@ -17,12 +17,14 @@ builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<IAttendanceRequestRepository, AttendanceRequestRepository>();
 
 // Services
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IHikvisionService, HikvisionService>();
+builder.Services.AddScoped<IAttendanceRequestService, AttendanceRequestService>();
 
 // Biometric terminal (Hikvision DS-K1T67MF) integration
 builder.Services.Configure<HikvisionDeviceOptions>(
