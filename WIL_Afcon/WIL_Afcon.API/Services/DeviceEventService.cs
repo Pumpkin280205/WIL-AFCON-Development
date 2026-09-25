@@ -85,14 +85,26 @@ namespace WIL_Afcon.API.Services
 
             try
             {
-                var updated = action switch
+                Attendance updated;
+
+                switch (action)
                 {
-                    PunchAction.ClockIn => await _attendance.ClockInAsync(employee.Id, deviceEvent.Time),
-                    PunchAction.ClockOut => await _attendance.ClockOutAsync(employee.Id, deviceEvent.Time),
-                    PunchAction.StartBreak => await _attendance.StartBreakAsync(employee.Id, deviceEvent.Time),
-                    PunchAction.EndBreak => await _attendance.EndBreakAsync(employee.Id, deviceEvent.Time),
-                    _ => await InferAndApplyAsync(employee.Id, deviceEvent.Time),
-                };
+                    case PunchAction.ClockIn:
+                        updated = await _attendance.ClockInAsync(employee.Id, deviceEvent.Time);
+                        break;
+                    case PunchAction.ClockOut:
+                        updated = await _attendance.ClockOutAsync(employee.Id, deviceEvent.Time);
+                        break;
+                    case PunchAction.StartBreak:
+                        updated = await _attendance.StartBreakAsync(employee.Id, deviceEvent.Time);
+                        break;
+                    case PunchAction.EndBreak:
+                        updated = await _attendance.EndBreakAsync(employee.Id, deviceEvent.Time);
+                        break;
+                    default:
+                        (updated, action) = await _attendance.RegisterScanAsync(employee.Id, deviceEvent.Time);
+                        break;
+                }
 
                 _health.MarkPunchApplied();
                 await _hubContext.Clients.All.SendAsync(
@@ -146,29 +158,5 @@ namespace WIL_Afcon.API.Services
                 "breakin" => PunchAction.EndBreak,
                 _ => PunchAction.Infer,
             };
-
-        /// <summary>
-        /// Used when the terminal's Attendance Status feature is disabled and every
-        /// scan arrives with an empty attendanceStatus: derive the next sensible step
-        /// from today's record.
-        /// </summary>
-        private async Task<Attendance> InferAndApplyAsync(
-       string employeeId,
-       DateTimeOffset? eventTime)
-        {
-            var today = await _attendance.GetTodayForEmployeeAsync(employeeId);
-
-            if (today?.ClockInTime is null)
-                return await _attendance.ClockInAsync(employeeId, eventTime);
-
-            if (today.IsOnBreak)
-                return await _attendance.EndBreakAsync(employeeId, eventTime);
-
-            if (today.ClockOutTime is null)
-                return await _attendance.ClockOutAsync(employeeId, eventTime);
-
-            throw new InvalidOperationException(
-                "This employee has already clocked in and out today.");
-        }
     }
 }
