@@ -19,7 +19,7 @@ namespace WIL_Afcon.Models
 
         public string ContentType { get; set; } = string.Empty;
 
-        /// <summary>Id of the actual file bytes stored in GridFS ("fs.files"/"fs.chunks").</summary>
+        //Id of the actual file bytes stored in GridFS ("fs.files"/"fs.chunks").
         [BsonRepresentation(BsonType.ObjectId)]
         public string GridFsFileId { get; set; } = string.Empty;
 

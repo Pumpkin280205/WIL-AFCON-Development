@@ -7,11 +7,9 @@ namespace WIL_Afcon.Services.Interfaces
     {
         Task<List<Document>> GetByEmployeeIdAsync(string employeeId);
 
-        /// <summary>
-        /// Validates that fileName plausibly belongs to the employee (name or
-        /// employee number must appear in it) before storing it.
-        /// Throws InvalidOperationException if the file is rejected.
-        /// </summary>
+        
+        // Validates that fileName plausibly belongs to the employee (name or employee number must appear in it) before storing it.
+        // Throws InvalidOperationException if the file is rejected.
         Task<Document> UploadAsync(
             string employeeId,
             DocumentType documentType,
