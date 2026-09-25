@@ -1,0 +1,40 @@
+@model List<WIL_Afcon.Models.Document>
+
+@{
+    ViewData["Title"] = "My Documents";
+}
+
+<h1>My Documents</h1>
+
+@if (!Model.Any())
+{
+    <p>No payslips or IRP5 documents have been uploaded for you yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>File Name</th>
+                <th>Uploaded</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var document in Model)
+            {
+                <tr>
+                    <td>@document.DocumentType</td>
+                    <td>@document.FileName</td>
+                    <td>@document.UploadedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>
+                        <a asp-action="Download" asp-route-id="@document.Id" class="btn btn-sm btn-primary">
+                            Download
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

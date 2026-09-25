@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Upload Document";
+    var employee = (WIL_Afcon.Models.Employee)ViewBag.Employee;
+}
+
+<h1>Upload Document</h1>
+
+<p>
+    Employee: <strong>@employee.FirstName @employee.LastName</strong>
+    (@employee.EmployeeNumber)
+</p>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-action="Upload" method="post" enctype="multipart/form-data">
+
+    <input type="hidden" name="employeeId" value="@employee.Id" />
+
+    <div class="mb-3">
+        <label for="documentType" class="form-label">Document Type</label>
+        <select name="documentType" id="documentType" class="form-select">
+            @foreach (var type in Enum.GetValues<WIL_Afcon.Models.Enums.DocumentType>())
+            {
+                <option value="@type">@type</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="file" class="form-label">File</label>
+        <input type="file" name="file" id="file" class="form-control" required />
+        <div class="form-text">
+            The file name must include the employee's name or employee number
+            (e.g. "@(employee.LastName)_Payslip_March.pdf").
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upload</button>
+
+    <a asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id" class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>
