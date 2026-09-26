@@ -8,10 +8,19 @@ namespace WIL_Afcon.Controllers
 {
     public class AccountController : Controller
     {
+
+    // Reference: Microsoft (2026) 'Handle requests with controllers in ASP.NET Core MVC',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/actions
+// (Accessed: 26 September 2026).
         private readonly SignInManager<MongoUser> _signInManager;
         private readonly UserManager<MongoUser> _userManager;
         private readonly IEmployeeService _employeeService;
 
+// Reference: Microsoft (2026) 'Dependency injection into controllers in ASP.NET Core',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection
+// (Accessed: 26 September 2026).
         public AccountController(
       SignInManager<MongoUser> signInManager,
       UserManager<MongoUser> userManager,
@@ -29,6 +38,11 @@ namespace WIL_Afcon.Controllers
         }
 
         // POST: /Account/Login
+
+        // Reference: Microsoft (2026) 'Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks
+// in ASP.NET Core', Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery
+// (Accessed: 26 September 2026).
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(
@@ -58,6 +72,11 @@ namespace WIL_Afcon.Controllers
             }
 
             var result = await _signInManager.PasswordSignInAsync(
+
+            // Reference: Microsoft (2026) 'SignInManager<TUser>.PasswordSignInAsync Method',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.signinmanager-1.passwordsigninasync
+// (Accessed: 26 September 2026).
                 user.UserName!,
                 password,
                 rememberMe,
@@ -109,6 +128,11 @@ namespace WIL_Afcon.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+
+        // Reference: Microsoft (2026) 'Model validation in ASP.NET Core MVC',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation
+// (Accessed: 26 September 2026).
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -171,6 +195,13 @@ namespace WIL_Afcon.Controllers
             }
 
             // Give the user the Employee role
+
+            // Reference: Microsoft (2026) 'UserManager<TUser>.IsInRoleAsync Method',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.isinroleasync
+// (Accessed: 26 September 2026).
+
+            
             var roleResult = await _userManager.AddToRoleAsync(
                 user,
                 "Employee");
@@ -206,3 +237,19 @@ namespace WIL_Afcon.Controllers
         }
     }
 }
+
+//Microsoft (2026) 'Dependency injection into controllers in ASP.NET Core', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'Handle requests with controllers in ASP.NET Core MVC', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/actions (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'Model validation in ASP.NET Core MVC', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks in ASP.NET Core', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'SignInManager<TUser>.PasswordSignInAsync Method', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.signinmanager-1.passwordsigninasync (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'UserManager<TUser>.AddToRoleAsync Method', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.addtoroleasync (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'UserManager<TUser>.CreateAsync Method', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.createasync (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'UserManager<TUser>.IsInRoleAsync Method', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.isinroleasync (Accessed: 26 September 2026).
