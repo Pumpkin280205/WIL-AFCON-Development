@@ -72,3 +72,62 @@ app.MapControllerRoute(
 
 
 app.Run();
+
+
+// REFERENCES
+
+// ============================================================
+
+//
+
+// AspNetCore.Identity.Mongo (2026) 'AspNetCore.Identity.Mongo',
+
+// GitHub.
+
+// Available at: https://github.com/matteofabbri/AspNetCore.Identity.Mongo
+
+// (Accessed: 26 September 2026).
+
+//
+
+// Microsoft (2026) 'ASP.NET Core middleware', Microsoft Learn.
+
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware
+
+// (Accessed: 26 September 2026).
+
+//
+
+// Microsoft (2026) 'Dependency injection in ASP.NET Core', Microsoft Learn.
+
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection
+
+// (Accessed: 26 September 2026).
+
+//
+
+// Microsoft (2026) 'Enforce HTTPS in ASP.NET Core', Microsoft Learn.
+
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl
+
+// (Accessed: 26 September 2026).
+
+//
+
+// Microsoft (2026) 'Error handling in ASP.NET Core', Microsoft Learn.
+
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling
+
+// (Accessed: 26 September 2026).
+
+//
+
+// Microsoft (2026) 'WebApplicationBuilder Class', Microsoft Learn.
+
+// Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.webapplicationbuilder
+
+// (Accessed: 26 September 2026).
+
+//
+
+// ===========================================================
