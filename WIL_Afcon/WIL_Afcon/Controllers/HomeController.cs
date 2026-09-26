@@ -23,3 +23,9 @@ namespace WIL_Afcon.Controllers
         }
     }
 }
+
+
+// Reference: Microsoft (2026) 'IActionResult Interface',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.iactionresult
+// (Accessed: 26 September 2026).
