@@ -10,6 +10,14 @@ namespace WIL_Afcon.Repositories
         private readonly IMongoCollection<Attendance> _attendance;
 
         public AttendanceRepository(MongoDbContext context)
+
+        // Reference: MongoDB (2026) 'Get Started with the .NET/C# Driver',
+
+            // MongoDB Documentation.
+
+            // Available at: https://www.mongodb.com/docs/drivers/csharp/current/get-started/
+
+            // (Accessed: 26 September 2026).
         {
             _attendance = context.Database
                 .GetCollection<Attendance>("Attendance");
@@ -64,11 +72,26 @@ namespace WIL_Afcon.Repositories
                 .ToListAsync();
         }
 
+
+// Reference: MongoDB (2026) 'Insert Documents - .NET/C# Driver',
+
+        // MongoDB Documentation.
+
+        // Available at: https://www.mongodb.com/docs/drivers/csharp/current/crud/insert/
+
+        // (Accessed: 26 September 2026).
         public async Task CreateAsync(Attendance attendance)
         {
             await _attendance.InsertOneAsync(attendance);
         }
 
+// Reference: MongoDB (2026) 'Update One - .NET/C# Driver',
+
+        // MongoDB Documentation.
+
+        // Available at: https://www.mongodb.com/docs/drivers/csharp/current/crud/update-one/
+
+        // (Accessed: 26 September 2026)
         public async Task UpdateAsync(Attendance attendance)
         {
             await _attendance.ReplaceOneAsync(
@@ -76,6 +99,14 @@ namespace WIL_Afcon.Repositories
                 attendance);
         }
 
+
+// Reference: MongoDB (2026) 'Delete Documents - .NET/C# Driver',
+
+        // MongoDB Documentation.
+
+        // Available at: https://www.mongodb.com/docs/drivers/csharp/current/crud/delete/
+
+        // (Accessed: 26 September 2026).
         public async Task DeleteAsync(string id)
         {
             await _attendance.DeleteOneAsync(
@@ -83,3 +114,57 @@ namespace WIL_Afcon.Repositories
         }
     }
 }
+
+// REFERENCES
+
+// ============================================================
+
+//
+
+// MongoDB (2026) 'Delete Documents - .NET/C# Driver',
+
+// MongoDB Documentation.
+
+// Available at: https://www.mongodb.com/docs/drivers/csharp/current/crud/delete/
+
+// (Accessed: 26 September 2026).
+
+//
+
+// MongoDB (2026) 'Get Started with the .NET/C# Driver',
+
+// MongoDB Documentation.
+
+// Available at: https://www.mongodb.com/docs/drivers/csharp/current/get-started/
+
+// (Accessed: 26 September 2026).
+
+//
+
+// MongoDB (2026) 'Insert Documents - .NET/C# Driver',
+
+// MongoDB Documentation.
+
+// Available at: https://www.mongodb.com/docs/drivers/csharp/current/crud/insert/
+
+// (Accessed: 26 September 2026).
+
+//
+
+// MongoDB (2026) 'Retrieve Data - .NET/C# Driver',
+
+// MongoDB Documentation.
+
+// Available at: https://www.mongodb.com/docs/drivers/csharp/current/crud/query/find/
+
+// (Accessed: 26 September 2026).
+
+//
+
+// MongoDB (2026) 'Update One - .NET/C# Driver',
+
+// MongoDB Documentation.
+
+// Available at: https://www.mongodb.com/docs/drivers/csharp/current/crud/update-one/
+
+// (Accessed: 26 September 2026)
