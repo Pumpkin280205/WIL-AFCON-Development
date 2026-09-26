@@ -5,12 +5,22 @@ using WIL_Afcon.Models;
 using WIL_Afcon.Services.Interfaces;    
 namespace WIL_Afcon.Controllers
 {
+
+// Reference: Microsoft (2026) 'Simple authorization in ASP.NET Core MVC',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/simple
+// (Accessed: 26 September 2026).
     [Authorize]
     public class AttendanceController : Controller
     {
         private readonly IAttendanceService _attendanceService;
         private readonly IEmployeeService _employeeService;
 
+
+// Reference: Microsoft (2026) 'Dependency injection into controllers in ASP.NET Core',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection
+// (Accessed: 26 September 2026).
         public AttendanceController(
            IAttendanceService attendanceService,
            IEmployeeService employeeService)
@@ -20,7 +30,17 @@ namespace WIL_Afcon.Controllers
         }
 
         // GET: Attendance  (Admin – all employees, filtered by date)
+
+        // Reference: Microsoft (2026) 'Role-based authorization in ASP.NET Core MVC',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/roles
+// (Accessed: 26 September 2026).
         [Authorize(Roles = "Admin")]
+
+        // Reference: Microsoft (2026) 'Model Binding in ASP.NET Core',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding
+// (Accessed: 26 September 2026).
         public async Task<IActionResult> Index(DateTime? from, DateTime? to)
         {
             var fromDate = from ?? DateTime.Today.AddDays(-7);
@@ -60,6 +80,11 @@ namespace WIL_Afcon.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Employee")]
+
+        // Reference: Microsoft (2026) 'Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks
+// in ASP.NET Core', Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery
+// (Accessed: 26 September 2026).
         [ValidateAntiForgeryToken]
         public Task<IActionResult> ClockIn()
             => RunEmployeeActionAsync(id => _attendanceService.ClockInAsync(id));
@@ -106,6 +131,11 @@ namespace WIL_Afcon.Controllers
 
         private async Task<Employee?> GetCurrentEmployeeAsync()
         {
+
+        // Reference: Microsoft (2026) 'Claim-based authorization in ASP.NET Core MVC',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/claims
+// (Accessed: 26 September 2026).
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
@@ -117,3 +147,12 @@ namespace WIL_Afcon.Controllers
         }
     }
 }
+
+
+//Microsoft (2026) 'Claim-based authorization in ASP.NET Core MVC', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/claims (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'Model Binding in ASP.NET Core', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'Role-based authorization in ASP.NET Core MVC', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/roles (Accessed: 26 September 2026).
+
+//Microsoft (2026) 'Simple authorization in ASP.NET Core MVC', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/simple (Accessed: 26 September 2026).
