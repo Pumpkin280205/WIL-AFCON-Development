@@ -9,12 +9,21 @@ namespace WIL_Afcon.Controllers
     {
         private readonly IDepartmentService _departmentService;
 
+// Reference: Microsoft (2026) 'Dependency injection into controllers in ASP.NET Core',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection
+// (Accessed: 26 September 2026).
         public DepartmentController(IDepartmentService departmentService)
         {
             _departmentService = departmentService;
         }
 
         // GET: /Department
+
+        // Reference: Microsoft (2026) 'Role-based authorization in ASP.NET Core MVC',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/roles
+// (Accessed: 26 September 2026).
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
 
@@ -48,8 +57,18 @@ namespace WIL_Afcon.Controllers
         // POST: /Department/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        // Reference: Microsoft (2026) 'Model Binding in ASP.NET Core',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding
+// (Accessed: 26 September 2026).
         public async Task<IActionResult> Create(Department department)
         {
+
+        // Reference: Microsoft (2026) 'Model validation in ASP.NET Core MVC',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation
+// (Accessed: 26 September 2026).
             if (!ModelState.IsValid)
             {
                 return View(department);
@@ -76,6 +95,11 @@ namespace WIL_Afcon.Controllers
 
         // POST: /Department/Edit
         [HttpPost]
+
+        // Reference: Microsoft (2026) 'Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks
+// in ASP.NET Core', Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery
+// (Accessed: 26 September 2026).
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Department department)
         {
@@ -100,3 +124,4 @@ namespace WIL_Afcon.Controllers
         }
     }
 }
+
