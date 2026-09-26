@@ -22,3 +22,9 @@ namespace WIL_Afcon.Repositories.Interfaces
         Task DeleteAsync(string id);
     }
 }
+
+// Microsoft (2026) 'Task Class', Microsoft Learn.
+
+// Available at: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task
+
+// (Accessed: 26 September 2026)
