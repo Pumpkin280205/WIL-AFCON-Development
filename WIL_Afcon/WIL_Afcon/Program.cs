@@ -43,6 +43,13 @@ builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddHttpClient<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestService>();
+
+builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestService>(
+    client =>
+    {
+        client.BaseAddress = new Uri("http://localhost:5199/");
+    });
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 

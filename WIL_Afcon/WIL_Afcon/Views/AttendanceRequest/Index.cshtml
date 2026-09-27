@@ -1,0 +1,47 @@
+﻿@model List<WIL_Afcon.Models.AttendanceRequest>
+
+@{
+    ViewData["Title"] = "Attendance Requests";
+}
+
+<h1>Attendance Requests</h1>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No attendance requests found.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Request Type</th>
+                <th>Request Date</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>@request.EmployeeName</td>
+                    <td>@request.RequestType</td>
+                    <td>@request.RequestDate.ToShortDateString()</td>
+                    <td>@request.Status</td>
+                    <td>@request.Description</td>
+                    <td>
+                        <a asp-action="Details"
+                           asp-route-id="@request.Id"
+                           class="btn btn-sm btn-secondary">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

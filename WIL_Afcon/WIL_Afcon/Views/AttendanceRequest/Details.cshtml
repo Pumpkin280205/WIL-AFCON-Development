@@ -1,0 +1,172 @@
+﻿@model WIL_Afcon.Models.AttendanceRequest
+
+@{
+    ViewData["Title"] = "Attendance Request Details";
+}
+
+<h1>Attendance Request Details</h1>
+
+<div class="card">
+    <div class="card-body">
+
+        <dl class="row">
+
+            <dt class="col-sm-3">
+                Request Type
+            </dt>
+            <dd class="col-sm-9">
+                @Model.RequestType
+            </dd>
+
+            <dt class="col-sm-3">
+                Request Date
+            </dt>
+            <dd class="col-sm-9">
+                @Model.RequestDate.ToShortDateString()
+            </dd>
+
+            <dt class="col-sm-3">
+                Start Date
+            </dt>
+            <dd class="col-sm-9">
+                @(Model.StartDate?.ToShortDateString() ?? "N/A")
+            </dd>
+
+            <dt class="col-sm-3">
+                End Date
+            </dt>
+            <dd class="col-sm-9">
+                @(Model.EndDate?.ToShortDateString() ?? "N/A")
+            </dd>
+
+            <dt class="col-sm-3">
+                Description
+            </dt>
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.Description)
+                    ? "No description provided."
+                    : Model.Description)
+            </dd>
+
+            <dt class="col-sm-3">
+                Status
+            </dt>
+            <dd class="col-sm-9">
+                @Model.Status
+            </dd>
+
+            <dt class="col-sm-3">
+                Admin Comment
+            </dt>
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.AdminComment)
+                    ? "No admin comment."
+                    : Model.AdminComment)
+            </dd>
+
+            <dt class="col-sm-3">
+                Reviewed By
+            </dt>
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.ReviewedBy)
+                    ? "Not reviewed"
+                    : Model.ReviewedBy)
+            </dd>
+
+            <dt class="col-sm-3">
+                Reviewed At
+            </dt>
+            <dd class="col-sm-9">
+                @(Model.ReviewedAt?.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                    ?? "Not reviewed")
+            </dd>
+            <dt class="col-sm-3">
+                Supporting Document
+            </dt>
+            <dd class="col-sm-9">
+                @if (!string.IsNullOrWhiteSpace(Model.DocumentName))
+                {
+                    <p>
+                        @Model.DocumentName
+                    </p>
+
+                    <a asp-action="DownloadDocument"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-primary">
+                        Download Document
+                    </a>
+                }
+                else
+                {
+                    <p>
+                        No document attached.
+                    </p>
+                }
+            </dd>
+
+        </dl>
+
+        <hr />
+
+        @if (User.IsInRole("Admin") &&
+        Model.Status == WIL_Afcon.Models.enums.AttendanceRequestStatus.Pending)
+        {
+            <div class="mt-3">
+
+                <h5>Admin Review</h5>
+
+                <form method="post">
+
+                    <input type="hidden"
+                           name="id"
+                           value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label for="adminComment"
+                               class="form-label">
+                            Admin Comment
+                        </label>
+
+                        <textarea id="adminComment"
+                                  name="adminComment"
+                                  class="form-control"
+                                  rows="4"
+                                  placeholder="Enter a comment about your decision"></textarea>
+                    </div>
+
+                    <button type="submit"
+                            formaction="@Url.Action("Accept", "AttendanceRequest")"
+                            class="btn btn-success">
+                        Accept
+                    </button>
+
+                    <button type="submit"
+                            formaction="@Url.Action("Reject", "AttendanceRequest")"
+                            class="btn btn-danger">
+                        Reject
+                    </button>
+
+                </form>
+
+            </div>
+        }
+
+        <div class="mt-4">
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    Back to Requests
+                </a>
+            }
+            else if (User.IsInRole("Employee"))
+            {
+                <a asp-action="MyRequests"
+                   class="btn btn-secondary">
+                    Back to My Requests
+                </a>
+            }
+        </div>
+
+    </div>
+</div>
