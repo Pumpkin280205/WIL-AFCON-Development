@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WIL_Afcon.API.Models;
 using WIL_Afcon.API.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace WIL_Afcon.API.Controllers
 {
@@ -10,12 +11,21 @@ namespace WIL_Afcon.API.Controllers
     {
         private readonly IAttendanceRequestService _attendanceRequestService;
 
+        private readonly IAttendanceDocumentService _attendanceDocumentService;
+
+        //public AttendanceRequestController(
+        //    IAttendanceRequestService attendanceRequestService)
+        //{
+        //    _attendanceRequestService = attendanceRequestService;
+        //}
+
         public AttendanceRequestController(
-            IAttendanceRequestService attendanceRequestService)
+    IAttendanceRequestService attendanceRequestService,
+    IAttendanceDocumentService attendanceDocumentService)
         {
             _attendanceRequestService = attendanceRequestService;
+            _attendanceDocumentService = attendanceDocumentService;
         }
-
         // GET: api/attendance-requests
         [HttpGet]
         public async Task<ActionResult<List<AttendanceRequest>>> GetAll()
@@ -62,9 +72,36 @@ namespace WIL_Afcon.API.Controllers
         }
 
         // POST: api/attendance-requests
+        //[HttpPost]
+        //public async Task<IActionResult> Create(AttendanceRequest request)
+        //{
+        //    var created =
+        //        await _attendanceRequestService.CreateAsync(request);
+
+        //    return Ok(created);
+        //}
+
+
         [HttpPost]
-        public async Task<IActionResult> Create(AttendanceRequest request)
+        public async Task<IActionResult> Create(
+    [FromForm] AttendanceRequest request,
+    IFormFile? file)
         {
+            if (file != null && file.Length > 0)
+            {
+                await using var stream = file.OpenReadStream();
+
+                var documentId =
+                    await _attendanceDocumentService.UploadAsync(
+                        stream,
+                        file.FileName,
+                        file.ContentType);
+
+                request.DocumentId = documentId;
+                request.DocumentName = file.FileName;
+                request.DocumentContentType = file.ContentType;
+            }
+
             var created =
                 await _attendanceRequestService.CreateAsync(request);
 
