@@ -1,0 +1,190 @@
+﻿@model WIL_Afcon.Models.ViewModels.AttendanceReportViewModel
+
+@functions {
+    private static string ShowTime(DateTime? value)
+        => value.HasValue ? value.Value.ToString("HH:mm") : "";
+
+    private static string ShowHours(double value, bool show)
+        => show ? value.ToString("0.00") : "";
+}
+
+<style>
+    .report-sheet table {
+        font-size: 0.85rem;
+    }
+
+    .report-sheet th,
+    .report-sheet td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .report-sheet .row-weekend {
+        background-color: #f2f2f2;
+    }
+
+    .report-sheet .row-holiday {
+        background-color: #fff3cd;
+    }
+
+    .report-sheet .signature-cell {
+        min-width: 110px;
+    }
+
+    @@media print {
+        header,
+        footer,
+        .no-print {
+            display: none !important;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+        .report-sheet table {
+            font-size: 9pt;
+        }
+
+        .report-sheet .row-weekend,
+        .report-sheet .row-holiday {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        @@page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+    }
+</style>
+
+<div class="report-sheet">
+    <h3 class="text-center mb-3">Attendance Register</h3>
+
+    <table class="table table-sm table-bordered mb-3">
+        <tbody>
+            <tr>
+                <th class="text-start" style="width:15%">Employee Name:</th>
+                <td class="text-start">@Model.EmployeeName</td>
+                <th class="text-start" style="width:15%">Employee No:</th>
+                <td class="text-start">@Model.EmployeeNumber</td>
+            </tr>
+            <tr>
+                <th class="text-start">Department:</th>
+                <td class="text-start">@Model.DepartmentName</td>
+                <th class="text-start">Year / Month:</th>
+                <td class="text-start">@Model.Year / @Model.MonthName</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th rowspan="2">Day</th>
+                    <th rowspan="2">Day of the Week</th>
+                    <th rowspan="2">Starting Time</th>
+                    <th colspan="2">Meal Intervals</th>
+                    <th rowspan="2">Finishing Time</th>
+                    <th colspan="2">Total Number of Hours Worked</th>
+                    <th>Overtime Worked</th>
+                    <th>Sundays Worked</th>
+                    <th>Public Holidays Worked</th>
+                    <th rowspan="2">Remarks</th>
+                    <th rowspan="2" class="signature-cell">Signature</th>
+                </tr>
+                <tr>
+                    <th>Off</th>
+                    <th>On</th>
+                    <th>Each Day</th>
+                    <th>Each Week</th>
+                    <th>Total Hours</th>
+                    <th>Total Hours</th>
+                    <th>Total Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model.Days)
+                {
+                    var rowClass = d.IsPublicHoliday
+                        ? "row-holiday"
+                        : (d.IsSaturday || d.IsSunday ? "row-weekend" : "");
+
+                    <tr class="@rowClass">
+                        <td>@d.DayNumber</td>
+                        <td>@d.DayOfWeekName</td>
+                        <td>@ShowTime(d.StartingTime)</td>
+                        <td>@ShowTime(d.MealOff)</td>
+                        <td>@ShowTime(d.MealOn)</td>
+                        <td>@ShowTime(d.FinishingTime)</td>
+                        <td>@ShowHours(d.HoursWorked, d.HasRecord)</td>
+                        <td class="fw-semibold">
+                            @(d.WeekTotalHours.HasValue ? d.WeekTotalHours.Value.ToString("0.00") : "")
+                        </td>
+                        <td>@ShowHours(d.OvertimeHours, d.OvertimeHours > 0)</td>
+                        <td>@ShowHours(d.SundayHours, d.SundayHours > 0)</td>
+                        <td>@ShowHours(d.PublicHolidayHours, d.PublicHolidayHours > 0)</td>
+                        <td class="text-start">@d.Remarks</td>
+                        <td class="signature-cell"></td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot class="table-light fw-bold">
+                <tr>
+                    <td colspan="6" class="text-end">Total Number of Hours Worked for month:</td>
+                    <td colspan="2">@Model.TotalHoursWorked.ToString("0.00")</td>
+                    <td>@Model.TotalOvertimeHours.ToString("0.00")</td>
+                    <td>@Model.TotalSundayHours.ToString("0.00")</td>
+                    <td>@Model.TotalPublicHolidayHours.ToString("0.00")</td>
+                    <td colspan="2"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr><th class="text-start">Days Present</th><td>@Model.DaysPresent</td></tr>
+                    <tr><th class="text-start">Days Late</th><td>@Model.DaysLate</td></tr>
+                    <tr><th class="text-start">Days Absent</th><td>@Model.DaysAbsent</td></tr>
+                    <tr><th class="text-start">Days On Leave</th><td>@Model.DaysOnLeave</td></tr>
+                </tbody>
+            </table>
+            <small class="text-muted">
+                Overtime = hours worked above @Model.StandardDailyHours.ToString("0.##") per day (Monday &ndash; Saturday).
+                Hours worked on Sundays and public holidays are shown in their own columns.
+                Hours only count once the employee has clocked out.
+                Generated @Model.GeneratedOn.ToString("yyyy/MM/dd HH:mm").
+            </small>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-sm table-borderless mt-3">
+                <tbody>
+                    <tr>
+                        <th class="text-start" style="width:40%">Employee Signature:</th>
+                        <td class="border-bottom"></td>
+                    </tr>
+                    <tr><td colspan="2" style="height:20px"></td></tr>
+                    <tr>
+                        <th class="text-start">Manager Signature:</th>
+                        <td class="border-bottom"></td>
+                    </tr>
+                    <tr><td colspan="2" style="height:20px"></td></tr>
+                    <tr>
+                        <th class="text-start">Date:</th>
+                        <td class="border-bottom"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@model WIL_Afcon.Models.ViewModels.AttendanceReportViewModel?
+
+@{
+    ViewData["Title"] = "Attendance Report";
+
+    var employees = ViewBag.Employees as List<SelectListItem> ?? new List<SelectListItem>();
+    var years = ViewBag.Years as List<SelectListItem> ?? new List<SelectListItem>();
+    var months = ViewBag.Months as List<SelectListItem> ?? new List<SelectListItem>();
+}
+
+<div class="container mt-4">
+    <div class="no-print">
+        <h1>Attendance Report</h1>
+        <p class="text-muted">
+            Choose an employee and a month to generate their monthly attendance register.
+        </p>
+
+        <form asp-action="Index" method="get" class="row g-2 mb-4">
+            <div class="col-md-5">
+                <label class="form-label">Employee</label>
+                <select name="employeeId" class="form-select" asp-items="employees" required>
+                    <option value="">-- Select employee --</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Year</label>
+                <select name="year" class="form-select" asp-items="years"></select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Month</label>
+                <select name="month" class="form-select" asp-items="months"></select>
+            </div>
+            <div class="col-md-3 align-self-end">
+                <button type="submit" class="btn btn-primary">Generate Report</button>
+            </div>
+        </form>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+    </div>
+
+    @if (Model != null)
+    {
+        <div class="no-print mb-3">
+            <button type="button" class="btn btn-secondary" onclick="window.print()">
+                Print / Save as PDF
+            </button>
+            <a class="btn btn-success"
+               asp-action="DownloadCsv"
+               asp-route-employeeId="@Model.EmployeeId"
+               asp-route-year="@Model.Year"
+               asp-route-month="@Model.Month">
+                Download Excel (CSV)
+            </a>
+        </div>
+
+        <partial name="_ReportSheet" model="Model" />
+    }
+</div>

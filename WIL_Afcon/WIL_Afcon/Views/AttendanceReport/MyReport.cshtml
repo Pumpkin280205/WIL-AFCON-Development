@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@model WIL_Afcon.Models.ViewModels.AttendanceReportViewModel?
+
+@{
+    ViewData["Title"] = "My Attendance Report";
+
+    var years = ViewBag.Years as List<SelectListItem> ?? new List<SelectListItem>();
+    var months = ViewBag.Months as List<SelectListItem> ?? new List<SelectListItem>();
+}
+
+<div class="container mt-4">
+    <div class="no-print">
+        <h1>My Attendance Report</h1>
+
+        <form asp-action="MyReport" method="get" class="row g-2 mb-4">
+            <div class="col-md-3">
+                <label class="form-label">Year</label>
+                <select name="year" class="form-select" asp-items="years"></select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Month</label>
+                <select name="month" class="form-select" asp-items="months"></select>
+            </div>
+            <div class="col-md-3 align-self-end">
+                <button type="submit" class="btn btn-primary">Generate Report</button>
+            </div>
+        </form>
+    </div>
+
+    @if (Model == null)
+    {
+        <p>No report could be generated.</p>
+    }
+    else
+    {
+        <div class="no-print mb-3">
+            <button type="button" class="btn btn-secondary" onclick="window.print()">
+                Print / Save as PDF
+            </button>
+            <a class="btn btn-success"
+               asp-action="MyReportCsv"
+               asp-route-year="@Model.Year"
+               asp-route-month="@Model.Month">
+                Download Excel (CSV)
+            </a>
+        </div>
+
+        <partial name="_ReportSheet" model="Model" />
+    }
+</div>
