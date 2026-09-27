@@ -43,6 +43,7 @@ builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddHttpClient<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddScoped<IAttendanceReportService, AttendanceReportService>(); // Attendance report feature
 builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestService>();
 
 builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestService>(
