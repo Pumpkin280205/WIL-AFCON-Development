@@ -9,14 +9,17 @@ namespace WIL_Afcon.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
+        private readonly IDocumentService _documentService;
 
-       
+
         public EmployeeController(
             IEmployeeService employeeService,
-            IDepartmentService departmentService)
+            IDepartmentService departmentService,
+            IDocumentService documentService)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
+            _documentService = documentService;
         }
 
         // GET: /Employee
@@ -38,6 +41,8 @@ namespace WIL_Afcon.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Documents = await _documentService.GetByEmployeeIdAsync(id);
 
             return View(employee);
         }

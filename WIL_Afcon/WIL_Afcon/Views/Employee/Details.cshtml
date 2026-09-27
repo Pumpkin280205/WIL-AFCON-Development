@@ -1,5 +1,53 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@model WIL_Afcon.Models.Employee
+@using WIL_Afcon.Models
+
 @{
+    ViewData["Title"] = "Employee Details";
+    var documents = (List<Document>)ViewBag.Documents;
+}
+
+<h1>@Model.FirstName @Model.LastName</h1>
+
+<p>Employee Number: @Model.EmployeeNumber</p>
+<p>Email: @Model.Email</p>
+
+<a asp-controller="Document" asp-action="Upload" asp-route-employeeId="@Model.Id" class="btn btn-primary">
+    Upload Payslip / IRP5
+</a>
+
+<a asp-action="Index" class="btn btn-secondary">Back to list</a>
+
+<h2 class="mt-4">Documents</h2>
+
+@if (!documents.Any())
+{
+    <p>No payslips or IRP5 documents have been uploaded for this employee yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>File Name</th>
+                <th>Uploaded</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var document in documents)
+            {
+                <tr>
+                    <td>@document.DocumentType</td>
+                    <td>@document.FileName</td>
+                    <td>@document.UploadedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>
+                        <a asp-controller="Document" asp-action="Download" asp-route-id="@document.Id" class="btn btn-sm btn-primary">
+                            Download
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }

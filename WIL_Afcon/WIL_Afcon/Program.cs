@@ -36,6 +36,7 @@ builder.Services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 
 // Services
 //builder.Services.AddScoped<IEmployeeService, EmployeeService>();
@@ -49,6 +50,7 @@ builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestServi
     {
         client.BaseAddress = new Uri("http://localhost:5199/");
     });
+builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 
 
