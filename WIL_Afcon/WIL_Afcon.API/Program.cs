@@ -25,6 +25,7 @@ builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IHikvisionService, HikvisionService>();
 builder.Services.AddScoped<IAttendanceRequestService, AttendanceRequestService>();
+builder.Services.AddScoped<IAttendanceDocumentService, AttendanceDocumentService>();
 
 // Biometric terminal (Hikvision DS-K1T67MF) integration
 builder.Services.Configure<HikvisionDeviceOptions>(
