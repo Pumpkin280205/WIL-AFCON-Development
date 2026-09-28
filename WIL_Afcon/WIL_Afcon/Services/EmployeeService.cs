@@ -1,18 +1,22 @@
 ﻿using WIL_Afcon.Models;
 using WIL_Afcon.Repositories.Interfaces;
 using WIL_Afcon.Services.Interfaces;
+using System.Net.Http.Json;
 
 namespace WIL_Afcon.Services
 {
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly HttpClient _httpClient;
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public EmployeeService(
+    IEmployeeRepository employeeRepository,
+    HttpClient httpClient)
         {
             _employeeRepository = employeeRepository;
+            _httpClient = httpClient;
         }
-
         public async Task<List<Employee>> GetAllAsync()
         {
             return await _employeeRepository.GetAllAsync();
@@ -38,6 +42,18 @@ namespace WIL_Afcon.Services
             await _employeeRepository.UpdateAsync(employee);
         }
 
+        //public async Task DeactivateAsync(string id)
+        //{
+        //    var employee = await _employeeRepository.GetByIdAsync(id);
+
+        //    if (employee == null)
+        //        return;
+
+        //    employee.IsActive = false;
+
+        //    await _employeeRepository.UpdateAsync(employee);
+        //}
+
         public async Task DeactivateAsync(string id)
         {
             var employee = await _employeeRepository.GetByIdAsync(id);
@@ -45,10 +61,20 @@ namespace WIL_Afcon.Services
             if (employee == null)
                 return;
 
+            if (string.IsNullOrWhiteSpace(employee.DeviceUserId))
+                return;
+
+            var response = await _httpClient.DeleteAsync(
+                $"http://localhost:5199/api/attendance/device/employee/{employee.DeviceUserId}");
+
+            if (!response.IsSuccessStatusCode)
+                return;
+
             employee.IsActive = false;
 
             await _employeeRepository.UpdateAsync(employee);
         }
+
 
         public async Task<Employee?> GetByUserIdAsync(string userId)
         {

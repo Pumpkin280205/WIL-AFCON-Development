@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WIL_Afcon.Models;
-using WIL_Afcon.Services.Interfaces;    
+using WIL_Afcon.Services.Interfaces;
+
 namespace WIL_Afcon.Controllers
 {
 
@@ -55,8 +56,8 @@ namespace WIL_Afcon.Controllers
             return View(records);
         }
 
-
-        // GET: /Attendance/MyAttendance  (Employee – own history + today)
+        // GET: /Attendance/MyAttendance  (Employee – own history incl. today)
+        // Attendance is recorded ONLY by scanning on the Hikvision device.
         [Authorize(Roles = "Employee")]
         public async Task<IActionResult> MyAttendance()
         {

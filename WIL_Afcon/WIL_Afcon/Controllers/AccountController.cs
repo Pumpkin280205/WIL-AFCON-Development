@@ -37,6 +37,12 @@ namespace WIL_Afcon.Controllers
             return View();
         }
 
+        // GET: /Account/AccessDenied
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         // POST: /Account/Login
 
         // Reference: Microsoft (2026) 'Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks

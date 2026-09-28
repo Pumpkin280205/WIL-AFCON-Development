@@ -1,0 +1,550 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@model WIL_Afcon.Models.ViewModels.AttendanceReportViewModel?
+
+@{
+    ViewData["Title"] = "Attendance Report";
+
+    var employees = ViewBag.Employees as List<SelectListItem> ?? new List<SelectListItem>();
+    var years = ViewBag.Years as List<SelectListItem> ?? new List<SelectListItem>();
+    var months = ViewBag.Months as List<SelectListItem> ?? new List<SelectListItem>();
+}
+
+<div class="min-h-screen bg-[#f5f7fc] lg:flex">
+
+    <!-- ====================================================== -->
+    <!-- SIDEBAR                                                -->
+    <!-- ====================================================== -->
+
+    <aside class="no-print w-full border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:w-72 lg:border-b-0 lg:border-r">
+
+        <!-- BRAND -->
+        <div class="flex h-24 items-center gap-3 border-b border-slate-200 px-7">
+
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-content">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     class="h-5 w-5">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+                </svg>
+            </div>
+
+            <div>
+                <p class="font-bold text-slate-900">
+                    Afcon
+                </p>
+
+                <p class="text-sm text-slate-500">
+                    Admin Panel
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="flex h-[calc(100vh-6rem)] flex-col">
+
+            <nav class="flex-1 px-4 py-7">
+
+                <p class="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                    Administration
+                </p>
+
+
+                <!-- DASHBOARD -->
+                <a asp-controller="Admin"
+                   asp-action="Dashboard"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    </svg>
+
+                    Dashboard
+                </a>
+
+
+                <!-- EMPLOYEES -->
+                <a asp-controller="Employee"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+
+                    Employees
+                </a>
+
+
+                <!-- DEPARTMENTS -->
+                <a asp-controller="Department"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                        <path d="M9 22v-4h6v4"></path>
+                        <path d="M8 6h.01"></path>
+                        <path d="M12 6h.01"></path>
+                        <path d="M16 6h.01"></path>
+                    </svg>
+
+                    Departments
+                </a>
+
+
+                <!-- ATTENDANCE -->
+                <a asp-controller="Attendance"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                        <path d="M3 10h18"></path>
+                    </svg>
+
+                    Attendance
+                </a>
+
+
+                <!-- REQUESTS -->
+                <a asp-controller="AttendanceRequest"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+
+                    Requests
+                </a>
+
+
+                <!-- REPORTS - ACTIVE -->
+                <a asp-controller="AttendanceReport"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3 text-sm font-semibold text-primary no-underline">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M3 3v18h18"></path>
+                        <path d="m7 16 4-4 4 4 5-6"></path>
+                    </svg>
+
+                    <span>Reports</span>
+
+                    <span class="ml-auto h-2 w-2 rounded-full bg-primary"></span>
+                </a>
+
+            </nav>
+
+
+            <!-- SIDEBAR BOTTOM -->
+            <div class="border-t border-slate-200 p-5">
+
+                <div class="mb-4 flex items-center gap-3">
+
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-semibold text-primary-content">
+                        A
+                    </div>
+
+                    <div>
+                        <p class="text-sm font-semibold text-slate-900">
+                            Administrator
+                        </p>
+
+                        <p class="text-xs text-slate-500">
+                            Admin
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-5 w-5">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" x2="9" y1="12" y2="12"></line>
+                        </svg>
+
+                        Sign Out
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ====================================================== -->
+    <!-- MAIN CONTENT                                           -->
+    <!-- ====================================================== -->
+
+    <div class="min-w-0 flex-1 lg:ml-72">
+
+        <main class="p-6 lg:p-9">
+
+
+            <!-- ================================================== -->
+            <!-- PAGE HEADER                                       -->
+            <!-- ================================================== -->
+
+            <div class="no-print mb-7">
+
+                <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                    Attendance Reports
+                </h1>
+
+                <p class="mt-1 text-sm text-slate-500">
+                    Generate and export monthly employee attendance reports.
+                </p>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- REPORT FILTER                                     -->
+            <!-- ================================================== -->
+
+            <div class="no-print mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+
+                <!-- CARD HEADER -->
+                <div class="border-b border-slate-200 px-6 py-5">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 class="h-5 w-5">
+                                <path d="M3 3v18h18"></path>
+                                <path d="m7 16 4-4 4 4 5-6"></path>
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="text-lg font-semibold text-slate-900">
+                                Generate Report
+                            </h2>
+
+                            <p class="text-sm text-slate-500">
+                                Choose an employee and reporting period.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FORM -->
+                <form asp-action="Index"
+                      method="get"
+                      class="p-6">
+
+                    <div class="grid gap-5 md:grid-cols-12">
+
+
+                        <!-- EMPLOYEE -->
+                        <div class="md:col-span-5">
+
+                            <label for="employeeId"
+                                   class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                Employee
+                            </label>
+
+                            <select id="employeeId"
+                                    name="employeeId"
+                                    asp-items="employees"
+                                    required
+                                    class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10">
+
+                                <option value="">
+                                    -- Select employee --
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- YEAR -->
+                        <div class="md:col-span-2">
+
+                            <label for="year"
+                                   class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                Year
+                            </label>
+
+                            <select id="year"
+                                    name="year"
+                                    asp-items="years"
+                                    class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10">
+                            </select>
+
+                        </div>
+
+
+                        <!-- MONTH -->
+                        <div class="md:col-span-2">
+
+                            <label for="month"
+                                   class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                Month
+                            </label>
+
+                            <select id="month"
+                                    name="month"
+                                    asp-items="months"
+                                    class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10">
+                            </select>
+
+                        </div>
+
+
+                        <!-- GENERATE -->
+                        <div class="flex items-end md:col-span-3">
+
+                            <button type="submit"
+                                    class="inline-flex h-[42px] w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-primary-content shadow-sm transition hover:opacity-90">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-4 w-4">
+                                    <path d="M3 3v18h18"></path>
+                                    <path d="m7 16 4-4 4 4 5-6"></path>
+                                </svg>
+
+                                Generate Report
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- ERROR                                             -->
+            <!-- ================================================== -->
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="no-print mb-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="mt-0.5 h-5 w-5 shrink-0">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M12 8v4"></path>
+                        <path d="M12 16h.01"></path>
+                    </svg>
+
+                    <div>
+                        <p class="text-sm font-semibold">
+                            Unable to generate report
+                        </p>
+
+                        <p class="mt-1 text-sm">
+                            @ViewBag.Error
+                        </p>
+                    </div>
+
+                </div>
+            }
+
+
+            <!-- ================================================== -->
+            <!-- REPORT RESULT                                     -->
+            <!-- ================================================== -->
+
+            @if (Model != null)
+            {
+
+                <!-- REPORT TOOLBAR -->
+                <div class="no-print mb-4 flex flex-col justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center">
+
+                    <div>
+
+                        <p class="text-sm font-semibold text-slate-900">
+                            Report Generated
+                        </p>
+
+                        <p class="mt-0.5 text-xs text-slate-500">
+                            Print this report or export the attendance data.
+                        </p>
+
+                    </div>
+
+
+                    <div class="flex flex-col gap-2 sm:flex-row">
+
+
+                        <!-- PRINT -->
+                        <button type="button"
+                                onclick="window.print()"
+                                class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-800">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 class="h-4 w-4">
+                                <path d="M6 9V2h12v7"></path>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                                <rect x="6" y="14" width="12" height="8"></rect>
+                            </svg>
+
+                            Print / Save as PDF
+                        </button>
+
+
+                        <!-- CSV -->
+                        <a asp-action="DownloadCsv"
+                           asp-route-employeeId="@Model.EmployeeId"
+                           asp-route-year="@Model.Year"
+                           asp-route-month="@Model.Month"
+                           class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-green-700">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 class="h-4 w-4">
+                                <path d="M12 3v12"></path>
+                                <path d="m7 10 5 5 5-5"></path>
+                                <path d="M5 21h14"></path>
+                            </svg>
+
+                            Download Excel (CSV)
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REPORT SHEET -->
+                <div class="report-sheet-container">
+                    <partial name="_ReportSheet" model="Model" />
+                </div>
+            }
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================== -->
+<!-- PRINT STYLES                                               -->
+<!-- ========================================================== -->
+
+<style>
+    @@media print {
+
+        .no-print {
+            display: none !important;
+        }
+
+        body {
+            background: white !important;
+        }
+
+        .report-sheet-container {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        main {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .lg\:ml-72 {
+            margin-left: 0 !important;
+        }
+    }
+</style>

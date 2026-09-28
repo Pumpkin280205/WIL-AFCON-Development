@@ -1,71 +1,234 @@
 ﻿@{
     ViewData["Title"] = "Login";
+
+    var selectedRole = Context.Request.Query["role"].ToString();
+
+    if (string.IsNullOrWhiteSpace(selectedRole))
+    {
+        selectedRole = "Employee";
+    }
+
+    var isAdmin = selectedRole.Equals(
+        "Admin",
+        StringComparison.OrdinalIgnoreCase
+    );
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-5">
+<div class="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-8">
 
-        <h2 class="text-center mb-4">Login</h2>
+    <div class="w-full max-w-[420px]">
 
-        <form asp-controller="Account" asp-action="Login" method="post">
+        <!-- AFCON LOGO -->
+        <a asp-controller="Home"
+        asp-action="Index"
+        class="mb-4 flex w-full justify-center no-underline">
 
-            @Html.AntiForgeryToken()
+            <img src="~/images/Afcon.png"
+                asp-append-version="true"
+                alt="Afcon Industrial Equipment"
+                class="block h-20 w-auto object-contain" />
 
-            <div asp-validation-summary="ModelOnly"
-                 class="text-danger mb-3">
-            </div>
+        </a>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">
-                    Email
-                </label>
+        <!-- TITLE -->
+        <div class="mt-5 text-center">
 
-                <input type="email"
-                       id="email"
-                       name="email"
-                       class="form-control"
-                       required />
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">
-                    Password
-                </label>
+            <h1 class="text-xl font-bold text-slate-900">
+                Welcome back
+            </h1>
 
-                <input type="password"
-                       id="password"
-                       name="password"
-                       class="form-control"
-                       required />
-            </div>
+            <p class="mt-1 text-xs text-slate-500">
+                Sign in to the Afcon Attendance Register
+            </p>
 
-            <div class="form-check mb-3">
-                <input type="checkbox"
-                       id="rememberMe"
-                       name="rememberMe"
-                       value="true"
-                       class="form-check-input" />
-
-                <label for="rememberMe"
-                       class="form-check-label">
-                    Remember me
-                </label>
-            </div>
-
-            <button type="submit"
-                    class="btn btn-primary w-100">
-                Login
-            </button>
+        </div>
 
 
-            <div class="text-center mt-3">
+        <!-- LOGIN CARD -->
+        <div class="mt-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+
+
+            <!-- EMPLOYEE / ADMIN TABS -->
+            <div class="mb-5 grid grid-cols-2 rounded-lg bg-slate-100 p-1">
+
+                <!-- EMPLOYEE -->
                 <a asp-controller="Account"
-                   asp-action="Register">
-                    Employee Registration
+                   asp-action="Login"
+                   asp-route-role="Employee"
+                   class="rounded-md px-4 py-2 text-center text-xs font-semibold no-underline transition
+                          @(isAdmin
+                              ? "text-slate-500 hover:text-slate-700"
+                              : "bg-white text-slate-900 shadow-sm")">
+
+                    Employee
+
                 </a>
+
+
+                <!-- ADMIN -->
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   asp-route-role="Admin"
+                   class="rounded-md px-4 py-2 text-center text-xs font-semibold no-underline transition
+                          @(isAdmin
+                              ? "bg-white text-slate-900 shadow-sm"
+                              : "text-slate-500 hover:text-slate-700")">
+
+                    Admin
+
+                </a>
+
             </div>
 
 
-        </form>
+            <!-- LOGIN FORM -->
+            <form asp-controller="Account"
+                  asp-action="Login"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+
+                <!-- VALIDATION -->
+                <div asp-validation-summary="ModelOnly"
+                     class="mb-4 text-xs text-red-600">
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="mb-4">
+
+                    <label for="email"
+                           class="mb-1.5 block text-xs font-semibold text-slate-700">
+
+                        Email
+                        <span class="text-red-500">*</span>
+
+                    </label>
+
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           autocomplete="email"
+                           placeholder="Enter your email"
+                           required
+                           class="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="mb-3">
+
+                    <label for="password"
+                           class="mb-1.5 block text-xs font-semibold text-slate-700">
+
+                        Password
+                        <span class="text-red-500">*</span>
+
+                    </label>
+
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           autocomplete="current-password"
+                           placeholder="Enter your password"
+                           required
+                           class="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                </div>
+
+
+                <!-- REMEMBER / HELP -->
+                <div class="mb-5 flex items-center justify-between">
+
+                    <label class="flex cursor-pointer items-center gap-2 text-[11px] text-slate-500">
+
+                        <input type="checkbox"
+                               id="rememberMe"
+                               name="rememberMe"
+                               value="true"
+                               class="h-3.5 w-3.5 rounded border-slate-300 accent-primary" />
+
+                        Remember me
+
+                    </label>
+
+
+                    <div class="text-[11px] text-slate-500">
+
+                        Forgot password?
+
+                        <span class="font-medium text-primary">
+                            Speak to admin
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SIGN IN -->
+                <button type="submit"
+                        class="h-10 w-full rounded-md bg-primary text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
+
+                    Sign in
+
+                </button>
+
+
+                <!-- EMPLOYEE REGISTRATION -->
+                @if (!isAdmin)
+                {
+                    <div class="mt-4 text-center text-xs">
+
+                        <span class="text-slate-500">
+                            Don't have an account?
+                        </span>
+
+                        <a asp-controller="Account"
+                           asp-action="Register"
+                           class="ml-1 font-semibold text-primary no-underline hover:underline">
+
+                            Employee Registration
+
+                        </a>
+
+                    </div>
+                }
+
+            </form>
+
+        </div>
+
+
+        <!-- BACK HOME -->
+        <div class="mt-5 text-center">
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="inline-flex items-center gap-1.5 text-xs text-slate-500 no-underline transition hover:text-primary">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     class="h-3.5 w-3.5">
+
+                    <path d="M19 12H5"></path>
+                    <path d="m11 18-6-6 6-6"></path>
+
+                </svg>
+
+                Back to home
+
+            </a>
+
+        </div>
 
     </div>
+
 </div>

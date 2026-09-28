@@ -9,6 +9,8 @@ namespace WIL_Afcon.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
+        private readonly IDocumentService _documentService;
+
 
        // Reference: Microsoft (2026) 'Dependency injection into controllers in ASP.NET Core',
 // Microsoft Learn.
@@ -16,10 +18,12 @@ namespace WIL_Afcon.Controllers
 // (Accessed: 26 September 2026).
         public EmployeeController(
             IEmployeeService employeeService,
-            IDepartmentService departmentService)
+            IDepartmentService departmentService,
+            IDocumentService documentService)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
+            _documentService = documentService;
         }
 
         // GET: /Employee
@@ -46,6 +50,8 @@ namespace WIL_Afcon.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Documents = await _documentService.GetByEmployeeIdAsync(id);
 
             return View(employee);
         }
@@ -108,6 +114,8 @@ namespace WIL_Afcon.Controllers
                 return NotFound();
             }
 
+            ViewBag.Departments = await _departmentService.GetAllAsync();
+
             return View(employee);
         }
 
@@ -119,6 +127,7 @@ namespace WIL_Afcon.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Departments = await _departmentService.GetAllAsync();
                 return View(employee);
             }
 
@@ -161,6 +170,34 @@ namespace WIL_Afcon.Controllers
             {
                 return NotFound("Employee record could not be found.");
             }
+
+            return View(employee);
+        }
+
+        // GET: /Employee/Profile
+        [Authorize(Roles = "Employee")]
+        public async Task<IActionResult> Profile()
+        {
+            var userId = User.FindFirst(
+                System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var employee = await _employeeService.GetByUserIdAsync(userId);
+
+            if (employee == null)
+            {
+                return NotFound("Employee record could not be found.");
+            }
+
+            var department = await _departmentService.GetByIdAsync(
+                employee.DepartmentId);
+
+            ViewBag.DepartmentName =
+                department?.DepartmentName ?? "Not assigned";
 
             return View(employee);
         }

@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<MongoDbContext>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 
 //authentication
@@ -34,11 +36,22 @@ builder.Services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 
 // Services
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+//builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddHttpClient<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddScoped<IAttendanceReportService, AttendanceReportService>(); // Attendance report feature
+builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestService>();
+
+builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestService>(
+    client =>
+    {
+        client.BaseAddress = new Uri("http://localhost:5199/");
+    });
+builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 
 
@@ -49,6 +62,12 @@ using (var scope = app.Services.CreateScope())
     await IdentitySetup.InitializeAsync(scope.ServiceProvider);
 }
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -57,7 +76,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthentication();
