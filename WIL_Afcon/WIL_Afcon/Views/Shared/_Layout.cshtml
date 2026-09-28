@@ -63,6 +63,7 @@
 
     <title>@ViewData["Title"] - WIL_Afcon</title>
 
+<<<<<<< Updated upstream
     <script type="importmap"></script>
 
 
@@ -93,10 +94,14 @@
     <!-- Available throughout the application.                  -->
     <!-- ====================================================== -->
 
+=======
+    <!-- Tailwind CSS + DaisyUI -->
+>>>>>>> Stashed changes
     <link rel="stylesheet"
           href="~/css/output.css"
           asp-append-version="true" />
 
+<<<<<<< Updated upstream
 </head>
 
 
@@ -435,6 +440,52 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 
+=======
+    <!-- Existing Site CSS -->
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    @await RenderSectionAsync(
+        "Styles",
+        required: false)
+</head>
+
+<body class="m-0 bg-[#f5f7fc]">
+
+    @*
+        The Admin and Employee portals contain their own
+        navigation sidebars.
+
+        Therefore, the old global navigation is not displayed
+        when a user is authenticated.
+
+        Public pages such as Home, Login and Register can
+        display their own navigation/layout if required.
+    *@
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+
+    @*
+        The original ASP.NET footer has intentionally been
+        removed because the Admin and Employee portal pages
+        use full-height application layouts.
+    *@
+
+
+    <!-- Existing JavaScript -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @await RenderSectionAsync(
+        "Scripts",
+        required: false)
+>>>>>>> Stashed changes
 
 </body>
 
