@@ -4,169 +4,873 @@
     ViewData["Title"] = "Attendance Request Details";
 }
 
-<h1>Attendance Request Details</h1>
+<div class="min-h-screen bg-[#f5f7fc] lg:flex">
 
-<div class="card">
-    <div class="card-body">
+    <!-- ====================================================== -->
+    <!-- SIDEBAR                                                -->
+    <!-- ====================================================== -->
 
-        <dl class="row">
+    <aside class="w-full border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:w-72 lg:border-b-0 lg:border-r">
 
-            <dt class="col-sm-3">
-                Request Type
-            </dt>
-            <dd class="col-sm-9">
-                @Model.RequestType
-            </dd>
+        <!-- BRAND -->
+        <div class="flex h-24 items-center gap-3 border-b border-slate-200 px-7">
 
-            <dt class="col-sm-3">
-                Request Date
-            </dt>
-            <dd class="col-sm-9">
-                @Model.RequestDate.ToShortDateString()
-            </dd>
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-content">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     class="h-5 w-5">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+                </svg>
+            </div>
 
-            <dt class="col-sm-3">
-                Start Date
-            </dt>
-            <dd class="col-sm-9">
-                @(Model.StartDate?.ToShortDateString() ?? "N/A")
-            </dd>
+            <div>
+                <p class="font-bold text-slate-900">Afcon</p>
+                <p class="text-sm text-slate-500">Admin Panel</p>
+            </div>
 
-            <dt class="col-sm-3">
-                End Date
-            </dt>
-            <dd class="col-sm-9">
-                @(Model.EndDate?.ToShortDateString() ?? "N/A")
-            </dd>
+        </div>
 
-            <dt class="col-sm-3">
-                Description
-            </dt>
-            <dd class="col-sm-9">
-                @(string.IsNullOrWhiteSpace(Model.Description)
-                    ? "No description provided."
-                    : Model.Description)
-            </dd>
 
-            <dt class="col-sm-3">
-                Status
-            </dt>
-            <dd class="col-sm-9">
-                @Model.Status
-            </dd>
+        <!-- NAVIGATION -->
+        <div class="flex h-[calc(100vh-6rem)] flex-col">
 
-            <dt class="col-sm-3">
-                Admin Comment
-            </dt>
-            <dd class="col-sm-9">
-                @(string.IsNullOrWhiteSpace(Model.AdminComment)
-                    ? "No admin comment."
-                    : Model.AdminComment)
-            </dd>
+            <nav class="flex-1 px-4 py-7">
 
-            <dt class="col-sm-3">
-                Reviewed By
-            </dt>
-            <dd class="col-sm-9">
-                @(string.IsNullOrWhiteSpace(Model.ReviewedBy)
-                    ? "Not reviewed"
-                    : Model.ReviewedBy)
-            </dd>
+                <p class="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                    Administration
+                </p>
 
-            <dt class="col-sm-3">
-                Reviewed At
-            </dt>
-            <dd class="col-sm-9">
-                @(Model.ReviewedAt?.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
-                    ?? "Not reviewed")
-            </dd>
-            <dt class="col-sm-3">
-                Supporting Document
-            </dt>
-            <dd class="col-sm-9">
-                @if (!string.IsNullOrWhiteSpace(Model.DocumentName))
-                {
-                    <p>
-                        @Model.DocumentName
-                    </p>
 
-                    <a asp-action="DownloadDocument"
-                       asp-route-id="@Model.Id"
-                       class="btn btn-primary">
-                        Download Document
-                    </a>
-                }
-                else
-                {
-                    <p>
-                        No document attached.
-                    </p>
-                }
-            </dd>
+                <!-- DASHBOARD -->
+                <a asp-controller="Admin"
+                   asp-action="Dashboard"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
 
-        </dl>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    </svg>
 
-        <hr />
+                    Dashboard
+                </a>
 
-        @if (User.IsInRole("Admin") &&
-        Model.Status == WIL_Afcon.Models.enums.AttendanceRequestStatus.Pending)
-        {
-            <div class="mt-3">
 
-                <h5>Admin Review</h5>
+                <!-- EMPLOYEES -->
+                <a asp-controller="Employee"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
 
-                <form method="post">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
 
-                    <input type="hidden"
-                           name="id"
-                           value="@Model.Id" />
+                    Employees
+                </a>
 
-                    <div class="mb-3">
-                        <label for="adminComment"
-                               class="form-label">
-                            Admin Comment
-                        </label>
 
-                        <textarea id="adminComment"
-                                  name="adminComment"
-                                  class="form-control"
-                                  rows="4"
-                                  placeholder="Enter a comment about your decision"></textarea>
+                <!-- DEPARTMENTS -->
+                <a asp-controller="Department"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                        <path d="M9 22v-4h6v4"></path>
+                        <path d="M8 6h.01"></path>
+                        <path d="M12 6h.01"></path>
+                        <path d="M16 6h.01"></path>
+                    </svg>
+
+                    Departments
+                </a>
+
+
+                <!-- ATTENDANCE -->
+                <a asp-controller="Attendance"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                        <path d="M3 10h18"></path>
+                    </svg>
+
+                    Attendance
+                </a>
+
+
+                <!-- REQUESTS - ACTIVE -->
+                <a asp-controller="AttendanceRequest"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3 text-sm font-semibold text-primary no-underline">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+
+                    <span>Requests</span>
+                    <span class="ml-auto h-2 w-2 rounded-full bg-primary"></span>
+                </a>
+
+
+                <!-- REPORTS -->
+                <a asp-controller="AttendanceReport"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M3 3v18h18"></path>
+                        <path d="m7 16 4-4 4 4 5-6"></path>
+                    </svg>
+
+                    Reports
+                </a>
+
+            </nav>
+
+
+            <!-- SIDEBAR BOTTOM -->
+            <div class="border-t border-slate-200 p-5">
+
+                <div class="mb-4 flex items-center gap-3">
+
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-semibold text-primary-content">
+                        A
                     </div>
 
-                    <button type="submit"
-                            formaction="@Url.Action("Accept", "AttendanceRequest")"
-                            class="btn btn-success">
-                        Accept
-                    </button>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-900">
+                            Administrator
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            Admin
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
 
                     <button type="submit"
-                            formaction="@Url.Action("Reject", "AttendanceRequest")"
-                            class="btn btn-danger">
-                        Reject
+                            class="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-5 w-5">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" x2="9" y1="12" y2="12"></line>
+                        </svg>
+
+                        Sign Out
                     </button>
 
                 </form>
 
             </div>
-        }
 
-        <div class="mt-4">
+        </div>
+
+    </aside>
+
+
+    <!-- ====================================================== -->
+    <!-- MAIN CONTENT                                           -->
+    <!-- ====================================================== -->
+
+    <div class="min-w-0 flex-1 lg:ml-72">
+
+        <main class="p-6 lg:p-9">
+
+
+            <!-- ================================================== -->
+            <!-- BACK BUTTON                                       -->
+            <!-- ================================================== -->
+
             @if (User.IsInRole("Admin"))
             {
                 <a asp-action="Index"
-                   class="btn btn-secondary">
+                   class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-slate-500 no-underline transition hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-4 w-4">
+                        <path d="M19 12H5"></path>
+                        <path d="m11 18-6-6 6-6"></path>
+                    </svg>
+
                     Back to Requests
                 </a>
             }
             else if (User.IsInRole("Employee"))
             {
                 <a asp-action="MyRequests"
-                   class="btn btn-secondary">
+                   class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-slate-500 no-underline transition hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-4 w-4">
+                        <path d="M19 12H5"></path>
+                        <path d="m11 18-6-6 6-6"></path>
+                    </svg>
+
                     Back to My Requests
                 </a>
             }
-        </div>
+
+
+            <!-- ================================================== -->
+            <!-- PAGE HEADER                                       -->
+            <!-- ================================================== -->
+
+            <div class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+
+                <div>
+
+                    <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                        Attendance Request Details
+                    </h1>
+
+                    <p class="mt-1 text-sm text-slate-500">
+                        Review the request information and supporting documentation.
+                    </p>
+
+                </div>
+
+
+                <!-- STATUS -->
+                <div>
+
+                    @if (Model.Status.ToString() == "Pending")
+                    {
+                        <span class="inline-flex items-center gap-2 rounded-full bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700 ring-1 ring-amber-200">
+
+                            <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+
+                            Pending Review
+                        </span>
+                    }
+                    else if (Model.Status.ToString() == "Accepted")
+                    {
+                        <span class="inline-flex items-center gap-2 rounded-full bg-green-50 px-4 py-2 text-sm font-semibold text-green-700 ring-1 ring-green-200">
+
+                            <span class="h-2 w-2 rounded-full bg-green-500"></span>
+
+                            Accepted
+                        </span>
+                    }
+                    else if (Model.Status.ToString() == "Rejected")
+                    {
+                        <span class="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 ring-1 ring-red-200">
+
+                            <span class="h-2 w-2 rounded-full bg-red-500"></span>
+
+                            Rejected
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- REQUEST INFORMATION                               -->
+            <!-- ================================================== -->
+
+            <div class="mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+
+                <!-- CARD HEADER -->
+                <div class="border-b border-slate-200 px-6 py-5 lg:px-8">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 class="h-5 w-5">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+                                <path d="M14 2v6h6"></path>
+                                <path d="M8 13h8"></path>
+                                <path d="M8 17h8"></path>
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="text-lg font-semibold text-slate-900">
+                                Request Information
+                            </h2>
+
+                            <p class="text-sm text-slate-500">
+                                Details submitted with this attendance request.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DETAILS -->
+                <div class="grid gap-x-10 gap-y-7 p-6 md:grid-cols-2 lg:p-8">
+
+
+                    <!-- EMPLOYEE -->
+                    <div>
+
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Employee
+                        </p>
+
+                        <p class="mt-2 text-sm font-semibold text-slate-900">
+                            @(string.IsNullOrWhiteSpace(Model.EmployeeName)
+                                ? "Employee"
+                                : Model.EmployeeName)
+                        </p>
+
+                    </div>
+
+
+                    <!-- REQUEST TYPE -->
+                    <div>
+
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Request Type
+                        </p>
+
+                        <div class="mt-2">
+
+                            @if (Model.RequestType.ToString() == "Leave")
+                            {
+                                <span class="inline-flex rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                                    Leave
+                                </span>
+                            }
+                            else if (Model.RequestType.ToString() == "LateArrival")
+                            {
+                                <span class="inline-flex rounded-lg bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
+                                    Late Arrival
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-sm font-semibold text-slate-900">
+                                    @Model.RequestType
+                                </span>
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REQUEST DATE -->
+                    <div>
+
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Request Date
+                        </p>
+
+                        <p class="mt-2 text-sm font-semibold text-slate-900">
+                            @Model.RequestDate.ToString("dd MMM yyyy")
+                        </p>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+                    <div>
+
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Status
+                        </p>
+
+                        <p class="mt-2 text-sm font-semibold text-slate-900">
+                            @Model.Status
+                        </p>
+
+                    </div>
+
+
+                    <!-- START DATE -->
+                    <div>
+
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Start Date
+                        </p>
+
+                        <p class="mt-2 text-sm font-semibold text-slate-900">
+                            @(Model.StartDate?.ToString("dd MMM yyyy") ?? "N/A")
+                        </p>
+
+                    </div>
+
+
+                    <!-- END DATE -->
+                    <div>
+
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            End Date
+                        </p>
+
+                        <p class="mt-2 text-sm font-semibold text-slate-900">
+                            @(Model.EndDate?.ToString("dd MMM yyyy") ?? "N/A")
+                        </p>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+                    <div class="md:col-span-2">
+
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Description
+                        </p>
+
+                        <div class="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+
+                            <p class="whitespace-pre-line text-sm leading-6 text-slate-700">@(string.IsNullOrWhiteSpace(Model.Description)
+                                    ? "No description provided."
+                                    : Model.Description)</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- SUPPORTING DOCUMENT                               -->
+            <!-- ================================================== -->
+
+            <div class="mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                <div class="border-b border-slate-200 px-6 py-5 lg:px-8">
+
+                    <h2 class="text-lg font-semibold text-slate-900">
+                        Supporting Document
+                    </h2>
+
+                    <p class="mt-1 text-sm text-slate-500">
+                        Documentation attached to this request.
+                    </p>
+
+                </div>
+
+
+                <div class="p-6 lg:p-8">
+
+                    @if (!string.IsNullOrWhiteSpace(Model.DocumentName))
+                    {
+                        <div class="flex flex-col justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center">
+
+                            <div class="flex min-w-0 items-center gap-3">
+
+                                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2"
+                                         class="h-5 w-5">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+                                        <path d="M14 2v6h6"></path>
+                                    </svg>
+
+                                </div>
+
+
+                                <div class="min-w-0">
+
+                                    <p class="truncate text-sm font-semibold text-slate-900"
+                                       title="@Model.DocumentName">
+                                        @Model.DocumentName
+                                    </p>
+
+                                    <p class="mt-1 text-xs text-slate-500">
+                                        Supporting document
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <a asp-action="DownloadDocument"
+                               asp-route-id="@Model.Id"
+                               class="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-primary/20 bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary no-underline transition hover:bg-primary/15">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-4 w-4">
+                                    <path d="M12 3v12"></path>
+                                    <path d="m7 10 5 5 5-5"></path>
+                                    <path d="M5 21h14"></path>
+                                </svg>
+
+                                Download Document
+                            </a>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="flex items-center gap-3 rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-5">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-slate-400">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+                                    <path d="M14 2v6h6"></path>
+                                </svg>
+
+                            </div>
+
+                            <div>
+                                <p class="text-sm font-medium text-slate-700">
+                                    No document attached
+                                </p>
+
+                                <p class="mt-0.5 text-xs text-slate-500">
+                                    This request was submitted without supporting documentation.
+                                </p>
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- REVIEW INFORMATION                                -->
+            <!-- ================================================== -->
+
+            @if (Model.Status != WIL_Afcon.Models.enums.AttendanceRequestStatus.Pending)
+            {
+                <div class="mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                    <div class="border-b border-slate-200 px-6 py-5 lg:px-8">
+
+                        <h2 class="text-lg font-semibold text-slate-900">
+                            Review Information
+                        </h2>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            Details of the administrator's decision.
+                        </p>
+
+                    </div>
+
+
+                    <div class="grid gap-7 p-6 md:grid-cols-2 lg:p-8">
+
+                        <!-- REVIEWED BY -->
+                        <div>
+
+                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                Reviewed By
+                            </p>
+
+                            <p class="mt-2 text-sm font-semibold text-slate-900">
+                                @(string.IsNullOrWhiteSpace(Model.ReviewedBy)
+                                    ? "Not reviewed"
+                                    : Model.ReviewedBy)
+                            </p>
+
+                        </div>
+
+
+                        <!-- REVIEWED AT -->
+                        <div>
+
+                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                Reviewed At
+                            </p>
+
+                            <p class="mt-2 text-sm font-semibold text-slate-900">
+                                @(Model.ReviewedAt?.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                                    ?? "Not reviewed")
+                            </p>
+
+                        </div>
+
+
+                        <!-- ADMIN COMMENT -->
+                        <div class="md:col-span-2">
+
+                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                Admin Comment
+                            </p>
+
+                            <div class="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+
+                                <p class="whitespace-pre-line text-sm leading-6 text-slate-700">@(string.IsNullOrWhiteSpace(Model.AdminComment)
+                                        ? "No admin comment."
+                                        : Model.AdminComment)</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+
+            <!-- ================================================== -->
+            <!-- ADMIN REVIEW                                      -->
+            <!-- ================================================== -->
+
+            @if (User.IsInRole("Admin") &&
+                 Model.Status == WIL_Afcon.Models.enums.AttendanceRequestStatus.Pending)
+            {
+                <div class="mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+
+                    <!-- HEADER -->
+                    <div class="border-b border-slate-200 px-6 py-5 lg:px-8">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 7v5"></path>
+                                    <path d="M12 16h.01"></path>
+                                </svg>
+
+                            </div>
+
+
+                            <div>
+
+                                <h2 class="text-lg font-semibold text-slate-900">
+                                    Admin Review
+                                </h2>
+
+                                <p class="text-sm text-slate-500">
+                                    Review this request and record your decision.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FORM -->
+                    <form method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="id"
+                               value="@Model.Id" />
+
+
+                        <div class="p-6 lg:p-8">
+
+                            <label for="adminComment"
+                                   class="mb-2 block text-sm font-medium text-slate-700">
+                                Admin Comment
+                            </label>
+
+                            <textarea id="adminComment"
+                                      name="adminComment"
+                                      rows="4"
+                                      placeholder="Enter a comment about your decision..."
+                                      class="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/10"></textarea>
+
+                            <p class="mt-2 text-xs text-slate-500">
+                                Add any relevant information about why the request was accepted or rejected.
+                            </p>
+
+                        </div>
+
+
+                        <!-- REVIEW ACTIONS -->
+                        <div class="flex flex-col-reverse gap-3 border-t border-slate-200 bg-slate-50 px-6 py-5 sm:flex-row sm:justify-end lg:px-8">
+
+
+                            <!-- REJECT -->
+                            <button type="submit"
+                                    formaction="@Url.Action("Reject", "AttendanceRequest")"
+                                    class="inline-flex items-center justify-center gap-2 rounded-lg border border-red-200 bg-white px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-4 w-4">
+                                    <path d="M18 6 6 18"></path>
+                                    <path d="m6 6 12 12"></path>
+                                </svg>
+
+                                Reject Request
+                            </button>
+
+
+                            <!-- ACCEPT -->
+                            <button type="submit"
+                                    formaction="@Url.Action("Accept", "AttendanceRequest")"
+                                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-4 w-4">
+                                    <path d="m5 12 4 4L19 6"></path>
+                                </svg>
+
+                                Accept Request
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            }
+
+
+            <!-- ================================================== -->
+            <!-- BOTTOM BACK BUTTON                                -->
+            <!-- ================================================== -->
+
+            <div class="pb-4">
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Index"
+                       class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 no-underline shadow-sm transition hover:bg-slate-100">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-4 w-4">
+                            <path d="M19 12H5"></path>
+                            <path d="m11 18-6-6 6-6"></path>
+                        </svg>
+
+                        Back to Requests
+                    </a>
+                }
+                else if (User.IsInRole("Employee"))
+                {
+                    <a asp-action="MyRequests"
+                       class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 no-underline shadow-sm transition hover:bg-slate-100">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-4 w-4">
+                            <path d="M19 12H5"></path>
+                            <path d="m11 18-6-6 6-6"></path>
+                        </svg>
+
+                        Back to My Requests
+                    </a>
+                }
+
+            </div>
+
+        </main>
 
     </div>
+
 </div>
