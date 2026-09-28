@@ -157,4 +157,3 @@ namespace WIL_Afcon.Controllers
 //Microsoft (2026) 'Role-based authorization in ASP.NET Core MVC', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/roles (Accessed: 26 September 2026).
 
 //Microsoft (2026) 'Simple authorization in ASP.NET Core MVC', Microsoft Learn. Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/simple (Accessed: 26 September 2026).
-}
