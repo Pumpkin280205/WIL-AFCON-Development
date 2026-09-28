@@ -65,7 +65,7 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.SOLUTION }} -c Release --no-restore
 
-      # Runs any test projects in the solution (none yet - this passes until you add one)
+      # Runs any test projects in the solution (need to add one or a few)
       - name: Test
         run: dotnet test ${{ env.SOLUTION }} -c Release --no-build --verbosity normal
 
