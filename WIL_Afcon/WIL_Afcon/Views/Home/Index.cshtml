@@ -1,8 +1,196 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Attendance Register";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="min-h-screen bg-white">
+
+    <!-- ================================================== -->
+    <!-- NAVIGATION -->
+    <!-- ================================================== -->
+
+    <nav class="border-b border-slate-100 bg-white">
+
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
+
+            <!-- AFCON BRANDING -->
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="flex items-center gap-4 no-underline">
+
+                <img src="~/images/Afcon.png"
+                     asp-append-version="true"
+                     alt="Afcon Industrial Equipment"
+                     class="h-12 w-auto object-contain" />
+
+                <div class="h-8 w-px bg-slate-200"></div>
+
+                <span class="text-sm font-semibold text-slate-700">
+                    Attendance Register
+                </span>
+
+            </a>
+
+
+            <!-- TOP NAVIGATION BUTTONS -->
+            <div class="flex items-center gap-3">
+
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 no-underline transition hover:bg-slate-100">
+
+                    Sign In
+
+                </a>
+
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-content no-underline shadow-sm transition hover:opacity-90">
+
+                    Get Started
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================================================== -->
+    <!-- HERO SECTION -->
+    <!-- ================================================== -->
+
+    <main>
+
+        <section class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+
+            <div class="grid items-center gap-8 pt-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-10">
+
+
+                <!-- ========================================== -->
+                <!-- LEFT SIDE -->
+                <!-- ========================================== -->
+
+                <div class="max-w-3xl">
+
+
+                    <!-- SMALL LABEL -->
+
+                    <div class="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
+
+                        <span class="h-2 w-2 rounded-full bg-primary"></span>
+
+                        Staff Attendance Management
+
+                    </div>
+
+
+                    <!-- MAIN HEADING -->
+
+                    <h1 class="text-5xl font-bold leading-tight tracking-tight text-slate-900 md:text-6xl lg:text-7xl">
+
+                        Track Attendance
+
+                        <span class="block text-primary">
+                            Effortlessly.
+                        </span>
+
+                    </h1>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-500">
+
+                        A simple and secure attendance system for managing employee
+                        attendance, working hours and attendance records.
+
+                    </p>
+
+
+                    <!-- SECURITY MESSAGE -->
+
+                    <div class="mt-10 flex items-center gap-2 text-sm text-slate-400">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             class="h-4 w-4">
+
+                            <rect width="18"
+                                  height="11"
+                                  x="3"
+                                  y="11"
+                                  rx="2"
+                                  ry="2">
+                            </rect>
+
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+
+                        </svg>
+
+                        Secure employee attendance management
+
+                    </div>
+
+                </div>
+
+
+                <!-- ========================================== -->
+                <!-- RIGHT SIDE - LOGIN OPTIONS -->
+                <!-- ========================================== -->
+
+                <div class="flex items-center gap-4 lg:mr-20 lg:mb-24">
+
+
+                    <!-- EMPLOYEE LOGIN -->
+
+                    <a asp-controller="Account"
+                       asp-action="Login"
+                       asp-route-role="Employee"
+                       class="inline-flex min-w-[190px] items-center justify-center gap-3 rounded-xl bg-primary px-7 py-4 text-base font-semibold text-primary-content no-underline shadow-sm transition hover:opacity-90">
+
+                        Employee Login
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             class="h-4 w-4">
+
+                            <path d="M5 12h14"></path>
+                            <path d="m13 6 6 6-6 6"></path>
+
+                        </svg>
+
+                    </a>
+
+
+                    <!-- ADMIN LOGIN -->
+
+                    <a asp-controller="Account"
+                       asp-action="Login"
+                       asp-route-role="Admin"
+                       class="inline-flex min-w-[150px] items-center justify-center rounded-xl border border-slate-200 bg-white px-7 py-4 text-base font-semibold text-slate-700 no-underline shadow-sm transition hover:bg-slate-50">
+
+                        Admin Login
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
 </div>

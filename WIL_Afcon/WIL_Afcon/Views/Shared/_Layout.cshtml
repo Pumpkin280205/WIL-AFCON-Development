@@ -1,173 +1,402 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+
+    // Home landing page
+    var isHomePage =
+        controller == "Home" &&
+        action == "Index";
+
+    // Login and Register pages
+    var isAuthPage =
+        controller == "Account" &&
+        (action == "Login" || action == "Register");
+
+    // These pages should not use the old Bootstrap
+    // navigation, container or footer
+    var isFullScreenPage = isHomePage || isAuthPage;
+}
+
+<!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewData["Title"] - WIL_Afcon</title>
+
     <script type="importmap"></script>
 
-    <!-- Tailwind CSS + daisyUI -->
-    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WIL_Afcon.styles.css" asp-append-version="true" />
+
+    <!-- ====================================================== -->
+    <!-- BOOTSTRAP / EXISTING CSS                                -->
+    <!-- Only used on pages that have not yet been redesigned   -->
+    <!-- ====================================================== -->
+
+    @if (!isFullScreenPage)
+    {
+        <link rel="stylesheet"
+              href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+        <link rel="stylesheet"
+              href="~/css/site.css"
+              asp-append-version="true" />
+
+        <link rel="stylesheet"
+              href="~/WIL_Afcon.styles.css"
+              asp-append-version="true" />
+    }
+
+
+    <!-- ====================================================== -->
+    <!-- TAILWIND CSS + DAISYUI                                 -->
+    <!-- Available throughout the application                   -->
+    <!-- ====================================================== -->
+
+    <link rel="stylesheet"
+          href="~/css/output.css"
+          asp-append-version="true" />
+
 </head>
+
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand"
-                   asp-area=""
-                   asp-controller="Home"
-                   asp-action="Index">
-                    WIL_Afcon
-                </a>
 
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+    <!-- ====================================================== -->
+    <!-- OLD NAVIGATION                                         -->
+    <!--                                                       -->
+    <!-- Only shown on pages that have NOT yet been converted   -->
+    <!-- to the new Tailwind UI                                 -->
+    <!-- ====================================================== -->
 
-                    <ul class="navbar-nav flex-grow-1">
+    @if (!isFullScreenPage)
+    {
+        <header>
 
-                        @if (User.IsInRole("Admin"))
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+                <div class="container-fluid">
+
+
+                    <!-- BRAND -->
+
+                    <a class="navbar-brand"
+                       asp-area=""
+                       asp-controller="Home"
+                       asp-action="Index">
+
+                        WIL_Afcon
+
+                    </a>
+
+
+                    <!-- MOBILE MENU BUTTON -->
+
+                    <button class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target=".navbar-collapse"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+
+                        <span class="navbar-toggler-icon"></span>
+
+                    </button>
+
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+
+                        <!-- ===================================== -->
+                        <!-- NAVIGATION LINKS                      -->
+                        <!-- ===================================== -->
+
+                        <ul class="navbar-nav flex-grow-1">
+
+
+                            <!-- ================================= -->
+                            <!-- ADMIN NAVIGATION                  -->
+                            <!-- ================================= -->
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="Admin"
+                                       asp-action="Dashboard">
+
+                                        Dashboard
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="Employee"
+                                       asp-action="Index">
+
+                                        Employees
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="Department"
+                                       asp-action="Index">
+
+                                        Departments
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="Attendance"
+                                       asp-action="Index">
+
+                                        Attendance
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="AttendanceReport"
+                                       asp-action="Index">
+
+                                        Attendance Report
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="AttendanceRequest"
+                                       asp-action="Index">
+
+                                        Attendance Requests
+
+                                    </a>
+
+                                </li>
+                            }
+
+
+                            <!-- ================================= -->
+                            <!-- EMPLOYEE NAVIGATION               -->
+                            <!-- ================================= -->
+
+                            @if (User.IsInRole("Employee"))
+                            {
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="Employee"
+                                       asp-action="Dashboard">
+
+                                        Dashboard
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="Attendance"
+                                       asp-action="MyAttendance">
+
+                                        My Attendance
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="AttendanceReport"
+                                       asp-action="MyReport">
+
+                                        My Attendance Report
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="AttendanceRequest"
+                                       asp-action="MyRequests">
+
+                                        My Requests
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link text-dark"
+                                       asp-controller="Document"
+                                       asp-action="MyDocuments">
+
+                                        My Documents
+
+                                    </a>
+
+                                </li>
+                            }
+
+                        </ul>
+
+
+                        <!-- ===================================== -->
+                        <!-- LOGOUT                                -->
+                        <!-- ===================================== -->
+
+                        @if (User.Identity?.IsAuthenticated == true)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="Admin"
-                                   asp-action="Dashboard">
-                                    Dashboard
-                                </a>
-                            </li>
+                            <form asp-controller="Account"
+                                  asp-action="Logout"
+                                  method="post"
+                                  class="d-flex">
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="Employee"
-                                   asp-action="Index">
-                                    Employees
-                                </a>
-                            </li>
+                                <button type="submit"
+                                        class="btn btn-link nav-link text-dark">
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="Department"
-                                   asp-action="Index">
-                                    Departments
-                                </a>
-                            </li>
+                                    Logout
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="Attendance"
-                                   asp-action="Index">
-                                    Attendance
-                                </a>
-                            </li>
+                                </button>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="AttendanceReport"
-                                   asp-action="Index">
-                                    Attendance Report
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="AttendanceRequest"
-                                   asp-action="Index">
-                                    Attendance Requests
-                                </a>
-                            </li>
+                            </form>
                         }
 
-                        @if (User.IsInRole("Employee"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="Employee"
-                                   asp-action="Dashboard">
-                                    Dashboard
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="Attendance"
-                                   asp-action="MyAttendance">
-                                    My Attendance
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="AttendanceReport"
-                                   asp-action="MyReport">
-                                    My Attendance Report
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="AttendanceRequest"
-                                   asp-action="MyRequests">
-                                    My Requests
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="Document" asp-action="MyDocuments">My Documents</a>
-                            </li>
-                        }
-
-                    </ul>
-
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <form asp-controller="Account"
-                              asp-action="Logout"
-                              method="post"
-                              class="d-flex">
-                            <button type="submit"
-                                    class="btn btn-link nav-link text-dark">
-                                Logout
-                            </button>
-                        </form>
-                    }
+                    </div>
 
                 </div>
-            </div>
-        </nav>
-    </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+            </nav>
+
+        </header>
+    }
+
+
+    <!-- ====================================================== -->
+    <!-- PAGE CONTENT                                           -->
+    <!-- ====================================================== -->
+
+    @if (isFullScreenPage)
+    {
+        <!--
+            Home / Login / Register
+
+            These pages control their own width, background
+            and positioning.
+
+            No Bootstrap container is applied.
+        -->
+
+        <main role="main">
+
             @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+        </main>
+    }
+    else
+    {
+        <!--
+            Existing pages that have not yet been redesigned
+            continue to use the Bootstrap container.
+        -->
+
         <div class="container">
-            &copy; 2026 - WIL_Afcon -
-            <a asp-area=""
-               asp-controller="Home"
-               asp-action="Privacy">
-                Privacy
-            </a>
+
+            <main role="main"
+                  class="pb-3">
+
+                @RenderBody()
+
+            </main>
+
         </div>
-    </footer>
+    }
+
+
+    <!-- ====================================================== -->
+    <!-- OLD FOOTER                                             -->
+    <!--                                                       -->
+    <!-- Hidden on Home / Login / Register                      -->
+    <!-- ====================================================== -->
+
+    @if (!isFullScreenPage)
+    {
+        <footer class="border-top footer text-muted">
+
+            <div class="container">
+
+                &copy; 2026 - WIL_Afcon -
+
+                <a asp-area=""
+                   asp-controller="Home"
+                   asp-action="Privacy">
+
+                    Privacy
+
+                </a>
+
+            </div>
+
+        </footer>
+    }
+
+
+    <!-- ====================================================== -->
+    <!-- JAVASCRIPT                                             -->
+    <!-- ====================================================== -->
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+
     @await RenderSectionAsync("Scripts", required: false)
+
+
 </body>
+
 </html>
