@@ -125,6 +125,32 @@
                 </a>
 
 
+                <!-- MY ATTENDANCE REPORT -->
+                <a asp-controller="AttendanceReport"
+                   asp-action="MyReport"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <path d="M4 19V9"></path>
+                        <path d="M10 19V5"></path>
+                        <path d="M16 19v-7"></path>
+                        <path d="M22 19V3"></path>
+
+                    </svg>
+
+                    <span>
+                        My Attendance Report
+                    </span>
+
+                </a>
+
+
                 <!-- MY REQUESTS -->
                 <a asp-controller="AttendanceRequest"
                    asp-action="MyRequests"
@@ -365,9 +391,7 @@
                             </circle>
 
                             <path d="M5.5 16c.7-1.7 4.3-1.7 5 0"></path>
-
                             <path d="M14 9h4"></path>
-
                             <path d="M14 13h4"></path>
 
                         </svg>
@@ -492,13 +516,13 @@
                     </h2>
 
                     <p class="mt-1 text-xs text-slate-500">
-                        Access your attendance records, requests and documents.
+                        Access your attendance, reports, requests and documents.
                     </p>
 
                 </div>
 
 
-                <div class="grid gap-4 p-6 md:grid-cols-2 xl:grid-cols-4">
+                <div class="grid gap-4 p-6 md:grid-cols-2 xl:grid-cols-3">
 
                     <!-- MY ATTENDANCE -->
                     <a asp-controller="Attendance"
@@ -514,17 +538,12 @@
                                  stroke-width="2"
                                  class="h-5 w-5">
 
-                                <circle cx="12"
-                                        cy="12"
-                                        r="9">
-                                </circle>
-
+                                <circle cx="12" cy="12" r="9"></circle>
                                 <path d="M12 7v5l3 2"></path>
 
                             </svg>
 
                         </div>
-
 
                         <div class="min-w-0 flex-1">
 
@@ -538,6 +557,54 @@
 
                         </div>
 
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-4 w-4 shrink-0 text-slate-400 transition group-hover:text-primary">
+
+                            <path d="m9 18 6-6-6-6"></path>
+
+                        </svg>
+
+                    </a>
+
+
+                    <!-- MY ATTENDANCE REPORT -->
+                    <a asp-controller="AttendanceReport"
+                       asp-action="MyReport"
+                       class="group flex items-center gap-4 rounded-xl border border-slate-200 p-4 no-underline transition hover:border-primary hover:bg-primary/5">
+
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 class="h-5 w-5">
+
+                                <path d="M4 19V9"></path>
+                                <path d="M10 19V5"></path>
+                                <path d="M16 19v-7"></path>
+                                <path d="M22 19V3"></path>
+
+                            </svg>
+
+                        </div>
+
+                        <div class="min-w-0 flex-1">
+
+                            <p class="text-sm font-semibold text-slate-900 transition group-hover:text-primary">
+                                Attendance Report
+                            </p>
+
+                            <p class="mt-1 text-xs text-slate-500">
+                                Generate monthly reports
+                            </p>
+
+                        </div>
 
                         <svg xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 24 24"
@@ -575,7 +642,6 @@
 
                         </div>
 
-
                         <div class="min-w-0 flex-1">
 
                             <p class="text-sm font-semibold text-slate-900 transition group-hover:text-primary">
@@ -587,7 +653,6 @@
                             </p>
 
                         </div>
-
 
                         <svg xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 24 24"
@@ -626,7 +691,6 @@
 
                         </div>
 
-
                         <div class="min-w-0 flex-1">
 
                             <p class="text-sm font-semibold text-slate-900 transition group-hover:text-primary">
@@ -638,7 +702,6 @@
                             </p>
 
                         </div>
-
 
                         <svg xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 24 24"
@@ -668,18 +731,13 @@
                                  stroke-width="2"
                                  class="h-5 w-5">
 
-                                <circle cx="12"
-                                        cy="12"
-                                        r="9">
-                                </circle>
-
+                                <circle cx="12" cy="12" r="9"></circle>
                                 <path d="M12 8v8"></path>
                                 <path d="M8 12h8"></path>
 
                             </svg>
 
                         </div>
-
 
                         <div class="min-w-0 flex-1">
 
@@ -692,7 +750,6 @@
                             </p>
 
                         </div>
-
 
                         <svg xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 24 24"
@@ -725,16 +782,11 @@
                      stroke-width="2"
                      class="mt-0.5 h-5 w-5 shrink-0 text-primary">
 
-                    <circle cx="12"
-                            cy="12"
-                            r="9">
-                    </circle>
-
+                    <circle cx="12" cy="12" r="9"></circle>
                     <path d="M12 11v5"></path>
                     <path d="M12 8h.01"></path>
 
                 </svg>
-
 
                 <div>
 
@@ -743,9 +795,10 @@
                     </p>
 
                     <p class="mt-1 text-xs leading-5 text-slate-600">
-                        Your attendance is recorded through the biometric attendance
-                        system. You can view your attendance records, submit attendance
-                        requests and access documents uploaded to your employee account.
+                        Your attendance is recorded through the biometric
+                        attendance system. You can view your attendance records,
+                        generate monthly reports, submit attendance requests and
+                        access documents uploaded to your employee account.
                     </p>
 
                 </div>
