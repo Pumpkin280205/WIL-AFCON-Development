@@ -4,113 +4,678 @@
     ViewData["Title"] = "Create Attendance Request";
 }
 
-<h1>Create Attendance Request</h1>
+<div class="min-h-screen bg-[#f5f7fc] lg:flex">
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <!-- ====================================================== -->
+    <!-- EMPLOYEE SIDEBAR                                       -->
+    <!-- ====================================================== -->
 
-    <div asp-validation-summary="ModelOnly"
-         class="text-danger"></div>
+    <aside class="w-full border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:z-30 lg:w-72 lg:border-b-0 lg:border-r">
 
-    <div class="mb-3">
-        <label asp-for="RequestType" class="form-label">
-            Request Type
-        </label>
+        <!-- BRAND -->
+        <div class="flex h-24 items-center gap-3 border-b border-slate-200 px-7">
 
-        <select asp-for="RequestType" class="form-select">
-            <option value="0">Leave</option>
-            <option value="1">Late Arrival</option>
-        </select>
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-content">
 
-        <span asp-validation-for="RequestType"
-              class="text-danger"></span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     class="h-5 w-5">
+
+                    <circle cx="12"
+                            cy="12"
+                            r="9">
+                    </circle>
+
+                    <path d="M12 7v5l3 2">
+                    </path>
+
+                </svg>
+
+            </div>
+
+            <div>
+                <p class="text-base font-bold text-slate-900">
+                    Afcon
+                </p>
+
+                <p class="text-sm text-slate-500">
+                    Employee Portal
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="flex h-[calc(100vh-6rem)] flex-col">
+
+            <!-- NAVIGATION -->
+            <nav class="flex-1 px-4 py-7">
+
+                <p class="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
+                    Employee
+                </p>
+
+
+                <!-- DASHBOARD -->
+                <a asp-controller="Employee"
+                   asp-action="Dashboard"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <rect x="3" y="3" width="7" height="7" rx="1">
+                        </rect>
+
+                        <rect x="14" y="3" width="7" height="7" rx="1">
+                        </rect>
+
+                        <rect x="3" y="14" width="7" height="7" rx="1">
+                        </rect>
+
+                        <rect x="14" y="14" width="7" height="7" rx="1">
+                        </rect>
+
+                    </svg>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <!-- MY ATTENDANCE -->
+                <a asp-controller="Attendance"
+                   asp-action="MyAttendance"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <circle cx="12" cy="12" r="9">
+                        </circle>
+
+                        <path d="M12 7v5l3 2">
+                        </path>
+
+                    </svg>
+
+                    <span>
+                        My Attendance
+                    </span>
+
+                </a>
+
+
+                <!-- MY REQUESTS -->
+                <a asp-controller="AttendanceRequest"
+                   asp-action="MyRequests"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <path d="M9 11l3 3L22 4">
+                        </path>
+
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11">
+                        </path>
+
+                    </svg>
+
+                    <span>
+                        My Requests
+                    </span>
+
+                </a>
+
+
+                <!-- NEW REQUEST - ACTIVE -->
+                <a asp-controller="AttendanceRequest"
+                   asp-action="Create"
+                   class="mb-1 flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3 text-sm font-semibold text-primary no-underline">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <circle cx="12" cy="12" r="9">
+                        </circle>
+
+                        <path d="M12 8v8">
+                        </path>
+
+                        <path d="M8 12h8">
+                        </path>
+
+                    </svg>
+
+                    <span>
+                        New Request
+                    </span>
+
+                    <span class="ml-auto h-2 w-2 rounded-full bg-primary">
+                    </span>
+
+                </a>
+
+            </nav>
+
+
+            <!-- SIGN OUT -->
+            <div class="border-t border-slate-200 p-5">
+
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-5 w-5 shrink-0">
+
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4">
+                            </path>
+
+                            <polyline points="16 17 21 12 16 7">
+                            </polyline>
+
+                            <line x1="21"
+                                  x2="9"
+                                  y1="12"
+                                  y2="12">
+                            </line>
+
+                        </svg>
+
+                        <span>
+                            Sign Out
+                        </span>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ====================================================== -->
+    <!-- MAIN CONTENT                                           -->
+    <!-- ====================================================== -->
+
+    <div class="min-w-0 flex-1 lg:ml-72">
+
+        <main class="mx-auto max-w-5xl p-6 lg:p-9">
+
+            <!-- ================================================== -->
+            <!-- PAGE HEADER                                        -->
+            <!-- ================================================== -->
+
+            <div class="mb-7">
+
+                <div class="mb-3">
+
+                    <a asp-action="MyRequests"
+                       class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 no-underline transition hover:text-primary">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-4 w-4">
+
+                            <path d="m15 18-6-6 6-6">
+                            </path>
+
+                        </svg>
+
+                        Back to My Requests
+
+                    </a>
+
+                </div>
+
+
+                <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                    Create Attendance Request
+                </h1>
+
+                <p class="mt-1 text-sm text-slate-500">
+                    Submit a leave or late arrival request for admin review.
+                </p>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- FORM                                               -->
+            <!-- ================================================== -->
+
+            <form asp-action="Create"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+
+
+                <!-- VALIDATION SUMMARY -->
+                <div asp-validation-summary="ModelOnly"
+                     class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                </div>
+
+
+                <!-- ================================================== -->
+                <!-- REQUEST DETAILS                                    -->
+                <!-- ================================================== -->
+
+                <section class="mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                    <!-- CARD HEADER -->
+                    <div class="border-b border-slate-200 px-6 py-5">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+
+                                    <path d="M9 11l3 3L22 4">
+                                    </path>
+
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11">
+                                    </path>
+
+                                </svg>
+
+                            </div>
+
+
+                            <div>
+
+                                <h2 class="font-bold text-slate-900">
+                                    Request Details
+                                </h2>
+
+                                <p class="mt-0.5 text-xs text-slate-500">
+                                    Enter the details for your attendance request.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CARD BODY -->
+                    <div class="p-6">
+
+                        <!-- REQUEST TYPE -->
+                        <div class="mb-6">
+
+                            <label asp-for="RequestType"
+                                   class="mb-2 block text-sm font-semibold text-slate-700">
+
+                                Request Type
+
+                            </label>
+
+
+                            <select asp-for="RequestType"
+                                    class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+
+                                <option value="0">
+                                    Leave
+                                </option>
+
+                                <option value="1">
+                                    Late Arrival
+                                </option>
+
+                            </select>
+
+
+                            <span asp-validation-for="RequestType"
+                                  class="mt-1 block text-xs text-red-600">
+                            </span>
+
+                        </div>
+
+
+                        <!-- DATES -->
+                        <div class="grid gap-5 md:grid-cols-3">
+
+                            <!-- REQUEST DATE -->
+                            <div>
+
+                                <label asp-for="RequestDate"
+                                       class="mb-2 block text-sm font-semibold text-slate-700">
+
+                                    Request Date
+
+                                </label>
+
+
+                                <input asp-for="RequestDate"
+                                       type="date"
+                                       class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
+
+
+                                <span asp-validation-for="RequestDate"
+                                      class="mt-1 block text-xs text-red-600">
+                                </span>
+
+                            </div>
+
+
+                            <!-- START DATE -->
+                            <div>
+
+                                <label asp-for="StartDate"
+                                       class="mb-2 block text-sm font-semibold text-slate-700">
+
+                                    Start Date
+
+                                </label>
+
+
+                                <input asp-for="StartDate"
+                                       type="date"
+                                       class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
+
+
+                                <span asp-validation-for="StartDate"
+                                      class="mt-1 block text-xs text-red-600">
+                                </span>
+
+                            </div>
+
+
+                            <!-- END DATE -->
+                            <div>
+
+                                <label asp-for="EndDate"
+                                       class="mb-2 block text-sm font-semibold text-slate-700">
+
+                                    End Date
+
+                                </label>
+
+
+                                <input asp-for="EndDate"
+                                       type="date"
+                                       class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
+
+
+                                <span asp-validation-for="EndDate"
+                                      class="mt-1 block text-xs text-red-600">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+                        <div class="mt-6">
+
+                            <label asp-for="Description"
+                                   class="mb-2 block text-sm font-semibold text-slate-700">
+
+                                Description
+
+                            </label>
+
+
+                            <textarea asp-for="Description"
+                                      rows="5"
+                                      placeholder="Enter a description for your request"
+                                      class="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20"></textarea>
+
+
+                            <span asp-validation-for="Description"
+                                  class="mt-1 block text-xs text-red-600">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================================================== -->
+                <!-- SUPPORTING DOCUMENT                                -->
+                <!-- ================================================== -->
+
+                <section class="mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                    <!-- CARD HEADER -->
+                    <div class="border-b border-slate-200 px-6 py-5">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+
+                                    <path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
+                                    </path>
+
+                                </svg>
+
+                            </div>
+
+
+                            <div>
+
+                                <h2 class="font-bold text-slate-900">
+                                    Supporting Document
+                                </h2>
+
+                                <p class="mt-0.5 text-xs text-slate-500">
+                                    Optional supporting documentation for your request.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CARD BODY -->
+                    <div class="p-6">
+
+                        <label for="file"
+                               class="mb-2 block text-sm font-semibold text-slate-700">
+
+                            Upload Document
+
+                        </label>
+
+
+                        <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-5">
+
+                            <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+
+                                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-500 shadow-sm">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2"
+                                         class="h-5 w-5">
+
+                                        <path d="M12 16V4">
+                                        </path>
+
+                                        <path d="m7 9 5-5 5 5">
+                                        </path>
+
+                                        <path d="M20 15v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4">
+                                        </path>
+
+                                    </svg>
+
+                                </div>
+
+
+                                <div class="min-w-0 flex-1">
+
+                                    <input type="file"
+                                           id="file"
+                                           name="file"
+                                           class="block w-full text-sm text-slate-600 file:mr-4 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-primary-content hover:file:opacity-90" />
+
+
+                                    <p class="mt-2 text-xs leading-5 text-slate-500">
+                                        Optional. Attach a supporting document such as a doctor's note.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================================================== -->
+                <!-- INFORMATION                                        -->
+                <!-- ================================================== -->
+
+                <div class="mb-6 flex gap-3 rounded-xl border border-primary/20 bg-primary/5 px-5 py-4">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="mt-0.5 h-5 w-5 shrink-0 text-primary">
+
+                        <circle cx="12"
+                                cy="12"
+                                r="9">
+                        </circle>
+
+                        <path d="M12 11v5">
+                        </path>
+
+                        <path d="M12 8h.01">
+                        </path>
+
+                    </svg>
+
+
+                    <div>
+
+                        <p class="text-sm font-semibold text-slate-800">
+                            What happens next?
+                        </p>
+
+                        <p class="mt-1 text-xs leading-5 text-slate-600">
+                            Once submitted, your request will appear under
+                            My Requests where you can view its current status.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================== -->
+                <!-- ACTIONS                                            -->
+                <!-- ================================================== -->
+
+                <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+
+                    <a asp-action="MyRequests"
+                       class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 no-underline transition hover:bg-slate-50">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-content shadow-sm transition hover:opacity-90">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-4 w-4">
+
+                            <path d="M22 2 11 13">
+                            </path>
+
+                            <path d="m22 2-7 20-4-9-9-4Z">
+                            </path>
+
+                        </svg>
+
+                        Submit Request
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </main>
+
     </div>
 
-    <div class="mb-3">
-        <label asp-for="RequestDate"
-               class="form-label">
-            Request Date
-        </label>
+</div>
 
-        <input asp-for="RequestDate"
-               type="date"
-               class="form-control" />
-
-        <span asp-validation-for="RequestDate"
-              class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="StartDate"
-               class="form-label">
-            Start Date
-        </label>
-
-        <input asp-for="StartDate"
-               type="date"
-               class="form-control" />
-
-        <span asp-validation-for="StartDate"
-              class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="EndDate"
-               class="form-label">
-            End Date
-        </label>
-
-        <input asp-for="EndDate"
-               type="date"
-               class="form-control" />
-
-        <span asp-validation-for="EndDate"
-              class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Description"
-               class="form-label">
-            Description
-        </label>
-
-        <textarea asp-for="Description"
-                  class="form-control"
-                  rows="4"
-                  placeholder="Enter a description for your request"></textarea>
-
-        <span asp-validation-for="Description"
-              class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label for="file"
-               class="form-label">
-            Supporting Document
-        </label>
-
-        <input type="file"
-               id="file"
-               name="file"
-               class="form-control" />
-
-        <small class="text-muted">
-            Optional. You can attach a supporting document such as a doctor's note.
-        </small>
-    </div>
-
-
-    <button type="submit"
-            class="btn btn-primary">
-        Submit Request
-    </button>
-
-    <a asp-action="MyRequests"
-       class="btn btn-secondary">
-        Cancel
-    </a>
-
-</form>
 
 @section Scripts {
     @{
