@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using WIL_Afcon.Models.Enums;
 using WIL_Afcon.Models.ViewModels;
 using WIL_Afcon.Services.Interfaces;
+using AspNetCore.Identity.Mongo.Model;
+using Microsoft.AspNetCore.Identity;
 
 namespace WIL_Afcon.Controllers
 {
@@ -16,14 +18,16 @@ namespace WIL_Afcon.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IAttendanceService _attendanceService;
-
+        private readonly UserManager<MongoUser> _userManager;
 
         public AdminController(
             IEmployeeService employeeService,
-            IAttendanceService attendanceService)
+            IAttendanceService attendanceService,
+            UserManager<MongoUser> userManager)
         {
             _employeeService = employeeService;
             _attendanceService = attendanceService;
+            _userManager = userManager;
         }
 
 
@@ -133,6 +137,29 @@ namespace WIL_Afcon.Controllers
                     });
             }
 
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var model = new AdminProfileViewModel
+            {
+                UserId = user.Id.ToString(),
+                UserName = user.UserName ?? string.Empty,
+                Email = user.Email ?? string.Empty,
+                Role = roles.FirstOrDefault() ?? "Admin",
+                EmailConfirmed = user.EmailConfirmed
+            };
 
             return View(model);
         }

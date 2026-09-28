@@ -1,0 +1,602 @@
+@model WIL_Afcon.Models.ViewModels.AdminProfileViewModel
+
+@{
+    ViewData["Title"] = "Admin Profile";
+}
+
+<div class="min-h-screen bg-[#f5f7fc] lg:flex">
+
+    <!-- ====================================================== -->
+    <!-- SIDEBAR                                                -->
+    <!-- ====================================================== -->
+
+    <aside class="w-full border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:w-72 lg:border-b-0 lg:border-r">
+
+        <!-- BRAND -->
+        <div class="flex h-24 items-center gap-3 border-b border-slate-200 px-7">
+
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-content">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     class="h-5 w-5">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+                </svg>
+
+            </div>
+
+            <div>
+                <p class="font-bold text-slate-900">
+                    Afcon
+                </p>
+
+                <p class="text-sm text-slate-500">
+                    Admin Panel
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="flex h-[calc(100vh-6rem)] flex-col">
+
+            <nav class="flex-1 px-4 py-7">
+
+                <p class="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                    Administration
+                </p>
+
+
+                <!-- DASHBOARD -->
+                <a asp-controller="Admin"
+                   asp-action="Dashboard"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    </svg>
+
+                    Dashboard
+                </a>
+
+
+                <!-- MY PROFILE - ACTIVE -->
+                <a asp-controller="Admin"
+                   asp-action="Profile"
+                   class="mb-1 flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3 text-sm font-semibold text-primary no-underline">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 21a8 8 0 0 1 16 0"></path>
+                    </svg>
+
+                    <span>My Profile</span>
+
+                    <span class="ml-auto h-2 w-2 rounded-full bg-primary"></span>
+
+                </a>
+
+
+                <!-- EMPLOYEES -->
+                <a asp-controller="Employee"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+
+                    Employees
+                </a>
+
+
+                <!-- DEPARTMENTS -->
+                <a asp-controller="Department"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                        <path d="M9 22v-4h6v4"></path>
+                        <path d="M8 6h.01"></path>
+                        <path d="M12 6h.01"></path>
+                        <path d="M16 6h.01"></path>
+                    </svg>
+
+                    Departments
+                </a>
+
+
+                <!-- ATTENDANCE -->
+                <a asp-controller="Attendance"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                        <path d="M3 10h18"></path>
+                    </svg>
+
+                    Attendance
+                </a>
+
+
+                <!-- REQUESTS -->
+                <a asp-controller="AttendanceRequest"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+
+                    Requests
+                </a>
+
+
+                <!-- REPORTS -->
+                <a asp-controller="AttendanceReport"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M3 3v18h18"></path>
+                        <path d="m7 16 4-4 4 4 5-6"></path>
+                    </svg>
+
+                    Reports
+                </a>
+
+            </nav>
+
+
+            <!-- BOTTOM PROFILE -->
+            <div class="border-t border-slate-200 p-5">
+
+                <div class="mb-4 flex items-center gap-3">
+
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-semibold text-primary-content">
+                        A
+                    </div>
+
+                    <div>
+                        <p class="text-sm font-semibold text-slate-900">
+                            Administrator
+                        </p>
+
+                        <p class="text-xs text-slate-500">
+                            Admin
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-5 w-5">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" x2="9" y1="12" y2="12"></line>
+                        </svg>
+
+                        Sign Out
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ====================================================== -->
+    <!-- MAIN CONTENT                                           -->
+    <!-- ====================================================== -->
+
+    <div class="min-w-0 flex-1 lg:ml-72">
+
+        <main class="p-6 lg:p-9">
+
+
+            <!-- PAGE HEADER -->
+            <div class="mb-7">
+
+                <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                    Admin Profile
+                </h1>
+
+                <p class="mt-1 text-sm text-slate-500">
+                    Your administrator account information.
+                </p>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- PROFILE GRID                                       -->
+            <!-- ================================================== -->
+
+            <div class="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
+
+
+                <!-- ================================================== -->
+                <!-- PROFILE CARD                                       -->
+                <!-- ================================================== -->
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
+
+                    <div class="text-center">
+
+
+                        <!-- AVATAR -->
+                        <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-primary text-3xl font-bold text-primary-content">
+                            A
+                        </div>
+
+
+                        <!-- NAME -->
+                        <h2 class="mt-5 text-xl font-bold text-slate-900">
+                            Administrator
+                        </h2>
+
+
+                        <!-- EMAIL -->
+                        <p class="mt-1 break-all text-sm text-slate-500">
+                            @Model.Email
+                        </p>
+
+
+                        <!-- ROLE BADGE -->
+                        <div class="mt-4">
+
+                            <span class="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-3.5 w-3.5">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path>
+                                </svg>
+
+                                @Model.Role
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="my-6 border-t border-slate-200"></div>
+
+
+                    <!-- ACCOUNT SUMMARY -->
+                    <div class="space-y-4">
+
+
+                        <div class="flex items-center justify-between gap-4">
+
+                            <span class="text-sm text-slate-500">
+                                Role
+                            </span>
+
+                            <span class="text-sm font-semibold text-slate-900">
+                                @Model.Role
+                            </span>
+
+                        </div>
+
+
+                        <div class="flex items-center justify-between gap-4">
+
+                            <span class="text-sm text-slate-500">
+                                Email Status
+                            </span>
+
+                            @if (Model.EmailConfirmed)
+                            {
+                                <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-green-600">
+
+                                    <span class="h-2 w-2 rounded-full bg-green-500"></span>
+
+                                    Confirmed
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-600">
+
+                                    <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+
+                                    Unconfirmed
+                                </span>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================== -->
+                <!-- RIGHT SIDE                                         -->
+                <!-- ================================================== -->
+
+                <div class="space-y-6">
+
+
+                    <!-- ================================================== -->
+                    <!-- ACCOUNT DETAILS                                    -->
+                    <!-- ================================================== -->
+
+                    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:p-7">
+
+                        <div class="mb-6">
+
+                            <h2 class="text-xl font-bold text-slate-900">
+                                Account Details
+                            </h2>
+
+                            <p class="mt-1 text-sm text-slate-500">
+                                Information associated with your administrator account.
+                            </p>
+
+                        </div>
+
+
+                        <div class="grid gap-5 md:grid-cols-2">
+
+
+                            <!-- ACCOUNT NAME -->
+                            <div>
+
+                                <label class="mb-2 block text-sm font-semibold text-slate-700">
+                                    Account Name
+                                </label>
+
+                                <div class="flex min-h-[46px] items-center rounded-lg border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700">
+                                    Administrator
+                                </div>
+
+                            </div>
+
+
+                            <!-- ROLE -->
+                            <div>
+
+                                <label class="mb-2 block text-sm font-semibold text-slate-700">
+                                    Role
+                                </label>
+
+                                <div class="flex min-h-[46px] items-center rounded-lg border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700">
+                                    @Model.Role
+                                </div>
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+                            <div>
+
+                                <label class="mb-2 block text-sm font-semibold text-slate-700">
+                                    Email
+                                </label>
+
+                                <div class="flex min-h-[46px] items-center break-all rounded-lg border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700">
+                                    @Model.Email
+                                </div>
+
+                            </div>
+
+
+                            <!-- USERNAME -->
+                            <div>
+
+                                <label class="mb-2 block text-sm font-semibold text-slate-700">
+                                    Username
+                                </label>
+
+                                <div class="flex min-h-[46px] items-center break-all rounded-lg border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700">
+                                    @Model.UserName
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================== -->
+                    <!-- ACCOUNT STATUS                                     -->
+                    <!-- ================================================== -->
+
+                    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:p-7">
+
+                        <div class="mb-5">
+
+                            <h2 class="text-xl font-bold text-slate-900">
+                                Account Status
+                            </h2>
+
+                            <p class="mt-1 text-sm text-slate-500">
+                                Current administrator account and access status.
+                            </p>
+
+                        </div>
+
+
+                        <div class="space-y-4">
+
+
+                            <!-- ADMIN ACCESS -->
+                            <div class="flex items-center gap-3">
+
+                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-green-50 text-green-600">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2"
+                                         class="h-4 w-4">
+                                        <path d="m5 12 4 4L19 6"></path>
+                                    </svg>
+
+                                </div>
+
+                                <div>
+
+                                    <p class="text-sm font-semibold text-slate-800">
+                                        Administrator Access
+                                    </p>
+
+                                    <p class="text-xs text-slate-500">
+                                        This account is assigned to the Admin role.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- EMAIL CONFIRMATION -->
+                            <div class="flex items-center gap-3">
+
+                                @if (Model.EmailConfirmed)
+                                {
+                                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-green-50 text-green-600">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 24 24"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             stroke-width="2"
+                                             class="h-4 w-4">
+                                            <path d="m5 12 4 4L19 6"></path>
+                                        </svg>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 24 24"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             stroke-width="2"
+                                             class="h-4 w-4">
+                                            <path d="M12 9v4"></path>
+                                            <path d="M12 17h.01"></path>
+                                            <circle cx="12" cy="12" r="9"></circle>
+                                        </svg>
+
+                                    </div>
+                                }
+
+                                <div>
+
+                                    <p class="text-sm font-semibold text-slate-800">
+                                        Email Confirmation
+                                    </p>
+
+                                    <p class="text-xs text-slate-500">
+
+                                        @if (Model.EmailConfirmed)
+                                        {
+                                            <span>Your administrator email address is confirmed.</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Your administrator email address is not confirmed.</span>
+                                        }
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
