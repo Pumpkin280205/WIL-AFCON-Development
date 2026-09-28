@@ -46,7 +46,7 @@
                 @foreach (var a in Model)
                 {
                     <tr>
-                        <td>@a.AttendanceDate.ToShortDateString()</td>
+                        <td>@a.AttendanceDate.ToLocalTime().ToShortDateString()</td>
                         <td>@a.EmployeeName</td>
                         <td>@a.EmployeeNumber</td>
                         <td>@a.DepartmentName</td>
@@ -60,3 +60,7 @@
         </table>
     }
 </div>
+@section Scripts
+{
+    <script src="~/js/attendance-realtime.js"></script>
+}
