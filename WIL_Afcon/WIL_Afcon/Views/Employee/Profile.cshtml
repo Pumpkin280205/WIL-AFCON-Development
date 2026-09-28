@@ -1,0 +1,770 @@
+@model WIL_Afcon.Models.Employee
+
+@{
+    ViewData["Title"] = "My Profile";
+
+    var firstInitial = !string.IsNullOrWhiteSpace(Model.FirstName)
+        ? Model.FirstName.Substring(0, 1).ToUpper()
+        : "";
+
+    var lastInitial = !string.IsNullOrWhiteSpace(Model.LastName)
+        ? Model.LastName.Substring(0, 1).ToUpper()
+        : "";
+
+    var initials = firstInitial + lastInitial;
+
+    var departmentName =
+        ViewBag.DepartmentName as string ?? "Not assigned";
+
+    var biometricRegistered =
+        !string.IsNullOrWhiteSpace(Model.DeviceUserId);
+}
+
+<div class="min-h-screen bg-[#f5f7fc] lg:flex">
+
+    <!-- ====================================================== -->
+    <!-- EMPLOYEE SIDEBAR                                       -->
+    <!-- ====================================================== -->
+
+    <aside class="w-full border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:w-72 lg:border-b-0 lg:border-r">
+
+        <!-- BRAND -->
+        <div class="flex h-24 items-center gap-3 border-b border-slate-200 px-7">
+
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-content">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     class="h-5 w-5">
+
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+
+                </svg>
+
+            </div>
+
+            <div>
+                <p class="text-base font-bold text-slate-900">
+                    Afcon
+                </p>
+
+                <p class="text-sm text-slate-500">
+                    Employee Portal
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="flex h-[calc(100vh-6rem)] flex-col">
+
+            <nav class="flex-1 px-4 py-7">
+
+                <p class="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
+                    Employee
+                </p>
+
+
+                <!-- DASHBOARD -->
+                <a asp-controller="Employee"
+                   asp-action="Dashboard"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+
+                    </svg>
+
+                    <span>Dashboard</span>
+
+                </a>
+
+
+                <!-- MY ATTENDANCE -->
+                <a asp-controller="Attendance"
+                   asp-action="MyAttendance"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M12 7v5l3 2"></path>
+
+                    </svg>
+
+                    <span>My Attendance</span>
+
+                </a>
+
+
+                <!-- MY ATTENDANCE REPORT -->
+                <a asp-controller="AttendanceReport"
+                   asp-action="MyReport"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <path d="M4 19V9"></path>
+                        <path d="M10 19V5"></path>
+                        <path d="M16 19v-7"></path>
+                        <path d="M22 19V3"></path>
+
+                    </svg>
+
+                    <span>My Attendance Report</span>
+
+                </a>
+
+
+                <!-- MY REQUESTS -->
+                <a asp-controller="AttendanceRequest"
+                   asp-action="MyRequests"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+
+                    </svg>
+
+                    <span>My Requests</span>
+
+                </a>
+
+
+                <!-- MY DOCUMENTS -->
+                <a asp-controller="Document"
+                   asp-action="MyDocuments"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+                        <path d="M14 2v6h6"></path>
+                        <path d="M8 13h8"></path>
+                        <path d="M8 17h5"></path>
+
+                    </svg>
+
+                    <span>My Documents</span>
+
+                </a>
+
+
+                <!-- NEW REQUEST -->
+                <a asp-controller="AttendanceRequest"
+                   asp-action="Create"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M12 8v8"></path>
+                        <path d="M8 12h8"></path>
+
+                    </svg>
+
+                    <span>New Request</span>
+
+                </a>
+
+
+                <!-- MY PROFILE - ACTIVE -->
+                <a asp-controller="Employee"
+                   asp-action="Profile"
+                   class="mb-1 flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3 text-sm font-semibold text-primary no-underline">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 21a8 8 0 0 1 16 0"></path>
+
+                    </svg>
+
+                    <span>My Profile</span>
+
+                    <span class="ml-auto h-2 w-2 rounded-full bg-primary"></span>
+
+                </a>
+
+            </nav>
+
+
+            <!-- EMPLOYEE + SIGN OUT -->
+            <div class="border-t border-slate-200 p-5">
+
+                <div class="mb-4 flex items-center gap-3">
+
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                        @initials
+                    </div>
+
+                    <div class="min-w-0">
+
+                        <p class="truncate text-sm font-semibold text-slate-900">
+                            @Model.FirstName @Model.LastName
+                        </p>
+
+                        <p class="truncate text-xs text-slate-500">
+                            @Model.EmployeeNumber
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-5 w-5">
+
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" x2="9" y1="12" y2="12"></line>
+
+                        </svg>
+
+                        <span>Sign Out</span>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ====================================================== -->
+    <!-- MAIN                                                   -->
+    <!-- ====================================================== -->
+
+    <div class="min-w-0 flex-1 lg:ml-72">
+
+        <main class="mx-auto max-w-7xl p-6 lg:p-9">
+
+            <!-- PAGE HEADER -->
+            <div class="mb-7">
+
+                <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                    My Profile
+                </h1>
+
+                <p class="mt-1 text-sm text-slate-500">
+                    View your employee information and account details.
+                </p>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- PROFILE HEADER                                     -->
+            <!-- ================================================== -->
+
+            <section class="mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                <div class="bg-primary px-7 py-8">
+
+                    <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
+
+                        <div class="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-2xl font-bold text-primary-content">
+                            @initials
+                        </div>
+
+                        <div>
+
+                            <h2 class="text-2xl font-bold text-primary-content">
+                                @Model.FirstName @Model.LastName
+                            </h2>
+
+                            <p class="mt-1 text-sm text-primary-content/80">
+                                @Model.EmployeeNumber
+                            </p>
+
+                            <div class="mt-3">
+
+                                @if (Model.IsActive)
+                                {
+                                    <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
+
+                                        <span class="h-2 w-2 rounded-full bg-green-300"></span>
+
+                                        Active Employee
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
+
+                                        <span class="h-2 w-2 rounded-full bg-red-300"></span>
+
+                                        Inactive Employee
+
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================================== -->
+            <!-- DETAILS                                            -->
+            <!-- ================================================== -->
+
+            <div class="grid gap-6 lg:grid-cols-2">
+
+                <!-- PERSONAL INFORMATION -->
+                <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                    <div class="border-b border-slate-200 px-6 py-5">
+
+                        <h2 class="text-lg font-bold text-slate-900">
+                            Personal Information
+                        </h2>
+
+                        <p class="mt-1 text-xs text-slate-500">
+                            Your contact and employee details.
+                        </p>
+
+                    </div>
+
+
+                    <div class="divide-y divide-slate-100 px-6">
+
+                        <!-- FULL NAME -->
+                        <div class="flex items-start gap-4 py-5">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+
+                                    <circle cx="12" cy="8" r="4"></circle>
+                                    <path d="M4 21a8 8 0 0 1 16 0"></path>
+
+                                </svg>
+
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                    Full Name
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold text-slate-900">
+                                    @Model.FirstName @Model.LastName
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <!-- EMAIL -->
+                        <div class="flex items-start gap-4 py-5">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+
+                                    <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                                    <path d="m3 7 9 6 9-6"></path>
+
+                                </svg>
+
+                            </div>
+
+                            <div class="min-w-0">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                    Email Address
+                                </p>
+
+                                <p class="mt-1 break-all text-sm font-semibold text-slate-900">
+                                    @Model.Email
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <!-- PHONE -->
+                        <div class="flex items-start gap-4 py-5">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z"></path>
+
+                                </svg>
+
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                    Phone Number
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold text-slate-900">
+                                    @(string.IsNullOrWhiteSpace(Model.PhoneNumber)
+                                        ? "Not provided"
+                                        : Model.PhoneNumber)
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- EMPLOYMENT INFORMATION -->
+                <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                    <div class="border-b border-slate-200 px-6 py-5">
+
+                        <h2 class="text-lg font-bold text-slate-900">
+                            Employment Information
+                        </h2>
+
+                        <p class="mt-1 text-xs text-slate-500">
+                            Your Afcon employment details.
+                        </p>
+
+                    </div>
+
+
+                    <div class="divide-y divide-slate-100 px-6">
+
+                        <!-- EMPLOYEE NUMBER -->
+                        <div class="flex items-start gap-4 py-5">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+
+                                    <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                                    <circle cx="8" cy="10" r="2"></circle>
+                                    <path d="M5.5 16c.7-1.7 4.3-1.7 5 0"></path>
+                                    <path d="M14 9h4"></path>
+                                    <path d="M14 13h4"></path>
+
+                                </svg>
+
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                    Employee Number
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold text-slate-900">
+                                    @Model.EmployeeNumber
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <!-- DEPARTMENT -->
+                        <div class="flex items-start gap-4 py-5">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+
+                                    <path d="M3 21h18"></path>
+                                    <path d="M6 21V7l6-4 6 4v14"></path>
+                                    <path d="M9 10h.01"></path>
+                                    <path d="M15 10h.01"></path>
+                                    <path d="M9 14h.01"></path>
+                                    <path d="M15 14h.01"></path>
+
+                                </svg>
+
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                    Department
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold text-slate-900">
+                                    @departmentName
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+                        <div class="flex items-start gap-4 py-5">
+
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     class="h-5 w-5">
+
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="m8 12 2.5 2.5L16 9"></path>
+
+                                </svg>
+
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                    Employment Status
+                                </p>
+
+                                <div class="mt-2">
+
+                                    @if (Model.IsActive)
+                                    {
+                                        <span class="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-200">
+
+                                            <span class="h-2 w-2 rounded-full bg-green-500"></span>
+
+                                            Active
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700 ring-1 ring-inset ring-red-200">
+
+                                            <span class="h-2 w-2 rounded-full bg-red-500"></span>
+
+                                            Inactive
+
+                                        </span>
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- BIOMETRIC STATUS                                   -->
+            <!-- ================================================== -->
+
+            <section class="mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                <div class="border-b border-slate-200 px-6 py-5">
+
+                    <h2 class="text-lg font-bold text-slate-900">
+                        Biometric Registration
+                    </h2>
+
+                    <p class="mt-1 text-xs text-slate-500">
+                        Status of your biometric attendance registration.
+                    </p>
+
+                </div>
+
+
+                <div class="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
+
+                    <div class="flex items-center gap-4">
+
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 class="h-6 w-6">
+
+                                <path d="M12 11a3 3 0 1 0-3-3"></path>
+                                <path d="M5.5 11A6.5 6.5 0 0 1 18 8.5"></path>
+                                <path d="M4 15a9 9 0 0 1 16-5"></path>
+                                <path d="M8 14a4 4 0 0 0 8 0v-2"></path>
+                                <path d="M12 17v4"></path>
+
+                            </svg>
+
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-semibold text-slate-900">
+                                Biometric Attendance
+                            </p>
+
+                            <p class="mt-1 text-xs text-slate-500">
+                                Used to identify you when recording attendance.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    @if (biometricRegistered)
+                    {
+                        <span class="inline-flex w-fit items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-200">
+
+                            <span class="h-2 w-2 rounded-full bg-green-500"></span>
+
+                            Registered
+
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="inline-flex w-fit items-center gap-2 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700 ring-1 ring-inset ring-amber-200">
+
+                            <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+
+                            Not Registered
+
+                        </span>
+                    }
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================================== -->
+            <!-- INFORMATION                                        -->
+            <!-- ================================================== -->
+
+            <div class="mt-6 flex gap-3 rounded-xl border border-primary/20 bg-primary/5 px-5 py-4">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     class="mt-0.5 h-5 w-5 shrink-0 text-primary">
+
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 11v5"></path>
+                    <path d="M12 8h.01"></path>
+
+                </svg>
+
+                <div>
+
+                    <p class="text-sm font-semibold text-slate-800">
+                        Employee Information
+                    </p>
+
+                    <p class="mt-1 text-xs leading-5 text-slate-600">
+                        Your employee information is managed by the administrator.
+                        Contact an administrator if any of the information shown here
+                        needs to be updated.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>

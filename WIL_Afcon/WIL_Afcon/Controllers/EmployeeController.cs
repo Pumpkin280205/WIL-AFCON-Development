@@ -174,6 +174,34 @@ namespace WIL_Afcon.Controllers
             return View(employee);
         }
 
+        // GET: /Employee/Profile
+        [Authorize(Roles = "Employee")]
+        public async Task<IActionResult> Profile()
+        {
+            var userId = User.FindFirst(
+                System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var employee = await _employeeService.GetByUserIdAsync(userId);
+
+            if (employee == null)
+            {
+                return NotFound("Employee record could not be found.");
+            }
+
+            var department = await _departmentService.GetByIdAsync(
+                employee.DepartmentId);
+
+            ViewBag.DepartmentName =
+                department?.DepartmentName ?? "Not assigned";
+
+            return View(employee);
+        }
+
 
     }
 }

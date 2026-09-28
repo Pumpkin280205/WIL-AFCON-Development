@@ -66,7 +66,7 @@
         <div class="flex h-[calc(100vh-6rem)] flex-col">
 
             <!-- NAVIGATION -->
-            <nav class="flex-1 px-4 py-7">
+            <nav class="flex-1 overflow-y-auto px-4 py-7">
 
                 <p class="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
                     Employee
@@ -164,7 +164,6 @@
                          class="h-5 w-5 shrink-0">
 
                         <path d="M9 11l3 3L22 4"></path>
-
                         <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
 
                     </svg>
@@ -226,11 +225,35 @@
 
                 </a>
 
+
+                <!-- MY PROFILE -->
+                <a asp-controller="Employee"
+                   asp-action="Profile"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 21a8 8 0 0 1 16 0"></path>
+
+                    </svg>
+
+                    <span>
+                        My Profile
+                    </span>
+
+                </a>
+
             </nav>
 
 
             <!-- EMPLOYEE INFORMATION + SIGN OUT -->
-            <div class="border-t border-slate-200 p-5">
+            <div class="border-t border-slate-200 bg-white p-5">
 
                 <div class="mb-4 flex items-center gap-3">
 
@@ -270,9 +293,7 @@
                              class="h-5 w-5 shrink-0">
 
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-
                             <polyline points="16 17 21 12 16 7"></polyline>
-
                             <line x1="21"
                                   x2="9"
                                   y1="12"
@@ -303,6 +324,7 @@
     <div class="min-w-0 flex-1 lg:ml-72">
 
         <main class="mx-auto max-w-7xl p-6 lg:p-9">
+
 
             <!-- ================================================== -->
             <!-- HEADER                                             -->
@@ -365,6 +387,7 @@
             <!-- ================================================== -->
 
             <section class="mb-6 grid gap-4 md:grid-cols-3">
+
 
                 <!-- EMPLOYEE NUMBER -->
                 <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -516,13 +539,14 @@
                     </h2>
 
                     <p class="mt-1 text-xs text-slate-500">
-                        Access your attendance, reports, requests and documents.
+                        Access your attendance, reports, requests, documents and profile.
                     </p>
 
                 </div>
 
 
                 <div class="grid gap-4 p-6 md:grid-cols-2 xl:grid-cols-3">
+
 
                     <!-- MY ATTENDANCE -->
                     <a asp-controller="Attendance"
@@ -635,7 +659,6 @@
                                  class="h-5 w-5">
 
                                 <path d="M9 11l3 3L22 4"></path>
-
                                 <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
 
                             </svg>
@@ -698,7 +721,7 @@
                             </p>
 
                             <p class="mt-1 text-xs text-slate-500">
-                                Download payslips & IRP5s
+                                Download payslips &amp; IRP5s
                             </p>
 
                         </div>
@@ -764,6 +787,53 @@
 
                     </a>
 
+
+                    <!-- MY PROFILE -->
+                    <a asp-controller="Employee"
+                       asp-action="Profile"
+                       class="group flex items-center gap-4 rounded-xl border border-slate-200 p-4 no-underline transition hover:border-primary hover:bg-primary/5">
+
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 class="h-5 w-5">
+
+                                <circle cx="12" cy="8" r="4"></circle>
+                                <path d="M4 21a8 8 0 0 1 16 0"></path>
+
+                            </svg>
+
+                        </div>
+
+                        <div class="min-w-0 flex-1">
+
+                            <p class="text-sm font-semibold text-slate-900 transition group-hover:text-primary">
+                                My Profile
+                            </p>
+
+                            <p class="mt-1 text-xs text-slate-500">
+                                View employee information
+                            </p>
+
+                        </div>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-4 w-4 shrink-0 text-slate-400 transition group-hover:text-primary">
+
+                            <path d="m9 18 6-6-6-6"></path>
+
+                        </svg>
+
+                    </a>
+
                 </div>
 
             </section>
@@ -797,8 +867,9 @@
                     <p class="mt-1 text-xs leading-5 text-slate-600">
                         Your attendance is recorded through the biometric
                         attendance system. You can view your attendance records,
-                        generate monthly reports, submit attendance requests and
-                        access documents uploaded to your employee account.
+                        generate monthly reports, submit attendance requests,
+                        access documents uploaded to your employee account and
+                        view your employee profile.
                     </p>
 
                 </div>

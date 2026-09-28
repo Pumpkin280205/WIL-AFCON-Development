@@ -49,7 +49,8 @@
         <!-- SIDEBAR CONTENT -->
         <div class="flex h-[calc(100vh-6rem)] flex-col">
 
-            <nav class="flex-1 px-4 py-7">
+            <!-- NAVIGATION -->
+            <nav class="flex-1 overflow-y-auto px-4 py-7">
 
                 <p class="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
                     Employee
@@ -98,6 +99,30 @@
                     </svg>
 
                     <span>My Attendance</span>
+
+                </a>
+
+
+                <!-- MY ATTENDANCE REPORT -->
+                <a asp-controller="AttendanceReport"
+                   asp-action="MyReport"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <path d="M4 19V9"></path>
+                        <path d="M10 19V5"></path>
+                        <path d="M16 19v-7"></path>
+                        <path d="M22 19V3"></path>
+
+                    </svg>
+
+                    <span>My Attendance Report</span>
 
                 </a>
 
@@ -168,6 +193,28 @@
                     </svg>
 
                     <span>New Request</span>
+
+                </a>
+
+
+                <!-- MY PROFILE -->
+                <a asp-controller="Employee"
+                   asp-action="Profile"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5 shrink-0">
+
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 21a8 8 0 0 1 16 0"></path>
+
+                    </svg>
+
+                    <span>My Profile</span>
 
                 </a>
 
