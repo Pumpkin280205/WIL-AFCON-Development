@@ -2,19 +2,52 @@
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
     var action = ViewContext.RouteData.Values["action"]?.ToString();
 
-    // Home landing page
+
+    // ======================================================
+    // HOME LANDING PAGE
+    // ======================================================
+
     var isHomePage =
         controller == "Home" &&
         action == "Index";
 
-    // Login and Register pages
+
+    // ======================================================
+    // LOGIN AND REGISTER PAGES
+    // ======================================================
+
     var isAuthPage =
         controller == "Account" &&
         (action == "Login" || action == "Register");
 
-    // These pages should not use the old Bootstrap
-    // navigation, container or footer
-    var isFullScreenPage = isHomePage || isAuthPage;
+
+    // ======================================================
+    // NEW ADMIN UI
+    // ======================================================
+    //
+    // Admin pages now use the new Tailwind Admin interface.
+    // This removes the old Bootstrap navigation, container
+    // and footer from all pages viewed by an Admin.
+    //
+
+    var isAdminPage =
+        User.Identity?.IsAuthenticated == true &&
+        User.IsInRole("Admin");
+
+
+    // ======================================================
+    // FULL SCREEN PAGES
+    // ======================================================
+    //
+    // These pages control their own layout and therefore
+    // should not use the old Bootstrap navigation,
+    // Bootstrap container or footer.
+    //
+
+    var isFullScreenPage =
+        isHomePage ||
+        isAuthPage ||
+        isAdminPage;
 }
 
 <!DOCTYPE html>
@@ -35,7 +68,8 @@
 
     <!-- ====================================================== -->
     <!-- BOOTSTRAP / EXISTING CSS                                -->
-    <!-- Only used on pages that have not yet been redesigned   -->
+    <!--                                                        -->
+    <!-- Only used on pages that have not yet been redesigned.  -->
     <!-- ====================================================== -->
 
     @if (!isFullScreenPage)
@@ -55,7 +89,8 @@
 
     <!-- ====================================================== -->
     <!-- TAILWIND CSS + DAISYUI                                 -->
-    <!-- Available throughout the application                   -->
+    <!--                                                        -->
+    <!-- Available throughout the application.                  -->
     <!-- ====================================================== -->
 
     <link rel="stylesheet"
@@ -70,9 +105,11 @@
 
     <!-- ====================================================== -->
     <!-- OLD NAVIGATION                                         -->
-    <!--                                                       -->
+    <!--                                                        -->
     <!-- Only shown on pages that have NOT yet been converted   -->
-    <!-- to the new Tailwind UI                                 -->
+    <!-- to the new Tailwind UI.                                -->
+    <!--                                                        -->
+    <!-- Admin pages now use their own sidebar instead.         -->
     <!-- ====================================================== -->
 
     @if (!isFullScreenPage)
@@ -291,6 +328,8 @@
                                   method="post"
                                   class="d-flex">
 
+                                @Html.AntiForgeryToken()
+
                                 <button type="submit"
                                         class="btn btn-link nav-link text-dark">
 
@@ -318,7 +357,7 @@
     @if (isFullScreenPage)
     {
         <!--
-            Home / Login / Register
+            Home / Login / Register / Admin
 
             These pages control their own width, background
             and positioning.
@@ -354,8 +393,8 @@
 
     <!-- ====================================================== -->
     <!-- OLD FOOTER                                             -->
-    <!--                                                       -->
-    <!-- Hidden on Home / Login / Register                      -->
+    <!--                                                        -->
+    <!-- Hidden on Home / Login / Register / Admin              -->
     <!-- ====================================================== -->
 
     @if (!isFullScreenPage)

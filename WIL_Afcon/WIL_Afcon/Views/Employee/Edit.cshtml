@@ -4,78 +4,643 @@
     ViewData["Title"] = "Edit Employee";
 }
 
-<h1>Edit Employee</h1>
+<div class="min-h-screen bg-[#f5f7fc] lg:flex">
 
-<form asp-action="Edit" method="post">
+    <!-- ====================================================== -->
+    <!-- SIDEBAR                                                -->
+    <!-- ====================================================== -->
 
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <aside class="w-full border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:w-72 lg:border-b-0 lg:border-r">
 
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="UserId" />
+        <!-- BRAND -->
+        <div class="flex h-24 items-center gap-3 border-b border-slate-200 px-7">
 
-    <div class="mb-3">
-        <label asp-for="EmployeeNumber" class="form-label"></label>
-        <input asp-for="EmployeeNumber" class="form-control" />
-        <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-content">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     class="h-5 w-5">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+                </svg>
+            </div>
+
+            <div>
+                <p class="font-bold text-slate-900">
+                    Afcon
+                </p>
+                <p class="text-sm text-slate-500">
+                    Admin Panel
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <div class="flex h-[calc(100vh-6rem)] flex-col">
+
+            <nav class="flex-1 px-4 py-7">
+
+                <p class="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                    Administration
+                </p>
+
+
+                <!-- DASHBOARD -->
+                <a asp-controller="Admin"
+                   asp-action="Dashboard"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    </svg>
+
+                    Dashboard
+                </a>
+
+
+                <!-- EMPLOYEES - ACTIVE -->
+                <a asp-controller="Employee"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3 text-sm font-semibold text-primary no-underline">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+
+                    <span>Employees</span>
+
+                    <span class="ml-auto h-2 w-2 rounded-full bg-primary"></span>
+                </a>
+
+
+                <!-- DEPARTMENTS -->
+                <a asp-controller="Department"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                        <path d="M9 22v-4h6v4"></path>
+                        <path d="M8 6h.01"></path>
+                        <path d="M12 6h.01"></path>
+                        <path d="M16 6h.01"></path>
+                    </svg>
+
+                    Departments
+                </a>
+
+
+                <!-- ATTENDANCE -->
+                <a asp-controller="Attendance"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                        <path d="M3 10h18"></path>
+                    </svg>
+
+                    Attendance
+                </a>
+
+
+                <!-- REQUESTS -->
+                <a asp-controller="AttendanceRequest"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+
+                    Requests
+                </a>
+
+
+                <!-- REPORTS -->
+                <a asp-controller="AttendanceReport"
+                   asp-action="Index"
+                   class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-5 w-5">
+                        <path d="M3 3v18h18"></path>
+                        <path d="m7 16 4-4 4 4 5-6"></path>
+                    </svg>
+
+                    Reports
+                </a>
+
+            </nav>
+
+
+            <!-- SIDEBAR BOTTOM -->
+            <div class="border-t border-slate-200 p-5">
+
+                <div class="mb-4 flex items-center gap-3">
+
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-semibold text-primary-content">
+                        A
+                    </div>
+
+                    <div>
+                        <p class="text-sm font-semibold text-slate-900">
+                            Administrator
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            Admin
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             class="h-5 w-5">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" x2="9" y1="12" y2="12"></line>
+                        </svg>
+
+                        Sign Out
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ====================================================== -->
+    <!-- MAIN CONTENT                                           -->
+    <!-- ====================================================== -->
+
+    <div class="min-w-0 flex-1 lg:ml-72">
+
+        <main class="p-6 lg:p-9">
+
+
+            <!-- PAGE HEADER -->
+            <div class="mb-7">
+
+                <a asp-action="Index"
+                   class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-slate-500 no-underline transition hover:text-primary">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         class="h-4 w-4">
+                        <path d="M19 12H5"></path>
+                        <path d="m11 18-6-6 6-6"></path>
+                    </svg>
+
+                    Back to Employees
+                </a>
+
+
+                <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                    Edit Employee
+                </h1>
+
+                <p class="mt-1 text-sm text-slate-500">
+                    Update @Model.FirstName @Model.LastName's employee information.
+                </p>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- FORM CARD                                         -->
+            <!-- ================================================== -->
+
+            <div class="max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+
+                <!-- CARD HEADER -->
+                <div class="border-b border-slate-200 px-6 py-5 lg:px-8">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 class="h-5 w-5">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                            </svg>
+
+                        </div>
+
+                        <div>
+                            <h2 class="text-lg font-semibold text-slate-900">
+                                Employee Information
+                            </h2>
+
+                            <p class="text-sm text-slate-500">
+                                Update the employee's personal and system details.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================== -->
+                <!-- FORM                                               -->
+                <!-- ================================================== -->
+
+                <form asp-action="Edit"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <!-- KEEP THESE -->
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="UserId" />
+
+
+                    <div class="p-6 lg:p-8">
+
+
+                        <!-- VALIDATION SUMMARY -->
+                        <div asp-validation-summary="ModelOnly"
+                             class="mb-5 text-sm text-red-600">
+                        </div>
+
+
+                        <!-- ================================================== -->
+                        <!-- BASIC INFORMATION                                  -->
+                        <!-- ================================================== -->
+
+                        <div>
+
+                            <h3 class="mb-5 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                                Basic Information
+                            </h3>
+
+
+                            <div class="grid gap-5 md:grid-cols-2">
+
+
+                                <!-- EMPLOYEE NUMBER -->
+                                <div>
+
+                                    <label asp-for="EmployeeNumber"
+                                           class="mb-2 block text-sm font-medium text-slate-700">
+                                        Employee Number
+                                    </label>
+
+                                    <input asp-for="EmployeeNumber"
+                                           class="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                                    <span asp-validation-for="EmployeeNumber"
+                                          class="mt-1 block text-xs text-red-600">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- DEPARTMENT -->
+                                <div>
+
+                                    <label asp-for="DepartmentId"
+                                           class="mb-2 block text-sm font-medium text-slate-700">
+                                        Department
+                                    </label>
+
+                                    <select asp-for="DepartmentId"
+                                            class="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10">
+
+                                        <option value="">
+                                            -- Select Department --
+                                        </option>
+
+                                        @foreach (var department in ViewBag.Departments)
+                                        {
+                                            <option value="@department.Id">
+                                                @department.DepartmentName
+                                            </option>
+                                        }
+
+                                    </select>
+
+                                    <span asp-validation-for="DepartmentId"
+                                          class="mt-1 block text-xs text-red-600">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- FIRST NAME -->
+                                <div>
+
+                                    <label asp-for="FirstName"
+                                           class="mb-2 block text-sm font-medium text-slate-700">
+                                        First Name
+                                    </label>
+
+                                    <input asp-for="FirstName"
+                                           class="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                                    <span asp-validation-for="FirstName"
+                                          class="mt-1 block text-xs text-red-600">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- LAST NAME -->
+                                <div>
+
+                                    <label asp-for="LastName"
+                                           class="mb-2 block text-sm font-medium text-slate-700">
+                                        Last Name
+                                    </label>
+
+                                    <input asp-for="LastName"
+                                           class="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                                    <span asp-validation-for="LastName"
+                                          class="mt-1 block text-xs text-red-600">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DIVIDER -->
+                        <div class="my-7 border-t border-slate-200"></div>
+
+
+                        <!-- ================================================== -->
+                        <!-- CONTACT INFORMATION                                -->
+                        <!-- ================================================== -->
+
+                        <div>
+
+                            <h3 class="mb-5 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                                Contact Information
+                            </h3>
+
+
+                            <div class="grid gap-5 md:grid-cols-2">
+
+
+                                <!-- EMAIL -->
+                                <div>
+
+                                    <label asp-for="Email"
+                                           class="mb-2 block text-sm font-medium text-slate-700">
+                                        Email Address
+                                    </label>
+
+                                    <input asp-for="Email"
+                                           type="email"
+                                           class="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                                    <span asp-validation-for="Email"
+                                          class="mt-1 block text-xs text-red-600">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- PHONE -->
+                                <div>
+
+                                    <label asp-for="PhoneNumber"
+                                           class="mb-2 block text-sm font-medium text-slate-700">
+                                        Phone Number
+                                    </label>
+
+                                    <input asp-for="PhoneNumber"
+                                           type="tel"
+                                           class="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                                    <span asp-validation-for="PhoneNumber"
+                                          class="mt-1 block text-xs text-red-600">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DIVIDER -->
+                        <div class="my-7 border-t border-slate-200"></div>
+
+
+                        <!-- ================================================== -->
+                        <!-- SYSTEM INFORMATION                                 -->
+                        <!-- ================================================== -->
+
+                        <div>
+
+                            <h3 class="mb-5 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                                System Information
+                            </h3>
+
+
+                            <div class="grid gap-5 md:grid-cols-2">
+
+
+                                <!-- DEVICE USER ID -->
+                                <div>
+
+                                    <label asp-for="DeviceUserId"
+                                           class="mb-2 block text-sm font-medium text-slate-700">
+                                        Device User ID
+                                    </label>
+
+                                    <input asp-for="DeviceUserId"
+                                           placeholder="Enter biometric device ID"
+                                           class="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                                    <span asp-validation-for="DeviceUserId"
+                                          class="mt-1 block text-xs text-red-600">
+                                    </span>
+
+                                    <p class="mt-2 text-xs text-slate-400">
+                                        ID used to link the employee to the attendance device.
+                                    </p>
+
+                                </div>
+
+
+                                <!-- ACTIVE STATUS -->
+                                <div>
+
+                                    <label class="mb-2 block text-sm font-medium text-slate-700">
+                                        Employee Status
+                                    </label>
+
+                                    <label class="flex cursor-pointer items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+
+                                        <div>
+
+                                            <div class="flex items-center gap-2">
+
+                                                <p class="text-sm font-medium text-slate-800">
+                                                    Active Employee
+                                                </p>
+
+                                                @if (Model.IsActive)
+                                                {
+                                                    <span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700 ring-1 ring-green-200">
+                                                        <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                                                        Active
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">
+                                                        <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+                                                        Inactive
+                                                    </span>
+                                                }
+
+                                            </div>
+
+                                            <p class="mt-1 text-xs text-slate-500">
+                                                Controls whether this employee is active in the attendance system.
+                                            </p>
+
+                                        </div>
+
+
+                                        <input asp-for="IsActive"
+                                               class="h-5 w-5 shrink-0 rounded border-slate-300 accent-primary" />
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================== -->
+                    <!-- FORM ACTIONS                                       -->
+                    <!-- ================================================== -->
+
+                    <div class="flex items-center justify-end gap-3 border-t border-slate-200 bg-slate-50 px-6 py-5 lg:px-8">
+
+
+                        <!-- CANCEL -->
+                        <a asp-action="Index"
+                           class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 no-underline transition hover:bg-slate-100">
+
+                            Cancel
+
+                        </a>
+
+
+                        <!-- SAVE -->
+                        <button type="submit"
+                                class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-content shadow-sm transition hover:opacity-90">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 class="h-4 w-4">
+
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"></path>
+                                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                <polyline points="7 3 7 8 15 8"></polyline>
+
+                            </svg>
+
+                            Save Changes
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
     </div>
 
-    <div class="mb-3">
-        <label asp-for="FirstName" class="form-label"></label>
-        <input asp-for="FirstName" class="form-control" />
-        <span asp-validation-for="FirstName" class="text-danger"></span>
-    </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="LastName" class="form-label"></label>
-        <input asp-for="LastName" class="form-control" />
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="PhoneNumber" class="form-label"></label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="DepartmentId" class="form-label">Department</label>
-
-        <select asp-for="DepartmentId" class="form-select">
-            <option value="">-- Select Department --</option>
-
-            @foreach (var department in ViewBag.Departments)
-            {
-                <option value="@department.Id">
-                    @department.DepartmentName
-                </option>
-            }
-        </select>
-
-        <span asp-validation-for="DepartmentId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="DeviceUserId" class="form-label"></label>
-        <input asp-for="DeviceUserId" class="form-control" />
-        <span asp-validation-for="DeviceUserId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3 form-check">
-        <input asp-for="IsActive" class="form-check-input" />
-        <label asp-for="IsActive" class="form-check-label"></label>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-
-</form>
 
 @section Scripts {
     @{
