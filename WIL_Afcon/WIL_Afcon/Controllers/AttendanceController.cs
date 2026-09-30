@@ -130,6 +130,51 @@ namespace WIL_Afcon.Controllers
             return RedirectToAction(nameof(MyAttendance));
         }
 
+        // ------------------------------------------------------------------
+        // ADMIN MANUAL ATTENDANCE (backup for when the biometric device is
+        // unavailable) - Admin records the action on behalf of a specific
+        // employee, from that employee's Details page.
+        // ------------------------------------------------------------------
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> AdminClockIn(string employeeId)
+            => RunAdminActionAsync(employeeId, id => _attendanceService.ClockInAsync(id));
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> AdminClockOut(string employeeId)
+            => RunAdminActionAsync(employeeId, id => _attendanceService.ClockOutAsync(id));
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> AdminStartBreak(string employeeId)
+            => RunAdminActionAsync(employeeId, id => _attendanceService.StartBreakAsync(id));
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> AdminEndBreak(string employeeId)
+            => RunAdminActionAsync(employeeId, id => _attendanceService.EndBreakAsync(id));
+
+        private async Task<IActionResult> RunAdminActionAsync(
+            string employeeId,
+            Func<string, Task> action)
+        {
+            try
+            {
+                await action(employeeId);
+            }
+            catch (InvalidOperationException ex)
+            {
+                TempData["Error"] = ex.Message;
+            }
+
+            return RedirectToAction("Details", "Employee", new { id = employeeId });
+        }
+
         private async Task<Employee?> GetCurrentEmployeeAsync()
         {
 

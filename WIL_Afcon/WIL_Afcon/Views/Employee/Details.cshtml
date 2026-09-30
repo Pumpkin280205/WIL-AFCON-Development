@@ -4,9 +4,18 @@
 @{
     ViewData["Title"] = "Employee Details";
     var documents = (List<Document>)ViewBag.Documents;
+    var todayAttendance = ViewBag.TodayAttendance as Attendance;
 
     var initials =
         $"{Model.FirstName.FirstOrDefault()}{Model.LastName.FirstOrDefault()}";
+
+    var clockedIn = todayAttendance?.ClockInTime != null;
+    var clockedOut = todayAttendance?.ClockOutTime != null;
+    var onBreak = todayAttendance?.IsOnBreak ?? false;
+
+    var todayFirstBreak = todayAttendance?.Breaks
+        .OrderBy(b => b.StartTime)
+        .FirstOrDefault();
 }
 
 <div class="min-h-screen bg-[#f5f7fc] lg:flex">
@@ -269,6 +278,15 @@
     <div class="min-w-0 flex-1 lg:ml-72">
 
         <main class="p-6 lg:p-9">
+
+
+            @if (TempData["Error"] != null)
+            {
+                <!-- ERROR BANNER -->
+                <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-700">
+                    @TempData["Error"]
+                </div>
+            }
 
 
             <!-- ================================================== -->
@@ -583,6 +601,87 @@
                         </a>
 
                     </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- MANUAL ATTENDANCE (backup for when the biometric   -->
+            <!-- device is unavailable)                             -->
+            <!-- ================================================== -->
+
+            <div class="mb-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                <!-- CARD HEADER -->
+                <div class="flex flex-col justify-between gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center">
+
+                    <div>
+
+                        <h2 class="text-lg font-semibold text-slate-900">
+                            Manual Attendance
+                        </h2>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            Record this employee's attendance manually if the
+                            biometric device is unavailable.
+                        </p>
+
+                    </div>
+
+
+                    <div class="text-sm text-slate-600">
+                        Clock In: <span class="font-semibold text-slate-800">@(todayAttendance?.ClockInTime?.ToLocalTime().ToString("HH:mm") ?? "-")</span>
+                        &nbsp;|&nbsp;
+                        Start Break: <span class="font-semibold text-slate-800">@(todayFirstBreak?.StartTime.ToLocalTime().ToString("HH:mm") ?? "-")</span>
+                        &nbsp;|&nbsp;
+                        End Break: <span class="font-semibold text-slate-800">@(todayFirstBreak?.EndTime?.ToLocalTime().ToString("HH:mm") ?? "-")</span>
+                        &nbsp;|&nbsp;
+                        Clock Out: <span class="font-semibold text-slate-800">@(todayAttendance?.ClockOutTime?.ToLocalTime().ToString("HH:mm") ?? "-")</span>
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+                <div class="flex flex-wrap gap-3 px-6 py-5">
+
+                    <form asp-controller="Attendance" asp-action="AdminClockIn" method="post">
+                        <input type="hidden" name="employeeId" value="@Model.Id" />
+                        <button type="submit"
+                                class="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-content shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+                                disabled="@(clockedIn ? "disabled" : null)">
+                            Clock In
+                        </button>
+                    </form>
+
+                    <form asp-controller="Attendance" asp-action="AdminStartBreak" method="post">
+                        <input type="hidden" name="employeeId" value="@Model.Id" />
+                        <button type="submit"
+                                class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 shadow-sm transition hover:border-primary/30 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+                                disabled="@((!clockedIn || clockedOut || onBreak) ? "disabled" : null)">
+                            Start Break
+                        </button>
+                    </form>
+
+                    <form asp-controller="Attendance" asp-action="AdminEndBreak" method="post">
+                        <input type="hidden" name="employeeId" value="@Model.Id" />
+                        <button type="submit"
+                                class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 shadow-sm transition hover:border-primary/30 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+                                disabled="@(onBreak ? null : "disabled")">
+                            End Break
+                        </button>
+                    </form>
+
+                    <form asp-controller="Attendance" asp-action="AdminClockOut" method="post">
+                        <input type="hidden" name="employeeId" value="@Model.Id" />
+                        <button type="submit"
+                                class="rounded-xl bg-red-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-40"
+                                disabled="@((!clockedIn || clockedOut) ? "disabled" : null)">
+                            Clock Out
+                        </button>
+                    </form>
 
                 </div>
 

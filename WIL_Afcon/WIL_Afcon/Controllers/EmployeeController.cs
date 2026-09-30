@@ -10,6 +10,7 @@ namespace WIL_Afcon.Controllers
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
         private readonly IDocumentService _documentService;
+        private readonly IAttendanceService _attendanceService;
 
 
        // Reference: Microsoft (2026) 'Dependency injection into controllers in ASP.NET Core',
@@ -19,11 +20,13 @@ namespace WIL_Afcon.Controllers
         public EmployeeController(
             IEmployeeService employeeService,
             IDepartmentService departmentService,
-            IDocumentService documentService)
+            IDocumentService documentService,
+            IAttendanceService attendanceService)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
             _documentService = documentService;
+            _attendanceService = attendanceService;
         }
 
         // GET: /Employee
@@ -52,6 +55,7 @@ namespace WIL_Afcon.Controllers
             }
 
             ViewBag.Documents = await _documentService.GetByEmployeeIdAsync(id);
+            ViewBag.TodayAttendance = await _attendanceService.GetTodayForEmployeeAsync(id);
 
             return View(employee);
         }
