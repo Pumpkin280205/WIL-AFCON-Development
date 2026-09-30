@@ -1,5 +1,9 @@
-﻿const connection = new signalR.HubConnectionBuilder()
-    .withUrl("http://localhost:5199/attendanceHub")
+﻿const hubUrl = window.location.protocol === "https:"
+    ? "https://localhost:7285/attendanceHub"
+    : "http://localhost:5199/attendanceHub";
+
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl(hubUrl)
     .withAutomaticReconnect()
     .build();
 
