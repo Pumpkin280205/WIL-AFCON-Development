@@ -11,5 +11,7 @@ namespace WIL_Afcon.Repositories.Interfaces
         Task<Employee?> GetByUserIdAsync(string userId);
 
         Task<Employee?> GetByEmailAsync(string email);
+
+        Task<Employee?> GetByDeviceUserIdAsync(string deviceUserId);
     }
 }

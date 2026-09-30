@@ -34,12 +34,39 @@ namespace WIL_Afcon.Services
 
         public async Task CreateAsync(Employee employee)
         {
+            await EnsureDeviceUserIdIsAvailableAsync(employee.DeviceUserId, employee.Id);
+
             await _employeeRepository.CreateAsync(employee);
         }
 
         public async Task UpdateAsync(Employee employee)
         {
+            await EnsureDeviceUserIdIsAvailableAsync(employee.DeviceUserId, employee.Id);
+
             await _employeeRepository.UpdateAsync(employee);
+        }
+
+        // ------------------------------------------------------------------
+        // Device User IDs must be unique - two employees sharing one would
+        // make the biometric terminal's scans ambiguous as to who clocked in.
+        // ------------------------------------------------------------------
+        private async Task EnsureDeviceUserIdIsAvailableAsync(
+            string? deviceUserId,
+            string employeeId)
+        {
+            if (string.IsNullOrWhiteSpace(deviceUserId))
+            {
+                return;
+            }
+
+            var existing = await _employeeRepository.GetByDeviceUserIdAsync(deviceUserId);
+
+            if (existing != null && existing.Id != employeeId)
+            {
+                throw new InvalidOperationException(
+                    $"Device User ID '{deviceUserId}' is already assigned to " +
+                    $"{existing.FirstName} {existing.LastName}.");
+            }
         }
 
         //public async Task DeactivateAsync(string id)

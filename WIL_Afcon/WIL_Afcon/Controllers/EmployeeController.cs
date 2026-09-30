@@ -102,7 +102,18 @@ namespace WIL_Afcon.Controllers
                 return View(employee);
             }
 
-            await _employeeService.CreateAsync(employee);
+            try
+            {
+                await _employeeService.CreateAsync(employee);
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(nameof(Employee.DeviceUserId), ex.Message);
+
+                ViewBag.Departments = await _departmentService.GetAllAsync();
+
+                return View(employee);
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -135,7 +146,18 @@ namespace WIL_Afcon.Controllers
                 return View(employee);
             }
 
-            await _employeeService.UpdateAsync(employee);
+            try
+            {
+                await _employeeService.UpdateAsync(employee);
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(nameof(Employee.DeviceUserId), ex.Message);
+
+                ViewBag.Departments = await _departmentService.GetAllAsync();
+
+                return View(employee);
+            }
 
             return RedirectToAction(nameof(Index));
         }
