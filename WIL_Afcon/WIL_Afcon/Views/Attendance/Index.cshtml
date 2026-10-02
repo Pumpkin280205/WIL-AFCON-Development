@@ -31,6 +31,7 @@
                 <p class="font-bold text-slate-900">
                     Afcon
                 </p>
+
                 <p class="text-sm text-slate-500">
                     Admin Panel
                 </p>
@@ -189,6 +190,7 @@
                         <p class="text-sm font-semibold text-slate-900">
                             Administrator
                         </p>
+
                         <p class="text-xs text-slate-500">
                             Admin
                         </p>
@@ -239,7 +241,7 @@
 
 
             <!-- ================================================== -->
-            <!-- PAGE HEADER                                       -->
+            <!-- PAGE HEADER                                        -->
             <!-- ================================================== -->
 
             <div class="mb-7">
@@ -249,14 +251,31 @@
                 </h1>
 
                 <p class="mt-1 text-sm text-slate-500">
-                    View and monitor employee attendance records.
+                    View, monitor and edit employee attendance records.
                 </p>
 
             </div>
 
 
+            <!-- SUCCESS MESSAGE -->
+            @if (TempData["Success"] != null)
+            {
+                <div class="mb-6 rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-sm font-medium text-green-700">
+                    @TempData["Success"]
+                </div>
+            }
+
+            <!-- ERROR MESSAGE -->
+            @if (TempData["Error"] != null)
+            {
+                <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-700">
+                    @TempData["Error"]
+                </div>
+            }
+
+
             <!-- ================================================== -->
-            <!-- FILTER CARD                                       -->
+            <!-- FILTER CARD                                        -->
             <!-- ================================================== -->
 
             <div class="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -381,7 +400,7 @@
 
 
             <!-- ================================================== -->
-            <!-- ATTENDANCE TABLE                                  -->
+            <!-- ATTENDANCE TABLE                                   -->
             <!-- ================================================== -->
 
             <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
@@ -464,52 +483,57 @@
                     <!-- TABLE                                              -->
                     <!-- ================================================== -->
 
-                    <div>
+                    <div class="overflow-x-auto">
 
-                        <table class="w-full table-fixed text-left">
+                        <table class="w-full min-w-[1100px] table-fixed text-left">
 
                             <thead class="bg-slate-50">
 
                                 <tr class="border-b border-slate-200">
 
                                     <!-- DATE -->
-                                    <th class="w-[17%] px-4 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <th class="w-[15%] px-4 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Date
                                     </th>
 
                                     <!-- EMPLOYEE -->
-                                    <th class="w-[15%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <th class="w-[14%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Employee
                                     </th>
 
                                     <!-- EMPLOYEE NUMBER -->
-                                    <th class="w-[9%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <th class="w-[8%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Emp #
                                     </th>
 
                                     <!-- DEPARTMENT -->
-                                    <th class="w-[13%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <th class="w-[12%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Department
                                     </th>
 
                                     <!-- CLOCK IN -->
-                                    <th class="w-[10%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <th class="w-[9%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Clock In
                                     </th>
 
                                     <!-- CLOCK OUT -->
-                                    <th class="w-[10%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <th class="w-[9%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Clock Out
                                     </th>
 
                                     <!-- STATUS -->
-                                    <th class="w-[11%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <th class="w-[10%] px-3 py-3.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Status
                                     </th>
 
                                     <!-- WORKING MINUTES -->
-                                    <th class="w-[15%] px-4 py-3.5 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <th class="w-[13%] px-3 py-3.5 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Working Minutes
+                                    </th>
+
+                                    <!-- ACTION -->
+                                    <th class="w-[10%] px-4 py-3.5 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        Action
                                     </th>
 
                                 </tr>
@@ -522,7 +546,6 @@
                                 @foreach (var a in Model)
                                 {
                                     <tr class="transition hover:bg-slate-50">
-
 
                                         <!-- DATE -->
                                         <td class="whitespace-nowrap px-4 py-4">
@@ -652,7 +675,7 @@
 
 
                                         <!-- WORKING MINUTES -->
-                                        <td class="whitespace-nowrap px-4 py-4 text-right">
+                                        <td class="whitespace-nowrap px-3 py-4 text-right">
 
                                             <span class="text-sm font-semibold text-slate-700">
                                                 @a.WorkingMinutes
@@ -661,6 +684,31 @@
                                             <span class="ml-1 text-xs text-slate-400">
                                                 min
                                             </span>
+
+                                        </td>
+
+
+                                        <!-- EDIT ACTION -->
+                                        <td class="whitespace-nowrap px-4 py-4 text-right">
+
+                                            <a asp-controller="Attendance"
+                                               asp-action="Edit"
+                                               asp-route-id="@a.Id"
+                                               class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 no-underline transition hover:border-primary hover:bg-primary/5 hover:text-primary">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 24 24"
+                                                     fill="none"
+                                                     stroke="currentColor"
+                                                     stroke-width="2"
+                                                     class="h-3.5 w-3.5">
+                                                    <path d="M12 20h9"></path>
+                                                    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                                                </svg>
+
+                                                Edit
+
+                                            </a>
 
                                         </td>
 

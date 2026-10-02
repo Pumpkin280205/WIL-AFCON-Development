@@ -175,6 +175,94 @@ namespace WIL_Afcon.Controllers
             return RedirectToAction("Details", "Employee", new { id = employeeId });
         }
 
+        // ------------------------------------------------------------------
+        // ADMIN EDIT ATTENDANCE
+        // Allows an administrator to correct an existing attendance record.
+        // ------------------------------------------------------------------
+
+        // GET: /Attendance/Edit/{id}
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return BadRequest();
+            }
+
+            var attendance = await _attendanceService.GetByIdAsync(id);
+
+            if (attendance == null)
+            {
+                return NotFound("Attendance record could not be found.");
+            }
+
+            return View(attendance);
+        }
+
+
+        // POST: /Attendance/Edit/{id}
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, Attendance attendance)
+        {
+            if (id != attendance.Id)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(attendance);
+            }
+
+            var existing = await _attendanceService.GetByIdAsync(id);
+
+            if (existing == null)
+            {
+                return NotFound("Attendance record could not be found.");
+            }
+
+            // Only update fields that the admin is allowed to edit.
+            // EmployeeId is intentionally preserved from the existing record.
+            existing.AttendanceDate = attendance.AttendanceDate;
+            existing.ClockInTime = attendance.ClockInTime;
+            existing.ClockOutTime = attendance.ClockOutTime;
+            existing.AttendanceStatus = attendance.AttendanceStatus;
+            existing.Documentation = attendance.Documentation;
+
+            // Recalculate working minutes.
+            if (existing.ClockInTime != null &&
+                existing.ClockOutTime != null)
+            {
+                var totalMinutes = Math.Max(
+                    0,
+                    (int)Math.Round(
+                        (existing.ClockOutTime.Value.ToUniversalTime() -
+                        existing.ClockInTime.Value.ToUniversalTime())
+                        .TotalMinutes));
+
+                var breakMinutes = existing.Breaks
+                    .Where(b => b.EndTime != null)
+                    .Sum(b => b.DurationMinutes);
+
+                existing.WorkingMinutes =
+                    Math.Max(0, totalMinutes - breakMinutes);
+            }
+            else
+            {
+                existing.WorkingMinutes = 0;
+            }
+
+            await _attendanceService.UpdateAsync(existing);
+
+            TempData["Success"] =
+                "Attendance record updated successfully.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private async Task<Employee?> GetCurrentEmployeeAsync()
         {
 

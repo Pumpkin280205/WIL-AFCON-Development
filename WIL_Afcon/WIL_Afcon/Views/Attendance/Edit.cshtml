@@ -1,0 +1,213 @@
+@model WIL_Afcon.Models.Attendance
+@using WIL_Afcon.Models.Enums
+
+@{
+    ViewData["Title"] = "Edit Attendance";
+}
+
+<div class="min-h-screen bg-[#f5f7fc]">
+
+    <main class="mx-auto max-w-4xl p-6 lg:p-9">
+
+        <!-- PAGE HEADER -->
+        <div class="mb-7">
+
+            <a asp-controller="Attendance"
+               asp-action="Index"
+               class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-slate-500 no-underline hover:text-primary">
+
+                ← Back to Attendance
+
+            </a>
+
+            <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                Edit Attendance
+            </h1>
+
+            <p class="mt-1 text-sm text-slate-500">
+                Correct an employee's attendance information.
+            </p>
+
+        </div>
+
+
+        <!-- EDIT CARD -->
+        <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+            <div class="border-b border-slate-200 px-6 py-5">
+
+                <h2 class="text-lg font-semibold text-slate-900">
+                    Attendance Details
+                </h2>
+
+                <p class="mt-1 text-sm text-slate-500">
+                    Update the attendance record below.
+                </p>
+
+            </div>
+
+
+            <form asp-controller="Attendance"
+                  asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post"
+                  class="p-6">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+
+
+                <div asp-validation-summary="ModelOnly"
+                     class="mb-5 text-sm text-red-600">
+                </div>
+
+
+                <div class="grid gap-6 md:grid-cols-2">
+
+
+                    <!-- ATTENDANCE DATE -->
+
+                    <div>
+
+                        <label asp-for="AttendanceDate"
+                               class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Attendance Date
+                        </label>
+
+                        <input asp-for="AttendanceDate"
+                               type="date"
+                               value="@Model.AttendanceDate.ToString("yyyy-MM-dd")"
+                               class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                        <span asp-validation-for="AttendanceDate"
+                              class="mt-1 text-xs text-red-600">
+                        </span>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div>
+
+                        <label asp-for="AttendanceStatus"
+                               class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Attendance Status
+                        </label>
+
+                        <select asp-for="AttendanceStatus"
+                                asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
+                                class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10">
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CLOCK IN -->
+
+                    <div>
+
+                        <label asp-for="ClockInTime"
+                               class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Clock In
+                        </label>
+
+                        <input asp-for="ClockInTime"
+                               type="datetime-local"
+                               value="@(Model.ClockInTime?.ToLocalTime().ToString("yyyy-MM-ddTHH:mm"))"
+                               class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                    </div>
+
+
+                    <!-- CLOCK OUT -->
+
+                    <div>
+
+                        <label asp-for="ClockOutTime"
+                               class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Clock Out
+                        </label>
+
+                        <input asp-for="ClockOutTime"
+                               type="datetime-local"
+                               value="@(Model.ClockOutTime?.ToLocalTime().ToString("yyyy-MM-ddTHH:mm"))"
+                               class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- DOCUMENTATION -->
+
+                <div class="mt-6">
+
+                    <label asp-for="Documentation"
+                           class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Reason / Documentation
+                    </label>
+
+                    <textarea asp-for="Documentation"
+                              rows="4"
+                              placeholder="Enter the reason for this attendance correction..."
+                              class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10">
+                    </textarea>
+
+                    <p class="mt-2 text-xs text-slate-400">
+                        Add a reason explaining why this attendance record was changed.
+                    </p>
+
+                </div>
+
+
+                <!-- WORKING MINUTES -->
+
+                <div class="mt-6 rounded-xl bg-slate-50 p-4">
+
+                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Current Working Time
+                    </p>
+
+                    <p class="mt-1 text-lg font-semibold text-slate-900">
+                        @Model.WorkingMinutes minutes
+                    </p>
+
+                    <p class="mt-1 text-xs text-slate-500">
+                        Working time will automatically recalculate when the record is saved.
+                    </p>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="mt-8 flex items-center justify-end gap-3">
+
+                    <a asp-controller="Attendance"
+                       asp-action="Index"
+                       class="inline-flex h-11 items-center justify-center rounded-lg border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-600 no-underline transition hover:bg-slate-100">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-semibold text-primary-content shadow-sm transition hover:opacity-90">
+
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
