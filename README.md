@@ -33,6 +33,7 @@ The system replaces Afcon's paper-based attendance register with a centralised w
 - [CI/CD Pipeline](#cicd-pipeline)
 - [PowerPoint Presentation](#powerpoint-presentation)
 - [Future Improvements](#future-improvements)
+- [AI Disclosure](#ai-disclosure)
 - [License](#license)
 
 ---
@@ -785,6 +786,15 @@ Possible future improvements include:
 ## Academic Project
 
 This application was developed as part of the **INSY7315 Work Integrated Learning** module and was created for the Afcon Industrial Equipment attendance-management use case.
+
+---
+
+## AI Disclosure
+
+| AI Use | Description |
+|---|---|
+| Research | AI tools were used to research concepts, technologies and approaches relevant to the project. |
+| Understanding | AI tools were used to help the team better understand the technologies and concepts used in the system. |
 
 ---
 
