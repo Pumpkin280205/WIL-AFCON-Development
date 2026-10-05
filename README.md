@@ -34,6 +34,7 @@ The system replaces Afcon's paper-based attendance register with a centralised w
 - [PowerPoint Presentation](#powerpoint-presentation)
 - [Future Improvements](#future-improvements)
 - [AI Disclosure](#ai-disclosure)
+- [References](#references)
 - [License](#license)
 
 ---
@@ -795,6 +796,58 @@ This application was developed as part of the **INSY7315 Work Integrated Learnin
 |---|---|
 | Research | AI tools were used to research concepts, technologies and approaches relevant to the project. |
 | Understanding | AI tools were used to help the team better understand the technologies and concepts used in the system. |
+
+---
+
+## References
+
+daisyUI, 2026. Install daisyUI as a Tailwind plugin. daisyUI. [online] Available at: <https://daisyui.com/docs/install/> [Accessed 1 October 2026].
+
+Fabbri, M., 2026. AspNetCore.Identity.Mongo. GitHub. [online] Available at: <https://github.com/matteofabbri/AspNetCore.Identity.Mongo> [Accessed 1 October 2026].
+
+GitHub, 2026. Understanding GitHub Actions. GitHub Docs. [online] Available at: <https://docs.github.com/en/actions/get-started/understanding-github-actions> [Accessed 1 October 2026].
+
+Microsoft, 2026a. ASP.NET Core middleware. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware> [Accessed 1 October 2026].
+
+Microsoft, 2026b. Dependency injection in ASP.NET Core. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection> [Accessed 1 October 2026].
+
+Microsoft, 2026c. Enable Cross-Origin Requests (CORS) in ASP.NET Core. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/security/cors> [Accessed 1 October 2026].
+
+Microsoft, 2026d. Enforce HTTPS in ASP.NET Core. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl> [Accessed 1 October 2026].
+
+Microsoft, 2026e. Get started with Swashbuckle and ASP.NET Core. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle> [Accessed 1 October 2026].
+
+Microsoft, 2026f. Health checks in ASP.NET Core. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks> [Accessed 1 October 2026].
+
+Microsoft, 2026g. HTTP requests with IHttpClientFactory in ASP.NET Core. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests> [Accessed 1 October 2026].
+
+Microsoft, 2026h. Integration tests in ASP.NET Core. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests> [Accessed 1 October 2026].
+
+Microsoft, 2026i. Overview of ASP.NET Core SignalR. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/signalr/introduction> [Accessed 2 October 2026].
+
+Microsoft, 2026j. Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks in ASP.NET Core. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery> [Accessed 1 October 2026].
+
+Microsoft, 2026k. Rate limiting middleware in ASP.NET Core. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit> [Accessed 1 October 2026].
+
+Microsoft, 2026l. Role-based authorization in ASP.NET Core MVC. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/security/authorization/roles> [Accessed 1 October 2026].
+
+Microsoft, 2026m. Run an ASP.NET Core app in Docker containers. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images> [Accessed 1 October 2026].
+
+Microsoft, 2026n. Use hubs in ASP.NET Core SignalR. Microsoft Learn. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/signalr/hubs> [Accessed 1 October 2026].
+
+MongoDB, 2026a. Create and Manage Indexes – .NET/C# Driver. MongoDB Docs. [online] Available at: <https://www.mongodb.com/docs/drivers/csharp/current/indexes/> [Accessed 1 October 2026].
+
+MongoDB, 2026b. Store Large Files – .NET/C# Driver. MongoDB Docs. [online] Available at: <https://www.mongodb.com/docs/drivers/csharp/current/crud/gridfs/> [Accessed 1 October 2026].
+
+Render, 2026a. Blueprint YAML Reference. Render Docs. [online] Available at: <https://render.com/docs/blueprint-spec> [Accessed 1 October 2026].
+
+Render, 2026b. Deploy Hooks. Render Docs. [online] Available at: <https://render.com/docs/deploy-hooks> [Accessed 1 October 2026].
+
+Tailwind Labs, 2026. Tailwind CLI. Tailwind CSS. [online] Available at: <https://tailwindcss.com/docs/installation/tailwind-cli> [Accessed 1 October 2026].
+
+Testcontainers, 2026. MongoDB. Testcontainers for .NET. [online] Available at: <https://dotnet.testcontainers.org/modules/mongodb/> [Accessed 1 October 2026].
+
+xUnit.net, 2026. Getting started with xUnit.net v2. xUnit.net. [online] Available at: <https://xunit.net/docs/getting-started/v2/getting-started> [Accessed 1 October 2026].
 
 ---
 
