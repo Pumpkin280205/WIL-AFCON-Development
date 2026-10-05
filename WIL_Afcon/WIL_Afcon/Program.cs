@@ -6,6 +6,7 @@ using WIL_Afcon.Services;
 using WIL_Afcon.Services.Interfaces;
 using AspNetCore.Identity.Mongo;
 using AspNetCore.Identity.Mongo.Model;
+using WIL_Afcon.Security;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -32,6 +33,19 @@ builder.Services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(
         mongo.MigrationCollection = "_Migrations";
     });
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+        ? CookieSecurePolicy.SameAsRequest
+        : CookieSecurePolicy.Always;
+    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+    options.SlidingExpiration = true;
+});
+
 // Repositories
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
@@ -39,18 +53,24 @@ builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 
 // Services
-//builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddHttpClient<IEmployeeService, EmployeeService>();
+// Calls to WIL_Afcon.API go through typed HttpClients that share the API's
+// base address and the X-Api-Key header (both from configuration).
+void ConfigureApiClient(HttpClient client)
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]!);
+
+    var apiKey = builder.Configuration["ApiSettings:ApiKey"];
+    if (!string.IsNullOrWhiteSpace(apiKey))
+    {
+        client.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
+    }
+}
+
+builder.Services.AddHttpClient<IEmployeeService, EmployeeService>(ConfigureApiClient);
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IAttendanceReportService, AttendanceReportService>(); // Attendance report feature
-builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestService>();
-
-builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestService>(
-    client =>
-    {
-        client.BaseAddress = new Uri("http://localhost:5199/");
-    });
+builder.Services.AddHttpClient<IAttendanceRequestService, AttendanceRequestService>(ConfigureApiClient);
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 
@@ -76,7 +96,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-//app.UseHttpsRedirection();
+// HTTPS: when hosted, the platform terminates TLS and forwards plain HTTP,
+// so HSTS (above) plus a Secure-only auth cookie enforce HTTPS for browsers.
+app.UseSecurityHeaders(app.Configuration, app.Environment);
+
 app.UseRouting();
 
 app.UseAuthentication();

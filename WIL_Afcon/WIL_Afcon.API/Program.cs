@@ -3,6 +3,7 @@ using WIL_Afcon.API.Data;
 using WIL_Afcon.API.RealTime;
 using WIL_Afcon.API.Repositories;
 using WIL_Afcon.API.Repositories.Interfaces;
+using WIL_Afcon.API.Security;
 using WIL_Afcon.API.Services;
 using WIL_Afcon.API.Services.Interfaces;
 
@@ -42,13 +43,17 @@ builder.Services.AddSwaggerGen();
 
 
 
+// Only the MVC web app's origins may call the API from a browser
+// (configured per environment under Cors:AllowedOrigins).
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>() ?? Array.Empty<string>();
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("WebApp", policy =>
     {
-        policy.WithOrigins(
-                "https://localhost:7073",
-                "http://localhost:5084")
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -64,7 +69,9 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-app.UseCors("AllowAll");
+app.UseSecurityHeaders();
+app.UseCors("WebApp");
+app.UseMiddleware<ApiKeyMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<RealtimeAttendance>("/attendanceHub");
