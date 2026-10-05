@@ -6,6 +6,8 @@ using WIL_Afcon.API.Repositories.Interfaces;
 using WIL_Afcon.API.Security;
 using WIL_Afcon.API.Services;
 using WIL_Afcon.API.Services.Interfaces;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +46,21 @@ builder.Services.AddSwaggerGen();
 // Liveness probe for the hosting platform (Render health checks)
 builder.Services.AddHealthChecks();
 
+// Rate limit the device webhook per IP (high limit: the terminal uploads in bursts)
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy("device", context => RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        factory: _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = builder.Configuration.GetValue("RateLimiting:DevicePermitLimitPerMinute", 300),
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0
+        }));
+});
+
 
 
 // Only the MVC web app's origins may call the API from a browser
@@ -65,6 +82,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+await app.Services.GetRequiredService<MongoDbContext>()
+    .EnsureIndexesAsync(app.Logger);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -73,6 +93,7 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 app.UseSecurityHeaders();
+app.UseRateLimiter();
 app.UseCors("WebApp");
 app.UseMiddleware<ApiKeyMiddleware>();
 app.UseAuthorization();

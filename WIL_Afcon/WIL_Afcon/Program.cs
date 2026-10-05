@@ -7,6 +7,8 @@ using WIL_Afcon.Services.Interfaces;
 using AspNetCore.Identity.Mongo;
 using AspNetCore.Identity.Mongo.Model;
 using WIL_Afcon.Security;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +19,21 @@ builder.Services.AddSwaggerGen();
 
 // Liveness probe for the hosting platform (Render health checks)
 builder.Services.AddHealthChecks();
+
+// Rate limit login/register posts per IP to slow down password guessing
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy("login", context => RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        factory: _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = builder.Configuration.GetValue("RateLimiting:LoginPermitLimitPerMinute", 10),
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0
+        }));
+});
 
 
 //authentication
@@ -85,6 +102,9 @@ using (var scope = app.Services.CreateScope())
     await IdentitySetup.InitializeAsync(scope.ServiceProvider);
 }
 
+await app.Services.GetRequiredService<MongoDbContext>()
+    .EnsureIndexesAsync(app.Logger);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -104,6 +124,8 @@ if (!app.Environment.IsDevelopment())
 app.UseSecurityHeaders(app.Configuration, app.Environment);
 
 app.UseRouting();
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();
