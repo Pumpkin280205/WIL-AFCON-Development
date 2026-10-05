@@ -78,6 +78,8 @@ namespace WIL_Afcon.Controllers
 
             await _departmentService.CreateAsync(department);
 
+            TempData["Success"] = $"Department \"{department.DepartmentName}\" was created.";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -112,6 +114,8 @@ namespace WIL_Afcon.Controllers
 
             await _departmentService.UpdateAsync(department);
 
+            TempData["Success"] = $"Changes to \"{department.DepartmentName}\" were saved.";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -121,6 +125,8 @@ namespace WIL_Afcon.Controllers
         public async Task<IActionResult> Deactivate(string id)
         {
             await _departmentService.DeactivateAsync(id);
+
+            TempData["Success"] = "Department deactivated.";
 
             return RedirectToAction(nameof(Index));
         }

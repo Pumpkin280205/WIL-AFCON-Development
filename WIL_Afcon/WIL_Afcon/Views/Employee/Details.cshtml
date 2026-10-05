@@ -32,7 +32,7 @@
 
             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-content">
 
-                <svg xmlns="http://www.w3.org/2000/svg"
+                <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 24 24"
                      fill="none"
                      stroke="currentColor"
@@ -74,7 +74,7 @@
                    asp-action="Dashboard"
                    class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 24 24"
                          fill="none"
                          stroke="currentColor"
@@ -98,7 +98,7 @@
                    asp-action="Index"
                    class="mb-1 flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3 text-sm font-semibold text-primary no-underline">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 24 24"
                          fill="none"
                          stroke="currentColor"
@@ -124,7 +124,7 @@
                    asp-action="Index"
                    class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 24 24"
                          fill="none"
                          stroke="currentColor"
@@ -149,7 +149,7 @@
                    asp-action="Index"
                    class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 24 24"
                          fill="none"
                          stroke="currentColor"
@@ -173,7 +173,7 @@
                    asp-action="Index"
                    class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 24 24"
                          fill="none"
                          stroke="currentColor"
@@ -195,7 +195,7 @@
                    asp-action="Index"
                    class="mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 no-underline transition hover:bg-slate-100 hover:text-primary">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 24 24"
                          fill="none"
                          stroke="currentColor"
@@ -245,7 +245,7 @@
                     <button type="submit"
                             class="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
 
-                        <svg xmlns="http://www.w3.org/2000/svg"
+                        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 24 24"
                              fill="none"
                              stroke="currentColor"
@@ -280,13 +280,7 @@
         <main id="main-content" tabindex="-1" class="p-6 lg:p-9">
 
 
-            @if (TempData["Error"] != null)
-            {
-                <!-- ERROR BANNER -->
-                <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-700" role="alert">
-                    @TempData["Error"]
-                </div>
-            }
+            @* Success / error messages are shown by _StatusMessage in the layout *@
 
 
             <!-- ================================================== -->
@@ -302,7 +296,7 @@
                     <a asp-action="Index"
                        class="mb-4 inline-flex items-center gap-2 text-sm font-medium text-slate-500 no-underline transition hover:text-primary">
 
-                        <svg xmlns="http://www.w3.org/2000/svg"
+                        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 24 24"
                              fill="none"
                              stroke="currentColor"
@@ -336,7 +330,7 @@
                    asp-route-employeeId="@Model.Id"
                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-content no-underline shadow-sm transition hover:opacity-90">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 24 24"
                          fill="none"
                          stroke="currentColor"
@@ -584,7 +578,7 @@
                            asp-route-id="@Model.Id"
                            class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 no-underline transition hover:border-primary/30 hover:text-primary">
 
-                            <svg xmlns="http://www.w3.org/2000/svg"
+                            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                                  viewBox="0 0 24 24"
                                  fill="none"
                                  stroke="currentColor"
@@ -727,7 +721,7 @@
 
                             <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-slate-400">
 
-                                <svg xmlns="http://www.w3.org/2000/svg"
+                                <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                                      viewBox="0 0 24 24"
                                      fill="none"
                                      stroke="currentColor"
@@ -822,7 +816,7 @@
 
                                                 <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
 
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                                                          viewBox="0 0 24 24"
                                                          fill="none"
                                                          stroke="currentColor"
@@ -862,7 +856,7 @@
                                                    asp-route-id="@document.Id"
                                                    class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 no-underline transition hover:border-primary/30 hover:bg-primary/5 hover:text-primary">
 
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
                                                          viewBox="0 0 24 24"
                                                          fill="none"
                                                          stroke="currentColor"

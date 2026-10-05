@@ -9,7 +9,7 @@ using Xunit;
 
 namespace WIL_Afcon.Tests
 {
-    // Web app tests: role access, login, anti-forgery, lockout, rate limiting, headers
+    // Web app tests: role access, login, anti-forgery, lockout, rate limiting, headers, feedback messages
     [Collection(IntegrationCollection.Name)]
     public class WebAppIntegrationTests
     {
@@ -166,12 +166,44 @@ namespace WIL_Afcon.Tests
             Assert.True(response.Headers.Contains("Content-Security-Policy"));
         }
 
+        [Fact]
+        public async Task CreatingDepartment_ShowsSuccessMessageAfterRedirect()
+        {
+            var client = NewClient();
+            await LoginAsync(client, IntegrationTestFixture.AdminEmail, IntegrationTestFixture.AdminPassword);
+
+            var name = $"Test Dept {Guid.NewGuid():N}"[..20];
+            var token = ExtractToken(await client.GetStringAsync("/Department/Create"));
+
+            var create = await client.PostAsync("/Department/Create", new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                ["DepartmentName"] = name,
+                ["Description"] = "Created by an integration test",
+                ["IsActive"] = "true",
+                ["__RequestVerificationToken"] = token
+            }));
+
+            Assert.Equal(HttpStatusCode.Redirect, create.StatusCode);
+
+            // The next page shows the confirmation once, announced to screen readers
+            var page = await client.GetStringAsync(create.Headers.Location!.OriginalString);
+
+            Assert.Contains("role=\"status\"", page);
+            Assert.Contains($"Department &quot;{name}&quot; was created.", page);
+
+            // ...and not again on the page after that
+            var nextPage = await client.GetStringAsync("/Department");
+            Assert.DoesNotContain("was created.", nextPage);
+        }
+
+        private static string ExtractToken(string page)
+            => Regex.Match(page, "name=\"__RequestVerificationToken\" type=\"hidden\" value=\"([^\"]+)\"")
+                .Groups[1].Value;
+
         // Gets the anti-forgery token, then posts the login form
         private static async Task<HttpResponseMessage> LoginAsync(HttpClient client, string email, string password)
         {
-            var page = await client.GetStringAsync("/Account/Login");
-            var token = Regex.Match(page, "name=\"__RequestVerificationToken\" type=\"hidden\" value=\"([^\"]+)\"")
-                .Groups[1].Value;
+            var token = ExtractToken(await client.GetStringAsync("/Account/Login"));
 
             return await client.PostAsync("/Account/Login", new FormUrlEncodedContent(new Dictionary<string, string>
             {
