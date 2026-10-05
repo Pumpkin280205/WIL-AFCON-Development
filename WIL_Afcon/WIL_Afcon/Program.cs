@@ -6,6 +6,7 @@ using WIL_Afcon.Services;
 using WIL_Afcon.Services.Interfaces;
 using AspNetCore.Identity.Mongo;
 using AspNetCore.Identity.Mongo.Model;
+using MongoDB.Driver;
 using WIL_Afcon.Security;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +29,11 @@ builder.Services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(
     },
     mongo =>
     {
-        mongo.ConnectionString =
-            builder.Configuration["MongoDbSettings:ConnectionString"]!;
+        mongo.ConnectionString = new MongoUrlBuilder(
+            builder.Configuration["MongoDbSettings:ConnectionString"]!)
+        {
+            DatabaseName = builder.Configuration["MongoDbSettings:DatabaseName"]
+        }.ToString();
 
         mongo.RolesCollection = "Roles";
         mongo.UsersCollection = "Users";
