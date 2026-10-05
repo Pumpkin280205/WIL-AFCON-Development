@@ -268,7 +268,7 @@
 
     <div class="min-w-0 flex-1 lg:ml-72">
 
-        <main class="mx-auto max-w-5xl p-6 lg:p-9">
+        <main id="main-content" tabindex="-1" class="mx-auto max-w-5xl p-6 lg:p-9">
 
 
             <!-- ================================================== -->
@@ -323,7 +323,7 @@
 
 
                 <!-- VALIDATION SUMMARY -->
-                <div asp-validation-summary="ModelOnly"
+                <div asp-validation-summary="ModelOnly" role="alert"
                      class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 </div>
 

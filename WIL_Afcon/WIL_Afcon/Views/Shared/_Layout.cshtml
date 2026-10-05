@@ -11,7 +11,7 @@
     <meta name="api-public-url"
           content="@Configuration["ApiSettings:PublicUrl"]" />
 
-    <title>@ViewData["Title"] - WIL_Afcon</title>
+    <title>@ViewData["Title"] - Afcon Attendance</title>
 
     <!-- Tailwind / DaisyUI -->
     <link rel="stylesheet"
@@ -28,9 +28,12 @@
 
 <body class="m-0 bg-[#f5f7fc]">
 
-    <main role="main">
+    <!-- Skip link for keyboard and screen-reader users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div id="page">
         @RenderBody()
-    </main>
+    </div>
 
 
     <!-- Scripts -->

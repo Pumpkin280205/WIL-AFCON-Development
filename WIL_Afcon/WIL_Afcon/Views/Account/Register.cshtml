@@ -4,7 +4,7 @@
     ViewData["Title"] = "Employee Registration";
 }
 
-<div class="min-h-screen bg-slate-50">
+<main id="main-content" tabindex="-1" class="min-h-screen bg-slate-50">
 
     <div class="flex min-h-screen flex-col items-center justify-center px-6 py-10">
 
@@ -40,7 +40,7 @@
 
 
                 <!-- VALIDATION SUMMARY -->
-                <div asp-validation-summary="ModelOnly"
+                <div asp-validation-summary="ModelOnly" role="alert"
                      class="mb-4 text-sm text-red-600">
                 </div>
 
@@ -162,7 +162,7 @@
 
     </div>
 
-</div>
+</main>
 
 @section Scripts {
     @{
