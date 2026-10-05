@@ -557,6 +557,42 @@ git push origin <branch-name>
 
 ---
 
+## CI/CD Pipeline
+
+[![CI/CD](https://github.com/WIL-AFCON/Development/actions/workflows/ci.yml/badge.svg)](https://github.com/WIL-AFCON/Development/actions/workflows/ci.yml)
+
+The pipeline is defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml) and runs on GitHub Actions.
+
+```mermaid
+flowchart LR
+    F[feature/* branch] -->|Pull request| D[develop]
+    D -->|Release pull request| M[main]
+    F -. PR checks .-> B
+    D -. push .-> B
+    M -->|push| B[Build & test<br/>Tailwind, .NET build,<br/>unit tests, Docker images]
+    B -->|main only, tests passed| A[Deploy API<br/>Render deploy hook]
+    A -->|API live + /health OK| W[Deploy web app<br/>Render deploy hook]
+    W --> S[Smoke test<br/>health checks + auth check]
+```
+
+| Stage | When it runs | What it does |
+|---|---|---|
+| Build & test | Every pull request and every push to `develop` or `main` | Builds the Tailwind CSS, restores and builds the solution, runs the unit tests (results uploaded as an artifact), and builds both Docker images exactly as Render will |
+| Deploy | Push to `main` only, after Build & test passes | Triggers the Render deploy hook for the API, waits until it is live and healthy, then does the same for the web app |
+| Smoke test | After both deploys | Calls `/health` on both services and checks that admin pages redirect to the login page when not signed in |
+
+Render's auto-deploy is turned off (`autoDeploy: false` in [`render.yaml`](render.yaml)), so code reaches production only after the tests pass. A failed test, a failed Render build or a failed health check stops the pipeline and marks the run red.
+
+**Required repository secrets** (Settings → Secrets and variables → Actions):
+
+| Secret | Where to find it |
+|---|---|
+| `RENDER_API_DEPLOY_HOOK` | Render → `wil-afcon-api` → Settings → Deploy Hook |
+| `RENDER_WEB_DEPLOY_HOOK` | Render → `wil-afcon-web` → Settings → Deploy Hook |
+| `RENDER_API_KEY` | Render → Account Settings → API Keys (lets the pipeline confirm each deploy went live) |
+
+---
+
 ## PowerPoint Presentation
 
 [Task 2 Final PowerPoint Presentation.pdf](https://github.com/user-attachments/files/33051345/Task.2.Final.PowerPoint.Presentation.pdf)
