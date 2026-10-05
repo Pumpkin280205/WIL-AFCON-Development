@@ -10,8 +10,7 @@ using Xunit;
 
 namespace WIL_Afcon.Tests
 {
-    // End-to-end checks on WIL_Afcon.API: API key protection, the Hikvision
-    // webhook token, device-binding conflicts and the MongoDB unique indexes.
+    // API tests: API key, device token, device-binding conflicts, unique indexes
     [Collection(IntegrationCollection.Name)]
     public class ApiIntegrationTests
     {
@@ -128,7 +127,7 @@ namespace WIL_Afcon.Tests
         {
             var employees = EmployeesCollection();
 
-            // The unique index is partial, so unbound employees (null or "") are allowed
+            // Partial unique index: null/empty values are allowed to repeat
             await employees.InsertOneAsync(NewEmployee(deviceUserId: null));
             await employees.InsertOneAsync(NewEmployee(deviceUserId: null));
             await employees.InsertOneAsync(NewEmployee(deviceUserId: ""));
@@ -147,8 +146,7 @@ namespace WIL_Afcon.Tests
         [Fact]
         public async Task HikvisionKeepAlive_WithDeviceToken_Returns200()
         {
-            // An empty POST is the terminal's keep-alive; no API key is needed,
-            // only the device token.
+            // Empty POST = device keep-alive; needs the device token, not the API key
             var response = await ClientWithKey(apiKey: null).PostAsync(
                 $"/api/attendance/hikvision-event?token={IntegrationTestFixture.DeviceToken}",
                 new StringContent(string.Empty));
@@ -158,7 +156,7 @@ namespace WIL_Afcon.Tests
 
         private IMongoCollection<Employee> EmployeesCollection()
         {
-            // Make sure the API (and its start-up index creation) has run first
+            // Start the API first so its indexes exist
             _ = _fixture.Api.Server;
 
             return _fixture.Api.Services

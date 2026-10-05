@@ -22,11 +22,10 @@ namespace WIL_Afcon.Data
 
         public IMongoDatabase Database => _database;
 
-        // Called once at start-up. Only covers the collection the web app alone
-        // uses; Employees, Attendance and AttendanceRequests are indexed by the API.
+        // Creates indexes at start-up for web-only collections (the API indexes the rest)
         public async Task EnsureIndexesAsync(ILogger logger)
         {
-            // "My documents" list: one employee's files, newest first
+            // An employee's documents, newest first
             var index = new CreateIndexModel<Document>(
                 Builders<Document>.IndexKeys
                     .Ascending(d => d.EmployeeId)
@@ -39,7 +38,7 @@ namespace WIL_Afcon.Data
             }
             catch (Exception ex)
             {
-                // Do not stop the web app from starting; log so it can be fixed.
+                // Log and keep starting
                 logger.LogError(ex, "Could not create index {IndexName} on Documents.", index.Options.Name);
             }
         }

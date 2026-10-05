@@ -22,15 +22,13 @@ namespace WIL_Afcon.API.Data
 
         public IMongoDatabase Database => _database;
 
-        // Called once at start-up. Creating an index that already exists with the
-        // same definition does nothing, so this is safe to run on every start.
+        // Creates indexes at start-up; existing ones are left unchanged
         public async Task EnsureIndexesAsync(ILogger logger)
         {
             var employee = Builders<Employee>.IndexKeys;
             var employeeFilter = Builders<Employee>.Filter;
 
-            // Unique only where a value is set: unbound employees store null or ""
-            // and must not collide with each other. $gt "" matches non-empty strings.
+            // Unique only when set, so employees without a value don't clash
             await CreateIndexAsync(logger, "Employees", new CreateIndexModel<Employee>(
                 employee.Ascending(e => e.DeviceUserId),
                 new CreateIndexOptions<Employee>
@@ -70,14 +68,12 @@ namespace WIL_Afcon.API.Data
 
             var attendance = Builders<Attendance>.IndexKeys;
 
-            // "Today's record for this employee" and employee history lookups.
-            // Not unique: the web app and the API store AttendanceDate with
-            // different times of day, so one-record-per-day cannot be enforced here.
+            // Today's record / history lookups (not unique: apps store different times of day)
             await CreateIndexAsync(logger, "Attendance", new CreateIndexModel<Attendance>(
                 attendance.Ascending(a => a.EmployeeId).Descending(a => a.AttendanceDate),
                 new CreateIndexOptions { Name = "ix_employee_date" }));
 
-            // Admin list and reports: date-range queries sorted newest first
+            // Date-range lists and reports, newest first
             await CreateIndexAsync(logger, "Attendance", new CreateIndexModel<Attendance>(
                 attendance.Descending(a => a.AttendanceDate),
                 new CreateIndexOptions { Name = "ix_date" }));
@@ -94,8 +90,7 @@ namespace WIL_Afcon.API.Data
                 new CreateIndexOptions { Name = "ix_status_created" }));
         }
 
-        // One index at a time so a single failure (e.g. existing duplicate data
-        // blocking a unique index) does not stop the others or the API starting.
+        // Logs a failed index (e.g. duplicate data) without stopping start-up
         private async Task CreateIndexAsync<T>(ILogger logger, string collectionName, CreateIndexModel<T> index)
         {
             try
