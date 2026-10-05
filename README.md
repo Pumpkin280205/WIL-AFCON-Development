@@ -569,7 +569,7 @@ flowchart LR
     D -->|Release pull request| M[main]
     F -. PR checks .-> B
     D -. push .-> B
-    M -->|push| B[Build & test<br/>Tailwind, .NET build,<br/>unit tests, Docker images]
+    M -->|push| B[Build & test<br/>Tailwind, .NET build,<br/>unit + integration tests,<br/>Docker images]
     B -->|main only, tests passed| A[Deploy API<br/>Render deploy hook]
     A -->|API live + /health OK| W[Deploy web app<br/>Render deploy hook]
     W --> S[Smoke test<br/>health checks + auth check]
@@ -577,7 +577,7 @@ flowchart LR
 
 | Stage | When it runs | What it does |
 |---|---|---|
-| Build & test | Every pull request and every push to `develop` or `main` | Builds the Tailwind CSS, restores and builds the solution, runs the unit tests (results uploaded as an artifact), and builds both Docker images exactly as Render will |
+| Build & test | Every pull request and every push to `develop` or `main` | Builds the Tailwind CSS, restores and builds the solution, runs the unit tests and the integration tests (both apps run in memory against a throwaway MongoDB in Docker; results uploaded as an artifact), and builds both Docker images exactly as Render will |
 | Deploy | Push to `main` only, after Build & test passes | Triggers the Render deploy hook for the API, waits until it is live and healthy, then does the same for the web app |
 | Smoke test | After both deploys | Calls `/health` on both services and checks that admin pages redirect to the login page when not signed in |
 

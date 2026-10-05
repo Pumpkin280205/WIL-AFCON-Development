@@ -1,6 +1,7 @@
 ﻿using AspNetCore.Identity.Mongo.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using WIL_Afcon.Services.Interfaces;
 using WIL_Afcon.Models.ViewModels;
 
@@ -51,6 +52,7 @@ namespace WIL_Afcon.Controllers
 // (Accessed: 26 September 2026).
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [EnableRateLimiting("login")]
         public async Task<IActionResult> Login(
             string email,
             string password,
@@ -86,7 +88,7 @@ namespace WIL_Afcon.Controllers
                 user.UserName!,
                 password,
                 rememberMe,
-                lockoutOnFailure: false);
+                lockoutOnFailure: true);
 
             if (result.Succeeded)
             {
@@ -132,6 +134,7 @@ namespace WIL_Afcon.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [EnableRateLimiting("login")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
 

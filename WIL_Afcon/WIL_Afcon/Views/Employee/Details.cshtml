@@ -277,13 +277,13 @@
 
     <div class="min-w-0 flex-1 lg:ml-72">
 
-        <main class="p-6 lg:p-9">
+        <main id="main-content" tabindex="-1" class="p-6 lg:p-9">
 
 
             @if (TempData["Error"] != null)
             {
                 <!-- ERROR BANNER -->
-                <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-700">
+                <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-700" role="alert">
                     @TempData["Error"]
                 </div>
             }

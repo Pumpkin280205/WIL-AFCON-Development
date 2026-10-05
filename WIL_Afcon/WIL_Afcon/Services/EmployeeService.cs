@@ -97,7 +97,7 @@ namespace WIL_Afcon.Services
             if (!response.IsSuccessStatusCode)
                 return;
 
-            employee.IsActive = false;
+            employee.IsActive = true;
 
             await _employeeRepository.UpdateAsync(employee);
         }

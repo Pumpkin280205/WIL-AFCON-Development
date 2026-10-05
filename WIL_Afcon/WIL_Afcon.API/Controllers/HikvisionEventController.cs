@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Options;
 using System.Security.Cryptography;
 using System.Text;
@@ -44,6 +45,7 @@ namespace WIL_Afcon.API.Controllers
         // No [Consumes] filter: the terminal's content-type varies by firmware and
         // the body is read manually below.
         [HttpPost("hikvision-event")]
+        [EnableRateLimiting("device")]
         public async Task<IActionResult> HikvisionEvent()
         {
             if (!IsRequestAuthorised())
