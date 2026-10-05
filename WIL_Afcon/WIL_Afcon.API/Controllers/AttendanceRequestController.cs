@@ -8,6 +8,7 @@ namespace WIL_Afcon.API.Controllers
 {
     [ApiController]
     [Route("api/attendance-requests")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class AttendanceRequestController : ControllerBase
     {
         private readonly IAttendanceRequestService _attendanceRequestService;
@@ -29,6 +30,7 @@ namespace WIL_Afcon.API.Controllers
         }
         // GET: api/attendance-requests
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<AttendanceRequest>>> GetAll()
         {
             var requests = await _attendanceRequestService.GetAllAsync();
@@ -38,16 +40,18 @@ namespace WIL_Afcon.API.Controllers
 
         // GET: api/attendance-requests/{id}
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(AttendanceRequest), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(string id)
         {
             var request = await _attendanceRequestService.GetByIdAsync(id);
 
             if (request == null)
             {
-                return NotFound(new
-                {
-                    error = "Attendance request not found."
-                });
+                return Problem(
+                    detail: "Attendance request not found.",
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Not found");
             }
 
             return Ok(request);
@@ -55,6 +59,7 @@ namespace WIL_Afcon.API.Controllers
 
         // GET: api/attendance-requests/employee/{employeeId}
         [HttpGet("employee/{employeeId}")]
+        [ProducesResponseType(typeof(List<AttendanceRequest>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByEmployee(string employeeId)
         {
             var requests =
@@ -65,6 +70,7 @@ namespace WIL_Afcon.API.Controllers
 
         // GET: api/attendance-requests/pending
         [HttpGet("pending")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<AttendanceRequest>>> GetPending()
         {
             var requests = await _attendanceRequestService.GetPendingAsync();
@@ -84,6 +90,9 @@ namespace WIL_Afcon.API.Controllers
 
 
         [HttpPost]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(typeof(AttendanceRequest), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create(
     [FromForm] AttendanceRequest request,
     IFormFile? file)
@@ -94,7 +103,10 @@ namespace WIL_Afcon.API.Controllers
 
                 if (uploadError != null)
                 {
-                    return BadRequest(new { error = uploadError });
+                    return Problem(
+                        detail: uploadError,
+                        statusCode: StatusCodes.Status400BadRequest,
+                        title: "Invalid upload");
                 }
 
                 var fileName = FileUploadValidator.SafeFileName(file.FileName);
@@ -121,6 +133,8 @@ namespace WIL_Afcon.API.Controllers
 
         // PUT: api/attendance-requests/{id}/accept
         [HttpPut("{id}/accept")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Accept(
             string id,
             [FromBody] string? adminComment)
@@ -132,10 +146,10 @@ namespace WIL_Afcon.API.Controllers
 
             if (!success)
             {
-                return NotFound(new
-                {
-                    error = "Attendance request not found."
-                });
+                return Problem(
+                    detail: "Attendance request not found.",
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Not found");
             }
 
             return Ok(new
@@ -146,6 +160,8 @@ namespace WIL_Afcon.API.Controllers
 
         // PUT: api/attendance-requests/{id}/reject
         [HttpPut("{id}/reject")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Reject(
             string id,
             [FromBody] string? adminComment)
@@ -157,10 +173,10 @@ namespace WIL_Afcon.API.Controllers
 
             if (!success)
             {
-                return NotFound(new
-                {
-                    error = "Attendance request not found."
-                });
+                return Problem(
+                    detail: "Attendance request not found.",
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Not found");
             }
 
             return Ok(new

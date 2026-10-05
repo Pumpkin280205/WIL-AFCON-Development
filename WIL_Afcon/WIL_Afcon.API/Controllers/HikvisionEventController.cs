@@ -46,6 +46,9 @@ namespace WIL_Afcon.API.Controllers
         // the body is read manually below.
         [HttpPost("hikvision-event")]
         [EnableRateLimiting("device")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
         public async Task<IActionResult> HikvisionEvent()
         {
             if (!IsRequestAuthorised())
@@ -95,6 +98,8 @@ namespace WIL_Afcon.API.Controllers
 
         // GET: api/attendance/device/health
         [HttpGet("device/health")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult<DeviceHealthResponse> Health()
             => Ok(_deviceEvents.GetHealth());
 
@@ -133,24 +138,28 @@ namespace WIL_Afcon.API.Controllers
 
         // DELETE: api/attendance/device/employee/{deviceUserId}
         [HttpDelete("device/employee/{deviceUserId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status502BadGateway)]
         public async Task<IActionResult> DeleteEmployeeFromDevice(string deviceUserId)
         {
             if (string.IsNullOrWhiteSpace(deviceUserId))
             {
-                return BadRequest(new
-                {
-                    message = "Device user ID is required."
-                });
+                return Problem(
+                    detail: "Device user ID is required.",
+                    statusCode: StatusCodes.Status400BadRequest,
+                    title: "Invalid request");
             }
 
             var deleted = await _hikvisionService.DeleteEmployeeAsync(deviceUserId);
 
             if (!deleted)
             {
-                return StatusCode(502, new
-                {
-                    message = "The employee could not be removed from the Hikvision device."
-                });
+                return Problem(
+                    detail: "The employee could not be removed from the Hikvision device.",
+                    statusCode: StatusCodes.Status502BadGateway,
+                    title: "Device unavailable");
             }
 
             return Ok(new

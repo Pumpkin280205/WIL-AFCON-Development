@@ -67,8 +67,11 @@ namespace WIL_Afcon.API.Security
                 context.Request.Path,
                 context.Connection.RemoteIpAddress);
 
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsJsonAsync(new { error = "A valid API key is required." });
+            await Results.Problem(
+                    statusCode: StatusCodes.Status401Unauthorized,
+                    title: "Unauthorized",
+                    detail: $"A valid API key is required in the {HeaderName} header.")
+                .ExecuteAsync(context);
         }
 
         private bool IsExempt(PathString path)

@@ -1,5 +1,6 @@
 using WIL_Afcon.API.Configuration;
 using WIL_Afcon.API.Data;
+using WIL_Afcon.API.Errors;
 using WIL_Afcon.API.RealTime;
 using WIL_Afcon.API.Repositories;
 using WIL_Afcon.API.Repositories.Interfaces;
@@ -13,6 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 
 builder.Services.AddSingleton<MongoDbContext>();
 
@@ -84,6 +88,9 @@ var app = builder.Build();
 
 await app.Services.GetRequiredService<MongoDbContext>()
     .EnsureIndexesAsync(app.Logger);
+
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 if (app.Environment.IsDevelopment())
 {

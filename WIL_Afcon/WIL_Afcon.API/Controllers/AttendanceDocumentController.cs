@@ -7,6 +7,7 @@ namespace WIL_Afcon.API.Controllers
 {
     [ApiController]
     [Route("api/attendance-documents")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class AttendanceDocumentController : ControllerBase
     {
         private readonly IAttendanceDocumentService
@@ -20,21 +21,27 @@ namespace WIL_Afcon.API.Controllers
         }
 
         [HttpPost("upload")]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Upload(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
-                return BadRequest(new
-                {
-                    error = "A file is required."
-                });
+                return Problem(
+                    detail: "A file is required.",
+                    statusCode: StatusCodes.Status400BadRequest,
+                    title: "Invalid upload");
             }
 
             var uploadError = FileUploadValidator.Validate(file);
 
             if (uploadError != null)
             {
-                return BadRequest(new { error = uploadError });
+                return Problem(
+                    detail: uploadError,
+                    statusCode: StatusCodes.Status400BadRequest,
+                    title: "Invalid upload");
             }
 
             var fileName = FileUploadValidator.SafeFileName(file.FileName);
@@ -58,6 +65,8 @@ namespace WIL_Afcon.API.Controllers
 
 
         [HttpGet("{documentId}")]
+        [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Download(
             string documentId)
         {
@@ -67,10 +76,10 @@ namespace WIL_Afcon.API.Controllers
 
             if (document == null)
             {
-                return NotFound(new
-                {
-                    error = "Document not found."
-                });
+                return Problem(
+                    detail: "Document not found.",
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Not found");
             }
 
             return File(
