@@ -1,13 +1,13 @@
 name: CI/CD
 
-# feature/* --PR--> develop --PR--> main --> deploy to Render
-#  - Every PR and every push to develop/main is built and tested.
+# feature/* --PR--> feature/develop --PR--> main --> deploy to Render
+#  - Every PR and every push to feature/develop or main is built and tested.
 #  - Only a push to main (i.e. a merged release PR) deploys.
 on:
   push:
-    branches: [main, develop]
+    branches: [main, feature/develop]
   pull_request:
-    branches: [main, develop]
+    branches: [main, feature/develop]
   workflow_dispatch:
 
 permissions:
