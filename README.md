@@ -266,6 +266,25 @@ Main API endpoints (full list in Swagger when running in Development):
 | Biometric device | `POST /api/attendance/hikvision-event`, `GET /api/attendance/device/health` |
 | Health | `GET /health` |
 
+### API Error Handling
+
+Every API error uses the standard **RFC 7807 `application/problem+json`** format, so callers always get the same shape:
+
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.10",
+  "title": "Duplicate record",
+  "status": 409,
+  "detail": "A record with the same unique value (for example device user ID, email or employee number) already exists.",
+  "traceId": "00-6f1c...-01"
+}
+```
+
+- Controllers return specific problems for expected failures: `400` for broken attendance rules or invalid uploads, `401` for a missing API key, `404` for unknown records, `409` when a device user ID is already bound, and `502` when the biometric device cannot be reached.
+- A global exception handler (`Errors/ApiExceptionHandler.cs`) catches anything unexpected. A unique-index violation in MongoDB becomes a `409 Conflict`. Any other exception becomes a generic `500` that is logged on the server but never exposes stack traces or database details to the caller.
+- Status codes without a body (for example `429 Too Many Requests` from rate limiting) also get a problem+json body.
+- Every endpoint declares its possible responses with `[ProducesResponseType]`, so Swagger documents the status codes and error shapes.
+
 ### Controllers
 
 Controllers handle HTTP requests, authorization and navigation between the user interface and application services.
@@ -281,6 +300,12 @@ Repositories provide the data-access layer between application services and Mong
 ### Views
 
 Razor views provide separate interfaces for administrative and employee functionality.
+
+### User Feedback and Accessibility
+
+- **Action feedback:** creating, editing or deactivating records, accepting or rejecting requests, uploading documents and every clock-in, break or clock-out action shows a success or error message after the redirect (`Views/Shared/_StatusMessage.cshtml`). Success messages fade out after a few seconds and pause while hovered or focused; errors stay until dismissed. Messages use `role="status"` / `role="alert"` so screen readers announce them.
+- **Loading state:** submitting a form shows a spinner on the clicked button and blocks double submits, so a slow request cannot create the same record twice.
+- **Accessibility:** a skip link, one `<main>` landmark per page, visible keyboard focus, labelled form fields, descriptive `aria-label`s on icon-only buttons (for example "Edit Jane Smith"), decorative icons hidden from screen readers, and support for the reduced-motion setting.
 
 ---
 
@@ -569,12 +594,12 @@ npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --mi
 
 ## Testing
 
-The `WIL_Afcon.Tests` project contains **75 automated tests** (xUnit), all run by the CI pipeline on every pull request.
+The `WIL_Afcon.Tests` project contains **80 automated tests** (xUnit), all run by the CI pipeline on every pull request.
 
 | Type | Files | What is tested |
 |---|---|---|
 | Unit | `AttendanceRulesTests`, `AttendanceRequestTests`, `AttendanceReportTests`, `DeviceUserIdTests`, `DocumentTests` | Clock-in window, break limits, double-scan rejection, request accept/reject rules, report calculations (overtime, Sunday hours, public holidays, weekly and monthly totals, CSV), unique device IDs, document ownership and download permissions |
-| Integration | `ApiIntegrationTests`, `WebAppIntegrationTests` | Both apps run in memory (`WebApplicationFactory`) against a throwaway MongoDB started in Docker (Testcontainers). Covers real HTTP endpoints and status codes (200/400/401/409), the API key and device token, the unique device ID index, anonymous redirects to login, admin vs employee access, anti-forgery checks, account lockout, login rate limiting and security headers |
+| Integration | `ApiIntegrationTests`, `WebAppIntegrationTests` | Both apps run in memory (`WebApplicationFactory`) against a throwaway MongoDB started in Docker (Testcontainers). Covers real HTTP endpoints and status codes (200/400/401/404/409), problem+json error bodies, the API key and device token, the unique device ID and email indexes, anonymous redirects to login, admin vs employee access, anti-forgery checks, account lockout, login rate limiting, security headers, and success messages shown after an action |
 
 Run all tests from the `WIL_Afcon` folder (Docker must be running for the integration tests):
 
