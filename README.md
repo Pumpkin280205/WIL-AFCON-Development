@@ -9,6 +9,7 @@ The system replaces Afcon's paper-based attendance register with a centralised w
 ## Table of Contents
 
 - [Project Overview](#project-overview)
+- [System Demonstration Video](#-system-demonstration-video)
 - [Problem Statement](#problem-statement)
 - [Project Objectives](#project-objectives)
 - [Key Features](#key-features)
@@ -36,6 +37,16 @@ Afcon Industrial Equipment previously relied on a paper-based staff attendance r
 The **Afcon Staff Attendance Register System** digitises this process. Employees can be linked to a biometric device identity and attendance records can be managed through the web application. Administrators are provided with tools for employee management, attendance monitoring, requests, reports, departments, and employee documents.
 
 The system follows an **ASP.NET Core MVC** architecture with a service and repository layer and uses **MongoDB** for persistent data storage.
+
+---
+
+## System Demonstration Video
+
+A video demonstration of the completed **AFCODE Staff Attendance Register System** is available below.
+
+The demonstration showcases the completed system and its main functionality, including the employee and administrator interfaces, attendance management, biometric functionality, attendance requests, reporting, and document management.
+
+**[Watch the AFCODE System Demonstration](https://www.youtube.com/watch?v=QCovuWUmQYY)**
 
 ---
 
