@@ -110,6 +110,10 @@ jobs:
       RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
 
     steps:
+      # Each job starts on a fresh runner, so the repo is needed for the wait script
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Check deploy hooks are configured
         env:
           API_HOOK: ${{ secrets.RENDER_API_DEPLOY_HOOK }}
