@@ -40,22 +40,22 @@ namespace WIL_Afcon.API.Services
             _health.MarkEventReceived();
 
             var employeeNumber = deviceEvent?.EmployeeNoString?.Trim();
-            if (string.IsNullOrEmpty(employeeNumber))
+            if (deviceEvent is null || string.IsNullOrEmpty(employeeNumber))
             {
                 return "ignored: keep-alive or non-authentication event (no person attached)";
             }
 
             if (!string.IsNullOrWhiteSpace(deviceEvent.InductiveEventType) &&
-    !deviceEvent.InductiveEventType.Equals(
-        "authenticated",
-        StringComparison.OrdinalIgnoreCase))
+                !deviceEvent.InductiveEventType.Equals(
+                    "authenticated",
+                    StringComparison.OrdinalIgnoreCase))
             {
                 return $"ignored: authentication was not successful ({deviceEvent.InductiveEventType})";
             }
 
 
             var window = TimeSpan.FromSeconds(Math.Max(1, _options.DedupeWindowSeconds));
-            var dedupeKey = deviceEvent!.SerialNo is { } serial
+            var dedupeKey = deviceEvent.SerialNo is { } serial
                 ? $"serial:{serial}"
                 : $"{employeeNumber}:{deviceEvent.AttendanceStatus}";
 

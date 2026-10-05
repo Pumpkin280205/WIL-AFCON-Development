@@ -88,28 +88,29 @@ namespace WIL_Afcon.Controllers
 // (Accessed: 26 September 2026).
         [ValidateAntiForgeryToken]
         public Task<IActionResult> ClockIn()
-            => RunEmployeeActionAsync(id => _attendanceService.ClockInAsync(id));
+            => RunEmployeeActionAsync(id => _attendanceService.ClockInAsync(id), "Clocked in");
 
         [HttpPost]
         [Authorize(Roles = "Employee")]
         [ValidateAntiForgeryToken]
         public Task<IActionResult> ClockOut()
-           => RunEmployeeActionAsync(id => _attendanceService.ClockOutAsync(id));
+           => RunEmployeeActionAsync(id => _attendanceService.ClockOutAsync(id), "Clocked out");
 
         [HttpPost]
         [Authorize(Roles = "Employee")]
         [ValidateAntiForgeryToken]
         public Task<IActionResult> StartBreak()
-            => RunEmployeeActionAsync(id => _attendanceService.StartBreakAsync(id));
+            => RunEmployeeActionAsync(id => _attendanceService.StartBreakAsync(id), "Break started");
 
         [HttpPost]
         [Authorize(Roles = "Employee")]
         [ValidateAntiForgeryToken]
         public Task<IActionResult> EndBreak()
-            => RunEmployeeActionAsync(id => _attendanceService.EndBreakAsync(id));
+            => RunEmployeeActionAsync(id => _attendanceService.EndBreakAsync(id), "Break ended");
 
         private async Task<IActionResult> RunEmployeeActionAsync(
-            Func<string, Task> action)
+            Func<string, Task> action,
+            string successMessage)
         {
             var employee = await GetCurrentEmployeeAsync();
 
@@ -121,6 +122,7 @@ namespace WIL_Afcon.Controllers
             try
             {
                 await action(employee.Id);
+                TempData["Success"] = $"{successMessage}.";
             }
             catch (InvalidOperationException ex)
             {
@@ -139,33 +141,35 @@ namespace WIL_Afcon.Controllers
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public Task<IActionResult> AdminClockIn(string employeeId)
-            => RunAdminActionAsync(employeeId, id => _attendanceService.ClockInAsync(id));
+            => RunAdminActionAsync(employeeId, id => _attendanceService.ClockInAsync(id), "Clock-in recorded");
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public Task<IActionResult> AdminClockOut(string employeeId)
-            => RunAdminActionAsync(employeeId, id => _attendanceService.ClockOutAsync(id));
+            => RunAdminActionAsync(employeeId, id => _attendanceService.ClockOutAsync(id), "Clock-out recorded");
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public Task<IActionResult> AdminStartBreak(string employeeId)
-            => RunAdminActionAsync(employeeId, id => _attendanceService.StartBreakAsync(id));
+            => RunAdminActionAsync(employeeId, id => _attendanceService.StartBreakAsync(id), "Break start recorded");
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public Task<IActionResult> AdminEndBreak(string employeeId)
-            => RunAdminActionAsync(employeeId, id => _attendanceService.EndBreakAsync(id));
+            => RunAdminActionAsync(employeeId, id => _attendanceService.EndBreakAsync(id), "Break end recorded");
 
         private async Task<IActionResult> RunAdminActionAsync(
             string employeeId,
-            Func<string, Task> action)
+            Func<string, Task> action,
+            string successMessage)
         {
             try
             {
                 await action(employeeId);
+                TempData["Success"] = $"{successMessage}.";
             }
             catch (InvalidOperationException ex)
             {

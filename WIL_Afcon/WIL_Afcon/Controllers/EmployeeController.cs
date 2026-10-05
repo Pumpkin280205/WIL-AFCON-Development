@@ -115,6 +115,8 @@ namespace WIL_Afcon.Controllers
                 return View(employee);
             }
 
+            TempData["Success"] = $"{employee.FirstName} {employee.LastName} was added.";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -158,6 +160,8 @@ namespace WIL_Afcon.Controllers
 
                 return View(employee);
             }
+
+            TempData["Success"] = $"Changes to {employee.FirstName} {employee.LastName} were saved.";
 
             return RedirectToAction(nameof(Index));
         }

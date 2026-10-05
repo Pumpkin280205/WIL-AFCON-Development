@@ -157,6 +157,8 @@ namespace WIL_Afcon.Controllers
                 return NotFound();
             }
 
+            TempData["Success"] = "Request accepted. The employee can now see the decision.";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -176,6 +178,8 @@ namespace WIL_Afcon.Controllers
             {
                 return NotFound();
             }
+
+            TempData["Success"] = "Request rejected. The employee can now see the decision.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -272,6 +276,8 @@ namespace WIL_Afcon.Controllers
 
                 return View(request);
             }
+
+            TempData["Success"] = "Your request was submitted and is awaiting review.";
 
             return RedirectToAction(nameof(MyRequests));
         }

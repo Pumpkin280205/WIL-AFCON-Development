@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -10,7 +11,7 @@ using Xunit;
 
 namespace WIL_Afcon.Tests
 {
-    // API tests: API key, device token, device-binding conflicts, unique indexes
+    // API tests: API key, device token, device-binding conflicts, unique indexes, problem+json errors
     [Collection(IntegrationCollection.Name)]
     public class ApiIntegrationTests
     {
@@ -109,6 +110,56 @@ namespace WIL_Afcon.Tests
         }
 
         [Fact]
+        public async Task CreateEmployee_WithDuplicateEmail_Returns409Problem()
+        {
+            var client = ClientWithKey();
+            var first = NewEmployee();
+
+            Assert.Equal(HttpStatusCode.Created,
+                (await client.PostAsJsonAsync("/api/employees", first)).StatusCode);
+
+            // Same email, different employee: the unique index rejects it and the
+            // global exception handler turns that into 409 instead of a 500
+            var duplicate = NewEmployee();
+            duplicate.Email = first.Email;
+
+            var response = await client.PostAsJsonAsync("/api/employees", duplicate);
+
+            Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+            await AssertProblemAsync(response, 409);
+        }
+
+        [Fact]
+        public async Task GetUnknownEmployee_Returns404Problem()
+        {
+            var response = await ClientWithKey()
+                .GetAsync($"/api/employees/{ObjectId.GenerateNewId()}");
+
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            await AssertProblemAsync(response, 404);
+        }
+
+        [Fact]
+        public async Task MissingApiKey_Returns401Problem()
+        {
+            var response = await ClientWithKey(apiKey: null).GetAsync("/api/employees");
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            await AssertProblemAsync(response, 401);
+        }
+
+        [Fact]
+        public async Task EndBreak_WithoutClockingIn_Returns400Problem()
+        {
+            // A brand-new id has no attendance today, so this breaks a rule at any time of day
+            var response = await ClientWithKey()
+                .PostAsync($"/api/attendance/{ObjectId.GenerateNewId()}/break/end", null);
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            await AssertProblemAsync(response, 400);
+        }
+
+        [Fact]
         public async Task DuplicateDeviceUserId_IsRejectedByUniqueIndex()
         {
             var employees = EmployeesCollection();
@@ -152,6 +203,17 @@ namespace WIL_Afcon.Tests
                 new StringContent(string.Empty));
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        // Every API error should use the RFC 7807 problem+json shape
+        private static async Task AssertProblemAsync(HttpResponseMessage response, int expectedStatus)
+        {
+            Assert.Equal("application/problem+json", response.Content.Headers.ContentType?.MediaType);
+
+            var problem = await response.Content.ReadFromJsonAsync<JsonElement>();
+
+            Assert.Equal(expectedStatus, problem.GetProperty("status").GetInt32());
+            Assert.False(string.IsNullOrWhiteSpace(problem.GetProperty("title").GetString()));
         }
 
         private IMongoCollection<Employee> EmployeesCollection()

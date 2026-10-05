@@ -81,6 +81,8 @@ namespace WIL_Afcon.Controllers
                 return View();
             }
 
+            TempData["Success"] = $"{documentType} uploaded successfully.";
+
             return RedirectToAction("Details", "Employee", new { id = employeeId });
         }
 
