@@ -1,4 +1,5 @@
 using WIL_Afcon.Models;
+using WIL_Afcon.Models.Enums;
 using WIL_Afcon.Repositories.Interfaces;
 using WIL_Afcon.Services.Interfaces;
 using System.Net.Http.Json;
@@ -81,25 +82,38 @@ namespace WIL_Afcon.Services
         //    await _employeeRepository.UpdateAsync(employee);
         //}
 
-        public async Task DeactivateAsync(string id)
+        // Deactivating always marks the employee inactive (the API then rejects
+        // their scans), even if the biometric terminal is offline. Removing
+        // them from the terminal is a best-effort extra step, and the outcome
+        // says whether it worked so the admin can follow up if it didn't.
+        public async Task<DeactivationOutcome> DeactivateAsync(string id)
         {
             var employee = await _employeeRepository.GetByIdAsync(id);
 
             if (employee == null)
-                return;
+                return DeactivationOutcome.NotFound;
 
-            if (string.IsNullOrWhiteSpace(employee.DeviceUserId))
-                return;
-
-            var response = await _httpClient.DeleteAsync(
-                $"api/attendance/device/employee/{Uri.EscapeDataString(employee.DeviceUserId)}");
-
-            if (!response.IsSuccessStatusCode)
-                return;
-
-            employee.IsActive = true;
+            employee.IsActive = false;
 
             await _employeeRepository.UpdateAsync(employee);
+
+            if (string.IsNullOrWhiteSpace(employee.DeviceUserId))
+                return DeactivationOutcome.Deactivated;
+
+            try
+            {
+                var response = await _httpClient.DeleteAsync(
+                    $"api/attendance/device/employee/{Uri.EscapeDataString(employee.DeviceUserId)}");
+
+                return response.IsSuccessStatusCode
+                    ? DeactivationOutcome.DeactivatedAndRemovedFromDevice
+                    : DeactivationOutcome.DeactivatedButDeviceRemovalFailed;
+            }
+            catch (HttpRequestException)
+            {
+                // API unreachable - the employee is still deactivated
+                return DeactivationOutcome.DeactivatedButDeviceRemovalFailed;
+            }
         }
 
 

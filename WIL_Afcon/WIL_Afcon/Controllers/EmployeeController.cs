@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WIL_Afcon.Models;
+using WIL_Afcon.Models.Enums;
 using WIL_Afcon.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 
@@ -172,7 +173,28 @@ namespace WIL_Afcon.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Deactivate(string id)
         {
-            await _employeeService.DeactivateAsync(id);
+            var outcome = await _employeeService.DeactivateAsync(id);
+
+            switch (outcome)
+            {
+                case DeactivationOutcome.NotFound:
+                    return NotFound();
+
+                case DeactivationOutcome.DeactivatedAndRemovedFromDevice:
+                    TempData["Success"] = "Employee deactivated and removed from the biometric device.";
+                    break;
+
+                case DeactivationOutcome.DeactivatedButDeviceRemovalFailed:
+                    // Still deactivated (their scans are rejected), but the admin
+                    // needs to know the terminal still has them enrolled
+                    TempData["Error"] = "Employee deactivated, but they could not be removed from the " +
+                                        "biometric device. Remove them on the device manually.";
+                    break;
+
+                default:
+                    TempData["Success"] = "Employee deactivated.";
+                    break;
+            }
 
             return RedirectToAction(nameof(Index));
         }

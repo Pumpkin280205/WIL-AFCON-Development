@@ -1,4 +1,5 @@
 ﻿using WIL_Afcon.Models;
+using WIL_Afcon.Models.Enums;
 
 namespace WIL_Afcon.Services.Interfaces
 {
@@ -12,7 +13,7 @@ namespace WIL_Afcon.Services.Interfaces
 
         Task UpdateAsync(Employee employee);
 
-        Task DeactivateAsync(string id);
+        Task<DeactivationOutcome> DeactivateAsync(string id);
 
         Task<Employee?> GetByUserIdAsync(string userId);
 

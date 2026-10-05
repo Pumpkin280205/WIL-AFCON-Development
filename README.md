@@ -594,11 +594,11 @@ npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --mi
 
 ## Testing
 
-The `WIL_Afcon.Tests` project contains **80 automated tests** (xUnit), all run by the CI pipeline on every pull request.
+The `WIL_Afcon.Tests` project contains **85 automated tests** (xUnit), all run by the CI pipeline on every pull request.
 
 | Type | Files | What is tested |
 |---|---|---|
-| Unit | `AttendanceRulesTests`, `AttendanceRequestTests`, `AttendanceReportTests`, `DeviceUserIdTests`, `DocumentTests` | Clock-in window, break limits, double-scan rejection, request accept/reject rules, report calculations (overtime, Sunday hours, public holidays, weekly and monthly totals, CSV), unique device IDs, document ownership and download permissions |
+| Unit | `AttendanceRulesTests`, `AttendanceRequestTests`, `AttendanceReportTests`, `DeviceUserIdTests`, `DocumentTests`, `EmployeeDeactivationTests` | Clock-in window, break limits, double-scan rejection, request accept/reject rules, report calculations (overtime, Sunday hours, public holidays, weekly and monthly totals, CSV), unique device IDs, document ownership and download permissions, employee deactivation (including when the biometric device is offline) |
 | Integration | `ApiIntegrationTests`, `WebAppIntegrationTests` | Both apps run in memory (`WebApplicationFactory`) against a throwaway MongoDB started in Docker (Testcontainers). Covers real HTTP endpoints and status codes (200/400/401/404/409), problem+json error bodies, the API key and device token, the unique device ID and email indexes, anonymous redirects to login, admin vs employee access, anti-forgery checks, account lockout, login rate limiting, security headers, and success messages shown after an action |
 
 Run all tests from the `WIL_Afcon` folder (Docker must be running for the integration tests):

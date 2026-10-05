@@ -247,7 +247,8 @@ namespace WIL_Afcon.Tests
             public Task<List<Employee>> GetAllAsync() => Task.FromResult(_employees.ToList());
             public Task CreateAsync(Employee employee) => Task.CompletedTask;
             public Task UpdateAsync(Employee employee) => Task.CompletedTask;
-            public Task DeactivateAsync(string id) => Task.CompletedTask;
+            public Task<DeactivationOutcome> DeactivateAsync(string id) =>
+                Task.FromResult(DeactivationOutcome.Deactivated);
             public Task<Employee?> GetByEmailAsync(string email) =>
                 Task.FromResult(_employees.FirstOrDefault(e => e.Email == email));
         }
