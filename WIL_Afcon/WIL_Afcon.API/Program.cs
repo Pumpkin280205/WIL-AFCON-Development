@@ -41,6 +41,9 @@ builder.Services.Configure<WorkScheduleOptions>(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Liveness probe for the hosting platform (Render health checks)
+builder.Services.AddHealthChecks();
+
 
 
 // Only the MVC web app's origins may call the API from a browser
@@ -75,5 +78,6 @@ app.UseMiddleware<ApiKeyMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<RealtimeAttendance>("/attendanceHub");
+app.MapHealthChecks("/health");
 
 app.Run();

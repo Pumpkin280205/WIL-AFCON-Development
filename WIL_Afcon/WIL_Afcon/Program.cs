@@ -15,6 +15,9 @@ builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Liveness probe for the hosting platform (Render health checks)
+builder.Services.AddHealthChecks();
+
 
 //authentication
 builder.Services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(
@@ -111,6 +114,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+app.MapHealthChecks("/health");
 
 
 app.Run();

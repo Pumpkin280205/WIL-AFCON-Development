@@ -22,6 +22,7 @@ namespace WIL_Afcon.API.Security
         {
             "/api/attendance/hikvision-event",
             "/attendanceHub",
+            "/health",
         };
 
         private readonly RequestDelegate _next;
