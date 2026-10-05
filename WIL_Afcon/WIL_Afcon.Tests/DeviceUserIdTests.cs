@@ -17,7 +17,7 @@ namespace WIL_Afcon.Tests
         
         private static WebServices.EmployeeService CreateWebService(FakeWebEmployeeRepository repo)
         {
-            // HttpClient is only used by DeactivateAsync, which these tests don't call.
+            // HttpClient is only used by DeactivateAsync (see EmployeeDeactivationTests).
             return new WebServices.EmployeeService(repo, new HttpClient());
         }
 
