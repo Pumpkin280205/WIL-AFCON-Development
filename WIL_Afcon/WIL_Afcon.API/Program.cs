@@ -65,6 +65,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+await app.Services.GetRequiredService<MongoDbContext>()
+    .EnsureIndexesAsync(app.Logger);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

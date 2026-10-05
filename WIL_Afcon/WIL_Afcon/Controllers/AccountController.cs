@@ -86,7 +86,7 @@ namespace WIL_Afcon.Controllers
                 user.UserName!,
                 password,
                 rememberMe,
-                lockoutOnFailure: false);
+                lockoutOnFailure: true);
 
             if (result.Succeeded)
             {

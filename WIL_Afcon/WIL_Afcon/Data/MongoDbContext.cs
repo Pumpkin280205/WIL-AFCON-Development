@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using WIL_Afcon.Models;
 
 namespace WIL_Afcon.Data
 {
@@ -20,6 +21,28 @@ namespace WIL_Afcon.Data
         }
 
         public IMongoDatabase Database => _database;
+
+        // Called once at start-up. Only covers the collection the web app alone
+        // uses; Employees, Attendance and AttendanceRequests are indexed by the API.
+        public async Task EnsureIndexesAsync(ILogger logger)
+        {
+            // "My documents" list: one employee's files, newest first
+            var index = new CreateIndexModel<Document>(
+                Builders<Document>.IndexKeys
+                    .Ascending(d => d.EmployeeId)
+                    .Descending(d => d.UploadedAt),
+                new CreateIndexOptions { Name = "ix_employee_uploaded" });
+
+            try
+            {
+                await _database.GetCollection<Document>("Documents").Indexes.CreateOneAsync(index);
+            }
+            catch (Exception ex)
+            {
+                // Do not stop the web app from starting; log so it can be fixed.
+                logger.LogError(ex, "Could not create index {IndexName} on Documents.", index.Options.Name);
+            }
+        }
     }
 }
 

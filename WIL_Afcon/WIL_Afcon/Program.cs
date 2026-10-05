@@ -85,6 +85,9 @@ using (var scope = app.Services.CreateScope())
     await IdentitySetup.InitializeAsync(scope.ServiceProvider);
 }
 
+await app.Services.GetRequiredService<MongoDbContext>()
+    .EnsureIndexesAsync(app.Logger);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
