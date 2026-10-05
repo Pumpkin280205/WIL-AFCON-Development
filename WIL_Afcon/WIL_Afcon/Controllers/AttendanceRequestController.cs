@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WIL_Afcon.Models;
 using WIL_Afcon.Services.Interfaces;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using WIL_Afcon.Security;
 
 namespace WIL_Afcon.Controllers
 {
@@ -224,6 +225,12 @@ namespace WIL_Afcon.Controllers
         public async Task<IActionResult> Create(
             AttendanceRequest request, IFormFile? file)
         {
+            if (file != null && file.Length > 0 &&
+                FileUploadValidator.Validate(file) is { } uploadError)
+            {
+                ModelState.AddModelError(string.Empty, uploadError);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(request);

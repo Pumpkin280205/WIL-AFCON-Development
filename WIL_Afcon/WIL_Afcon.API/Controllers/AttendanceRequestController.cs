@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using WIL_Afcon.API.Models;
+using WIL_Afcon.API.Security;
 using WIL_Afcon.API.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -89,17 +90,27 @@ namespace WIL_Afcon.API.Controllers
         {
             if (file != null && file.Length > 0)
             {
+                var uploadError = FileUploadValidator.Validate(file);
+
+                if (uploadError != null)
+                {
+                    return BadRequest(new { error = uploadError });
+                }
+
+                var fileName = FileUploadValidator.SafeFileName(file.FileName);
+                var contentType = FileUploadValidator.ContentTypeFor(fileName);
+
                 await using var stream = file.OpenReadStream();
 
                 var documentId =
                     await _attendanceDocumentService.UploadAsync(
                         stream,
-                        file.FileName,
-                        file.ContentType);
+                        fileName,
+                        contentType);
 
                 request.DocumentId = documentId;
-                request.DocumentName = file.FileName;
-                request.DocumentContentType = file.ContentType;
+                request.DocumentName = fileName;
+                request.DocumentContentType = contentType;
             }
 
             var created =
