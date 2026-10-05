@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using WIL_Afcon.API.Configuration;
 using WIL_Afcon.API.Models.Devices;
@@ -21,17 +23,20 @@ namespace WIL_Afcon.API.Controllers
         private readonly HikvisionDeviceOptions _options;
         private readonly ILogger<HikvisionEventController> _logger;
         private readonly IHikvisionService _hikvisionService;
+        private readonly IWebHostEnvironment _environment;
 
         public HikvisionEventController(
             IDeviceEventService deviceEvents,
             IOptions<HikvisionDeviceOptions> options,
             ILogger<HikvisionEventController> logger,
-            IHikvisionService hikvisionService)
+            IHikvisionService hikvisionService,
+            IWebHostEnvironment environment)
         {
             _deviceEvents = deviceEvents;
             _options = options.Value;
             _logger = logger;
             _hikvisionService = hikvisionService;
+            _environment = environment;
         }
 
         // POST: api/attendance/hikvision-event
@@ -58,7 +63,7 @@ namespace WIL_Afcon.API.Controllers
                 return Ok();
             }
 
-            _logger.LogInformation("Hikvision payload received: {Payload}", payload);
+            _logger.LogDebug("Hikvision payload received: {Payload}", payload);
 
             if (payload.TrimStart().StartsWith('<'))
             {
@@ -99,17 +104,28 @@ namespace WIL_Afcon.API.Controllers
             var provided = Request.Query["token"].FirstOrDefault()
                            ?? Request.Headers["X-Device-Token"].FirstOrDefault();
 
-            _logger.LogInformation(
-                "Hikvision auth check: Expected token configured = {ExpectedConfigured}, Provided token = {Provided}",
-                !string.IsNullOrWhiteSpace(expected),
-                !string.IsNullOrWhiteSpace(provided));
-
             if (string.IsNullOrWhiteSpace(expected))
             {
-                return true;
+                // No token configured: only tolerate this on a developer machine,
+                // otherwise anyone could post fake clock-ins.
+                if (_environment.IsDevelopment())
+                {
+                    return true;
+                }
+
+                _logger.LogError(
+                    "HikvisionDevice:InboundToken is not configured; rejecting device events.");
+                return false;
             }
 
-            return string.Equals(provided, expected, StringComparison.Ordinal);
+            if (string.IsNullOrEmpty(provided))
+            {
+                return false;
+            }
+
+            return CryptographicOperations.FixedTimeEquals(
+                Encoding.UTF8.GetBytes(provided),
+                Encoding.UTF8.GetBytes(expected));
         }
 
 

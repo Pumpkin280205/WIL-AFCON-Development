@@ -1,20 +1,17 @@
-﻿using AspNetCore.Identity.Mongo.Model;
+using AspNetCore.Identity.Mongo.Model;
 using Microsoft.AspNetCore.Identity;
 
 namespace WIL_Afcon.Data
 {
     public static class IdentitySetup
     {
+        // Creates the roles, and optionally the seed Admin / Employee accounts.
+        // Seed account credentials come from configuration ("SeedAccounts"
+        // section - user-secrets locally, environment variables when hosted),
+        // never from source code. An account is skipped when its password is
+        // not configured.
         public static async Task InitializeAsync(
             IServiceProvider services)
-
-            // Reference: Microsoft (2026) 'ServiceProviderServiceExtensions.GetRequiredService Method',
-
-            // Microsoft Learn.
-
-            // Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.serviceproviderserviceextensions.getrequiredservice
-
-            // (Accessed: 26 September 2026).
         {
             var roleManager =
                 services.GetRequiredService<RoleManager<MongoRole>>();
@@ -22,164 +19,87 @@ namespace WIL_Afcon.Data
             var userManager =
                 services.GetRequiredService<UserManager<MongoUser>>();
 
-            var adminExists =
-                await roleManager.RoleExistsAsync("Admin");
+            var configuration =
+                services.GetRequiredService<IConfiguration>();
 
-            if (!adminExists)
+            await EnsureRoleAsync(roleManager, "Admin");
+            await EnsureRoleAsync(roleManager, "Employee");
+
+            await EnsureUserAsync(
+                userManager,
+                configuration["SeedAccounts:AdminEmail"],
+                configuration["SeedAccounts:AdminPassword"],
+                "Admin");
+
+            await EnsureUserAsync(
+                userManager,
+                configuration["SeedAccounts:EmployeeEmail"],
+                configuration["SeedAccounts:EmployeePassword"],
+                "Employee");
+        }
+
+        private static async Task EnsureRoleAsync(
+            RoleManager<MongoRole> roleManager,
+            string roleName)
+        {
+            if (await roleManager.RoleExistsAsync(roleName))
             {
-                var adminRole = new MongoRole("Admin");
-
-                var result =
-                    await roleManager.CreateAsync(adminRole);
-
-                if (!result.Succeeded)
-                {
-                    throw new Exception(
-                        "Failed to create Admin role: " +
-                        string.Join(", ",
-                            result.Errors.Select(e => e.Description)));
-                }
+                return;
             }
 
-            var employeeExists =
-    await roleManager.RoleExistsAsync("Employee");
+            var result =
+                await roleManager.CreateAsync(new MongoRole(roleName));
 
-            if (!employeeExists)
+            ThrowIfFailed(result, $"Failed to create {roleName} role");
+        }
+
+        private static async Task EnsureUserAsync(
+            UserManager<MongoUser> userManager,
+            string? email,
+            string? password,
+            string roleName)
+        {
+            if (string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(password))
             {
-                var employeeRole = new MongoRole("Employee");
-
-                var result =
-                    await roleManager.CreateAsync(employeeRole);
-
-                if (!result.Succeeded)
-                {
-                    throw new Exception(
-                        "Failed to create Employee role: " +
-                        string.Join(", ",
-                            result.Errors.Select(e => e.Description)));
-                }
+                return;
             }
 
-            // Admin account details
-            var adminEmail = "admin@afcon.com";
-            var adminPassword = "AfconAdmin123!";
+            var user = await userManager.FindByEmailAsync(email);
 
-            // Check if the Admin user already exists
-
-            // Reference: Microsoft (2026) 'UserManager<TUser>.FindByEmailAsync Method',
-
-            // Microsoft Learn.
-
-            // Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.findbyemailasync
-
-            // (Accessed: 26 September 2026).
-            var adminUser =
-                await userManager.FindByEmailAsync(adminEmail);
-
-            if (adminUser == null)
+            if (user == null)
             {
-                adminUser = new MongoUser
+                user = new MongoUser
                 {
-                    UserName = adminEmail,
-                    Email = adminEmail,
+                    UserName = email,
+                    Email = email,
                     EmailConfirmed = true
                 };
 
                 var userResult =
-                    await userManager.CreateAsync(
-                        adminUser,
-                        adminPassword);
+                    await userManager.CreateAsync(user, password);
 
-                if (!userResult.Succeeded)
-                {
-                    throw new Exception(
-                        "Failed to create Admin user: " +
-                        string.Join(", ",
-                            userResult.Errors.Select(e => e.Description)));
-                }
+                ThrowIfFailed(userResult, $"Failed to create {roleName} user");
             }
 
-            // Make sure the Admin user has the Admin role
-
-            // Reference: Microsoft (2026) 'UserManager<TUser>.IsInRoleAsync Method',
-
-            // Microsoft Learn.
-
-            // Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.isinroleasync
-
-            // (Accessed: 26 September 2026)
-            if (!await userManager.IsInRoleAsync(
-                adminUser,
-                "Admin"))
+            if (!await userManager.IsInRoleAsync(user, roleName))
             {
                 var roleResult =
-                    await userManager.AddToRoleAsync(
-                        adminUser,
-                        "Admin");
+                    await userManager.AddToRoleAsync(user, roleName);
 
-                if (!roleResult.Succeeded)
-                {
-                    throw new Exception(
-                        "Failed to assign Admin role: " +
-                        string.Join(", ",
-                            roleResult.Errors.Select(e => e.Description)));
-                }
-            }
-
-
-
-            // Employee account details
-            var employeeEmail = "employee@afcon.com";
-            var employeePassword = "AfconEmployee123!";
-
-            // Check if the Employee user already exists
-            var employeeUser =
-                await userManager.FindByEmailAsync(employeeEmail);
-
-            if (employeeUser == null)
-            {
-                employeeUser = new MongoUser
-                {
-                    UserName = employeeEmail,
-                    Email = employeeEmail,
-                    EmailConfirmed = true
-                };
-
-                var userResult =
-                    await userManager.CreateAsync(
-                        employeeUser,
-                        employeePassword);
-
-                if (!userResult.Succeeded)
-                {
-                    throw new Exception(
-                        "Failed to create Employee user: " +
-                        string.Join(", ",
-                            userResult.Errors.Select(e => e.Description)));
-                }
-            }
-
-            // Make sure the Employee user has the Employee role
-            if (!await userManager.IsInRoleAsync(
-                employeeUser,
-                "Employee"))
-            {
-                var roleResult =
-                    await userManager.AddToRoleAsync(
-                        employeeUser,
-                        "Employee");
-
-                if (!roleResult.Succeeded)
-                {
-                    throw new Exception(
-                        "Failed to assign Employee role: " +
-                        string.Join(", ",
-                            roleResult.Errors.Select(e => e.Description)));
-                }
+                ThrowIfFailed(roleResult, $"Failed to assign {roleName} role");
             }
         }
 
-
+        private static void ThrowIfFailed(IdentityResult result, string message)
+        {
+            if (!result.Succeeded)
+            {
+                throw new Exception(
+                    message + ": " +
+                    string.Join(", ", result.Errors.Select(e => e.Description)));
+            }
+        }
     }
 }
 
@@ -195,9 +115,24 @@ namespace WIL_Afcon.Data
 // Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.rolemanager-1.roleexistsasync
 // (Accessed: 26 September 2026).
 //
+// Microsoft (2026) 'ServiceProviderServiceExtensions.GetRequiredService Method',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.serviceproviderserviceextensions.getrequiredservice
+// (Accessed: 26 September 2026).
+//
 // Microsoft (2026) 'UserManager<TUser>.CreateAsync Method',
 // Microsoft Learn.
 // Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.createasync
+// (Accessed: 26 September 2026).
+//
+// Microsoft (2026) 'UserManager<TUser>.FindByEmailAsync Method',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.findbyemailasync
+// (Accessed: 26 September 2026).
+//
+// Microsoft (2026) 'UserManager<TUser>.IsInRoleAsync Method',
+// Microsoft Learn.
+// Available at: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.isinroleasync
 // (Accessed: 26 September 2026).
 //
 // ============================================================

@@ -1,4 +1,4 @@
-﻿using WIL_Afcon.Models;
+using WIL_Afcon.Models;
 using WIL_Afcon.Repositories.Interfaces;
 using WIL_Afcon.Services.Interfaces;
 using System.Net.Http.Json;
@@ -92,7 +92,7 @@ namespace WIL_Afcon.Services
                 return;
 
             var response = await _httpClient.DeleteAsync(
-                $"http://localhost:5199/api/attendance/device/employee/{employee.DeviceUserId}");
+                $"api/attendance/device/employee/{Uri.EscapeDataString(employee.DeviceUserId)}");
 
             if (!response.IsSuccessStatusCode)
                 return;

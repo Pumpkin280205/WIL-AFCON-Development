@@ -1,8 +1,9 @@
-﻿using WIL_Afcon.Models.enums;
+using System.ComponentModel.DataAnnotations;
+using WIL_Afcon.Models.enums;
 
 namespace WIL_Afcon.Models
 {
-    public class AttendanceRequest
+    public class AttendanceRequest : IValidatableObject
     {
         public string Id { get; set; } = string.Empty;
 
@@ -18,6 +19,7 @@ namespace WIL_Afcon.Models
 
         public DateTime? EndDate { get; set; }
 
+        [StringLength(1000)]
         public string? Description { get; set; }
 
         public AttendanceRequestStatus Status { get; set; }
@@ -35,5 +37,15 @@ namespace WIL_Afcon.Models
         public DateTime? ReviewedAt { get; set; }
 
         public string? ReviewedBy { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (StartDate.HasValue && EndDate.HasValue && EndDate < StartDate)
+            {
+                yield return new ValidationResult(
+                    "End date cannot be before the start date.",
+                    new[] { nameof(EndDate) });
+            }
+        }
     }
 }

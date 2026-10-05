@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WIL_Afcon.Models;
@@ -210,6 +210,15 @@ namespace WIL_Afcon.Controllers
             if (id != attendance.Id)
             {
                 return BadRequest();
+            }
+
+            if (attendance.ClockInTime != null &&
+                attendance.ClockOutTime != null &&
+                attendance.ClockOutTime <= attendance.ClockInTime)
+            {
+                ModelState.AddModelError(
+                    string.Empty,
+                    "Clock-out time must be after the clock-in time.");
             }
 
             if (!ModelState.IsValid)

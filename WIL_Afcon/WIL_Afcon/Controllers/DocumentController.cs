@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WIL_Afcon.Models.Enums;
+using WIL_Afcon.Security;
 using WIL_Afcon.Services.Interfaces;
 
 namespace WIL_Afcon.Controllers
@@ -49,6 +50,10 @@ namespace WIL_Afcon.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Please choose a file to upload.");
             }
+            else if (FileUploadValidator.Validate(file) is { } uploadError)
+            {
+                ModelState.AddModelError(string.Empty, uploadError);
+            }
 
             if (!ModelState.IsValid)
             {
@@ -60,11 +65,13 @@ namespace WIL_Afcon.Controllers
             {
                 await using var stream = file!.OpenReadStream();
 
+                var fileName = FileUploadValidator.SafeFileName(file.FileName);
+
                 await _documentService.UploadAsync(
                     employeeId,
                     documentType,
-                    file.FileName,
-                    file.ContentType,
+                    fileName,
+                    FileUploadValidator.ContentTypeFor(fileName),
                     stream);
             }
             catch (InvalidOperationException ex)

@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewData["Title"] = "Upload Document";
     var employee = (WIL_Afcon.Models.Employee)ViewBag.Employee;
 
@@ -541,6 +541,7 @@
 
                                     <input type="file"
                                            name="file"
+                                           accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
                                            id="file"
                                            required
                                            class="block w-full cursor-pointer rounded-lg border border-slate-200 bg-white text-sm text-slate-600 file:mr-4 file:border-0 file:bg-primary/10 file:px-4 file:py-3 file:text-sm file:font-semibold file:text-primary hover:file:bg-primary/15" />
