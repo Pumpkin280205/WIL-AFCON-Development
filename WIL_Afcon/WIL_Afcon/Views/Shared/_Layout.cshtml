@@ -1,10 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@inject IConfiguration Configuration
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0" />
+
+    <!-- Browser-facing API address for the SignalR hub  -->
+    <meta name="api-public-url"
+          content="@Configuration["ApiSettings:PublicUrl"]" />
 
     <title>@ViewData["Title"] - WIL_Afcon</title>
 
