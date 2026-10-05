@@ -1,16 +1,14 @@
-name: CI
+name: CI/CD
 
+# feature/* --PR--> develop --PR--> main --> deploy to Render
+#  - Every PR and every push to develop/main is built and tested.
+#  - Only a push to main (i.e. a merged release PR) deploys.
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
   workflow_dispatch:
-
-# Cancel an in-progress run when a newer commit is pushed to the same branch/PR
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -20,11 +18,18 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   SOLUTION: WIL_Afcon/WIL_Afcon.slnx
   WEB_DIR: WIL_Afcon/WIL_Afcon
+  API_URL: https://wil-afcon-api.onrender.com
+  WEB_URL: https://wil-afcon-web.onrender.com
 
 jobs:
   build:
     name: Build & test
     runs-on: ubuntu-latest
+
+    # Cancel an in-progress build when a newer commit is pushed to the same branch/PR
+    concurrency:
+      group: ci-${{ github.ref }}
+      cancel-in-progress: true
 
     steps:
       - name: Checkout
@@ -65,27 +70,95 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.SOLUTION }} -c Release --no-restore
 
-      # Runs any test projects in the solution (need to add one or a few)
       - name: Test
-        run: dotnet test ${{ env.SOLUTION }} -c Release --no-build --verbosity normal
+        run: >
+          dotnet test ${{ env.SOLUTION }} -c Release --no-build --verbosity normal
+          --logger "trx;LogFileName=test-results.trx"
+          --results-directory TestResults
 
-      # ---- Package build output so it can be downloaded from the run page ----
-      - name: Publish web app
-        run: dotnet publish WIL_Afcon/WIL_Afcon/WIL_Afcon.csproj -c Release --no-build -o publish/web
-
-      - name: Publish API
-        run: dotnet publish WIL_Afcon/WIL_Afcon.API/WIL_Afcon.API.csproj -c Release --no-build -o publish/api
-
-      - name: Upload web artifact
+      - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: wil-afcon-web
-          path: publish/web
+          name: test-results
+          path: TestResults
           retention-days: 7
 
-      - name: Upload API artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: wil-afcon-api
-          path: publish/api
-          retention-days: 7
+      # ---- Check the Docker images Render will build ----
+      - name: Build API Docker image
+        run: docker build -f WIL_Afcon/WIL_Afcon.API/Dockerfile -t wil-afcon-api WIL_Afcon
+
+      - name: Build web Docker image
+        run: docker build -f WIL_Afcon/WIL_Afcon/Dockerfile -t wil-afcon-web WIL_Afcon
+
+  deploy:
+    name: Deploy to Render
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    # Never cancel a deploy halfway; queue the next one instead
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+
+    environment:
+      name: production
+      url: ${{ env.WEB_URL }}
+
+    env:
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+
+    steps:
+      - name: Check deploy hooks are configured
+        env:
+          API_HOOK: ${{ secrets.RENDER_API_DEPLOY_HOOK }}
+          WEB_HOOK: ${{ secrets.RENDER_WEB_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$API_HOOK" ] || [ -z "$WEB_HOOK" ]; then
+            echo "::error::Add RENDER_API_DEPLOY_HOOK and RENDER_WEB_DEPLOY_HOOK in Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+      # The API goes first because the web app depends on it
+      - name: Deploy API
+        env:
+          HOOK: ${{ secrets.RENDER_API_DEPLOY_HOOK }}
+        run: |
+          curl -fsS -X POST "$HOOK&ref=$GITHUB_SHA" -o deploy.json
+          echo "API_DEPLOY_ID=$(jq -r '.deploy.id // empty' deploy.json)" >> "$GITHUB_ENV"
+          echo "API_SERVICE_ID=$(echo "$HOOK" | sed -E 's#.*/deploy/(srv-[^?]+).*#\1#')" >> "$GITHUB_ENV"
+
+      - name: Wait for API deploy
+        run: bash .github/scripts/wait-for-render.sh "$API_SERVICE_ID" "$API_DEPLOY_ID" "$API_URL/health"
+
+      - name: Deploy web app
+        env:
+          HOOK: ${{ secrets.RENDER_WEB_DEPLOY_HOOK }}
+        run: |
+          curl -fsS -X POST "$HOOK&ref=$GITHUB_SHA" -o deploy.json
+          echo "WEB_DEPLOY_ID=$(jq -r '.deploy.id // empty' deploy.json)" >> "$GITHUB_ENV"
+          echo "WEB_SERVICE_ID=$(echo "$HOOK" | sed -E 's#.*/deploy/(srv-[^?]+).*#\1#')" >> "$GITHUB_ENV"
+
+      - name: Wait for web deploy
+        run: bash .github/scripts/wait-for-render.sh "$WEB_SERVICE_ID" "$WEB_DEPLOY_ID" "$WEB_URL/health"
+
+      - name: Smoke test
+        run: |
+          curl -fsS "$API_URL/health"
+          curl -fsS "$WEB_URL/health"
+          # Admin pages must not be reachable without logging in
+          code=$(curl -s -o /dev/null -w "%{http_code}" "$WEB_URL/Employee")
+          echo "GET /Employee without login -> $code"
+          if [ "$code" = "200" ]; then
+            echo "::error::/Employee is reachable without logging in."
+            exit 1
+          fi
+
+      - name: Summary
+        run: |
+          {
+            echo "### Deployed \`${GITHUB_SHA::7}\` to Render"
+            echo "- Web: $WEB_URL"
+            echo "- API: $API_URL"
+          } >> "$GITHUB_STEP_SUMMARY"
