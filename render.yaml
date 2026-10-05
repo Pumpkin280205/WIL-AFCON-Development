@@ -10,7 +10,7 @@ services:
     name: wil-afcon-api
     runtime: docker
     region: frankfurt
-    plan: starter            # paid plan: stays awake for device scans and SignalR
+    plan: free            # paid plan: stays awake for device scans and SignalR
     branch: main
     dockerContext: ./WIL_Afcon
     dockerfilePath: ./WIL_Afcon/WIL_Afcon.API/Dockerfile
