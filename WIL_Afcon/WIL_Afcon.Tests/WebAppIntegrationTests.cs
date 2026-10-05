@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using AspNetCore.Identity.Mongo.Model;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,8 +9,7 @@ using Xunit;
 
 namespace WIL_Afcon.Tests
 {
-    // End-to-end checks on the MVC web app: role-based access, the login flow,
-    // anti-forgery protection, account lockout and security headers.
+    // Web app tests: role access, login, anti-forgery, lockout, rate limiting, headers
     [Collection(IntegrationCollection.Name)]
     public class WebAppIntegrationTests
     {
@@ -20,8 +20,7 @@ namespace WIL_Afcon.Tests
             _fixture = fixture;
         }
 
-        // HTTPS because outside Development the auth cookie is Secure-only.
-        // Redirects are not followed so tests can assert where they point.
+        // HTTPS for the Secure auth cookie; redirects not followed so they can be checked
         private HttpClient NewClient() => _fixture.Web.CreateClient(new WebApplicationFactoryClientOptions
         {
             BaseAddress = new Uri("https://localhost"),
@@ -109,7 +108,7 @@ namespace WIL_Afcon.Tests
         [Fact]
         public async Task Account_IsLockedAfterRepeatedFailedLogins()
         {
-            // A dedicated user so locking it does not affect the other tests
+            // Dedicated user so other tests aren't locked out
             var email = $"lockout-{Guid.NewGuid():N}@tests.local";
             const string password = "Lockout-Test-123!";
 
@@ -123,17 +122,38 @@ namespace WIL_Afcon.Tests
 
             var client = NewClient();
 
-            // Identity's default limit is 5 failed attempts
+            // Identity locks after 5 failed attempts
             for (var i = 0; i < 5; i++)
             {
                 await LoginAsync(client, email, "Wrong-Password-1!");
             }
 
-            // Even the correct password is now refused
+            // Correct password is now refused
             var response = await LoginAsync(client, email, password);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.Null(response.Headers.Location);
+        }
+
+        [Fact]
+        public async Task Login_IsRateLimitedPerClient()
+        {
+            // App instance with a limit of 2 login posts per minute
+            using var factory = _fixture.Web.WithWebHostBuilder(builder =>
+                builder.UseSetting("RateLimiting:LoginPermitLimitPerMinute", "2"));
+
+            var client = factory.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                BaseAddress = new Uri("https://localhost"),
+                AllowAutoRedirect = false
+            });
+
+            await LoginAsync(client, "nobody@tests.local", "Wrong-Password-1!");
+            await LoginAsync(client, "nobody@tests.local", "Wrong-Password-1!");
+            // Unknown email, so no account gets locked
+            var third = await LoginAsync(client, "nobody@tests.local", "Wrong-Password-1!");
+
+            Assert.Equal(HttpStatusCode.TooManyRequests, third.StatusCode);
         }
 
         [Fact]
@@ -146,7 +166,7 @@ namespace WIL_Afcon.Tests
             Assert.True(response.Headers.Contains("Content-Security-Policy"));
         }
 
-        // Loads the login page for its anti-forgery token, then posts the form
+        // Gets the anti-forgery token, then posts the login form
         private static async Task<HttpResponseMessage> LoginAsync(HttpClient client, string email, string password)
         {
             var page = await client.GetStringAsync("/Account/Login");

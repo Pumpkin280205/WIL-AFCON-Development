@@ -6,12 +6,8 @@ using Xunit;
 
 namespace WIL_Afcon.Tests
 {
-    // Integration tests run both apps in memory (WebApplicationFactory) against a
-    // real, throwaway MongoDB started in Docker (Testcontainers). Docker must be
-    // running locally; GitHub's ubuntu runners have it by default.
-    //
-    // The "Testing" environment means no user-secrets or Atlas connection string
-    // are loaded, so the tests can never touch the real database.
+    // Runs both apps in memory against a throwaway MongoDB in Docker (Docker must be running).
+    // "Testing" environment: no user-secrets, so the real database is never used.
     public class IntegrationTestFixture : IAsyncLifetime
     {
         public const string ApiKey = "integration-test-api-key";
@@ -51,6 +47,8 @@ namespace WIL_Afcon.Tests
                     builder.UseSetting("SeedAccounts:AdminPassword", AdminPassword);
                     builder.UseSetting("SeedAccounts:EmployeeEmail", EmployeeEmail);
                     builder.UseSetting("SeedAccounts:EmployeePassword", EmployeePassword);
+                    // High limit so repeated test logins aren't blocked
+                    builder.UseSetting("RateLimiting:LoginPermitLimitPerMinute", "1000");
                 });
         }
 
@@ -61,8 +59,7 @@ namespace WIL_Afcon.Tests
             await _mongo.DisposeAsync();
         }
 
-        // UseSetting (rather than ConfigureAppConfiguration) so the values are
-        // visible while Program.cs is still registering services.
+        // UseSetting so values are visible while Program.cs registers services
         private void UseTestDatabase(IWebHostBuilder builder, string databaseName)
         {
             var connectionString = new MongoUrlBuilder(_mongo.GetConnectionString())
@@ -77,7 +74,7 @@ namespace WIL_Afcon.Tests
         }
     }
 
-    // One MongoDB container shared by every integration test class
+    // Shares one MongoDB container across integration test classes
     [CollectionDefinition(Name)]
     public class IntegrationCollection : ICollectionFixture<IntegrationTestFixture>
     {
