@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WIL_Afcon.Models;
 using WIL_Afcon.Services.Interfaces;
 
 namespace WIL_Afcon.Controllers
 {
+    // Every action (including the POSTs) is Admin-only.
+    [Authorize(Roles = "Admin")]
     public class DepartmentController : Controller
     {
         private readonly IDepartmentService _departmentService;
