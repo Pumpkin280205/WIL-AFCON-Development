@@ -18,7 +18,9 @@ namespace WIL_Afcon.Tests
         public const string EmployeeEmail = "employee@tests.local";
         public const string EmployeePassword = "Employee-Test-123!";
 
-        private readonly MongoDbContainer _mongo = new MongoDbBuilder("mongo:8.0")
+        // shortcut: 7.0 because mongo 8.0+ won't start on Linux kernel 6.19+ (GitHub runners);
+        // move back to 8.x once MongoDB ships a build that supports those kernels (SERVER-121912)
+        private readonly MongoDbContainer _mongo = new MongoDbBuilder("mongo:7.0")
             .Build();
 
         public WebApplicationFactory<WIL_Afcon.API.Data.MongoDbContext> Api { get; private set; } = null!;
