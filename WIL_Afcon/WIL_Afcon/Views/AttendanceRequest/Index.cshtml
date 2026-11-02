@@ -1,4 +1,4 @@
-﻿@model List<WIL_Afcon.Models.AttendanceRequest>
+@model List<WIL_Afcon.Models.AttendanceRequest>
 
 @{
     ViewData["Title"] = "Attendance Requests";
@@ -649,7 +649,9 @@
 
 
                                     <!-- ACTION -->
-                                    <td class="px-5 py-4 text-right">
+                                    <td class="px-5 py-4">
+
+                                        <div class="flex items-center justify-end gap-1.5">
 
                                         <a asp-action="Details"
                                            asp-route-id="@request.Id"
@@ -668,6 +670,27 @@
                                             </svg>
 
                                         </a>
+
+                                        <form asp-action="Delete" method="post" class="m-0">
+                                            <input type="hidden" name="id" value="@request.Id" />
+                                            <button type="submit"
+                                                    title="Delete request"
+                                                    aria-label="Delete request from @request.EmployeeName"
+                                                    class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600">
+                                                <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 24 24"
+                                                     fill="none"
+                                                     stroke="currentColor"
+                                                     stroke-width="2"
+                                                     class="h-4 w-4">
+                                                    <path d="M3 6h18"></path>
+                                                    <path d="M8 6V4h8v2"></path>
+                                                    <path d="M19 6l-1 14H6L5 6"></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+
+                                        </div>
 
                                     </td>
 

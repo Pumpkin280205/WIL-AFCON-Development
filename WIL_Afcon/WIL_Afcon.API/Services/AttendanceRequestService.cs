@@ -1,4 +1,4 @@
-﻿using WIL_Afcon.API.Models;
+using WIL_Afcon.API.Models;
 using WIL_Afcon.API.Repositories.Interfaces;
 using WIL_Afcon.API.Services.Interfaces;
 
@@ -91,6 +91,11 @@ namespace WIL_Afcon.API.Services
             await _attendanceRequests.UpdateAsync(request);
 
             return true;
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            await _attendanceRequests.DeleteAsync(id);
         }
     }
 }

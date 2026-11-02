@@ -184,6 +184,21 @@ namespace WIL_Afcon.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (!await _attendanceRequestService.DeleteAsync(id))
+            {
+                return NotFound();
+            }
+
+            TempData["Success"] = "Request deleted.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
         
         // This is the employee side 

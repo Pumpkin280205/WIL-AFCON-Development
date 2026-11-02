@@ -133,6 +133,12 @@ namespace WIL_Afcon.Tests
                 UpdateCalls++;
                 return Task.CompletedTask;
             }
+
+            public Task DeleteAsync(string id)
+            {
+                Requests.RemoveAll(r => r.Id == id);
+                return Task.CompletedTask;
+            }
         }
     }
 }

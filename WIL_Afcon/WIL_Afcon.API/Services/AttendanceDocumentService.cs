@@ -1,4 +1,4 @@
-﻿using MongoDB.Driver;
+using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 using WIL_Afcon.API.Data;
 using WIL_Afcon.API.Services.Interfaces;
@@ -75,6 +75,23 @@ namespace WIL_Afcon.API.Services
                 fileInfo.Filename,
                 contentType
             );
+        }
+
+        public async Task DeleteAsync(string documentId)
+        {
+            if (!MongoDB.Bson.ObjectId.TryParse(documentId, out var objectId))
+            {
+                return;
+            }
+
+            try
+            {
+                await _gridFsBucket.DeleteAsync(objectId);
+            }
+            catch (GridFSFileNotFoundException)
+            {
+                // Already gone - nothing to clean up
+            }
         }
     }
 }
