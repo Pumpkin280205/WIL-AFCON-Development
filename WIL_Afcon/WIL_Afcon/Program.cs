@@ -87,6 +87,7 @@ void ConfigureApiClient(HttpClient client)
 }
 
 builder.Services.AddHttpClient<IEmployeeService, EmployeeService>(ConfigureApiClient);
+builder.Services.AddHttpClient<IEmployeeDeletionService, EmployeeDeletionService>(ConfigureApiClient);
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IAttendanceReportService, AttendanceReportService>(); // Attendance report feature
