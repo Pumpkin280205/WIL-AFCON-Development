@@ -1,4 +1,4 @@
-﻿using WIL_Afcon.Models;
+using WIL_Afcon.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 
@@ -26,6 +26,8 @@ namespace WIL_Afcon.Services.Interfaces
         Task<bool> RejectAsync(
             string id,
             string? adminComment);
+
+        Task<bool> DeleteAsync(string id);
 
 
         Task<(Stream Stream, string FileName, string ContentType)?>

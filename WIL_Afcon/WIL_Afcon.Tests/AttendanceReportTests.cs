@@ -220,7 +220,7 @@ namespace WIL_Afcon.Tests
             public Task<List<Department>> GetAllAsync() => Task.FromResult(_departments.ToList());
             public Task CreateAsync(Department department) => Task.CompletedTask;
             public Task UpdateAsync(Department department) => Task.CompletedTask;
-            public Task DeleteAsync(string id) => Task.CompletedTask;
+            public Task DeleteAsync(string id) { _departments.RemoveAll(d => d.Id == id); return Task.CompletedTask; }
         }
     }
 }

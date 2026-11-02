@@ -184,5 +184,32 @@ namespace WIL_Afcon.API.Controllers
                 message = "Attendance request rejected."
             });
         }
+
+        // DELETE: api/attendance-requests/{id}
+        // Removes the request and its supporting document, if any.
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var request = await _attendanceRequestService.GetByIdAsync(id);
+
+            if (request == null)
+            {
+                return Problem(
+                    detail: "Attendance request not found.",
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Not found");
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.DocumentId))
+            {
+                await _attendanceDocumentService.DeleteAsync(request.DocumentId);
+            }
+
+            await _attendanceRequestService.DeleteAsync(id);
+
+            return NoContent();
+        }
     }
 }

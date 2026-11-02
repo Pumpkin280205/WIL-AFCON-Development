@@ -1,4 +1,4 @@
-﻿@model WIL_Afcon.Models.AttendanceRequest
+@model WIL_Afcon.Models.AttendanceRequest
 
 @{
     ViewData["Title"] = "Attendance Request Details";
@@ -778,6 +778,14 @@
 
                         <!-- REVIEW ACTIONS -->
                         <div class="flex flex-col-reverse gap-3 border-t border-slate-200 bg-slate-50 px-6 py-5 sm:flex-row sm:justify-end lg:px-8">
+
+
+                            <!-- DELETE -->
+                            <button type="submit"
+                                    formaction="@Url.Action("Delete", "AttendanceRequest")"
+                                    class="inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-red-50 hover:text-red-600 sm:mr-auto">
+                                Delete Request
+                            </button>
 
 
                             <!-- REJECT -->

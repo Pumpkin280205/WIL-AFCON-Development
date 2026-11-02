@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using WIL_Afcon.Models;
 using WIL_Afcon.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -147,6 +147,14 @@ namespace WIL_Afcon.Services
             var response = await _httpClient.PutAsJsonAsync(
                 $"api/attendance-requests/{id}/reject",
                 adminComment ?? string.Empty);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            var response = await _httpClient.DeleteAsync(
+                $"api/attendance-requests/{Uri.EscapeDataString(id)}");
 
             return response.IsSuccessStatusCode;
         }

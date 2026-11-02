@@ -12,6 +12,7 @@ namespace WIL_Afcon.Controllers
         private readonly IDepartmentService _departmentService;
         private readonly IDocumentService _documentService;
         private readonly IAttendanceService _attendanceService;
+        private readonly IEmployeeDeletionService _deletionService;
 
 
        // Reference: Microsoft (2026) 'Dependency injection into controllers in ASP.NET Core',
@@ -22,12 +23,14 @@ namespace WIL_Afcon.Controllers
             IEmployeeService employeeService,
             IDepartmentService departmentService,
             IDocumentService documentService,
-            IAttendanceService attendanceService)
+            IAttendanceService attendanceService,
+            IEmployeeDeletionService deletionService)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
             _documentService = documentService;
             _attendanceService = attendanceService;
+            _deletionService = deletionService;
         }
 
         // GET: /Employee
@@ -193,6 +196,41 @@ namespace WIL_Afcon.Controllers
 
                 default:
                     TempData["Success"] = "Employee deactivated.";
+                    break;
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: /Employee/Delete
+        // Permanent cascading delete. The admin must retype the Device User ID
+        // and full name; the service re-checks both before deleting anything.
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string id, string? confirmDeviceUserId, string? confirmFullName)
+        {
+            var employee = await _employeeService.GetByIdAsync(id);
+            var name = employee == null ? "" : $"{employee.FirstName} {employee.LastName}";
+
+            var outcome = await _deletionService.DeleteAsync(id, confirmDeviceUserId, confirmFullName);
+
+            switch (outcome)
+            {
+                case DeletionOutcome.NotFound:
+                    return NotFound();
+
+                case DeletionOutcome.ConfirmationMismatch:
+                    TempData["Error"] = "The Device User ID or name did not match. Nothing was deleted.";
+                    return RedirectToAction(nameof(Details), new { id });
+
+                case DeletionOutcome.DeletedButDeviceRemovalFailed:
+                    TempData["Error"] = $"{name} was deleted, but could not be removed from the " +
+                                        "biometric device. Remove them on the device manually.";
+                    break;
+
+                default:
+                    TempData["Success"] = $"{name} and all their records were permanently deleted.";
                     break;
             }
 

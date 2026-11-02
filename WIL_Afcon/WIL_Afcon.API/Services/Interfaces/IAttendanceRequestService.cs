@@ -1,4 +1,4 @@
-﻿using WIL_Afcon.API.Models;
+using WIL_Afcon.API.Models;
 
 namespace WIL_Afcon.API.Services.Interfaces
 {
@@ -23,5 +23,7 @@ namespace WIL_Afcon.API.Services.Interfaces
             string id,
             string adminComment,
             string reviewedBy);
+
+        Task DeleteAsync(string id);
     }
 }

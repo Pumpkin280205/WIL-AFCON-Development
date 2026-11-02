@@ -1,4 +1,4 @@
-﻿using MongoDB.Driver;
+using MongoDB.Driver;
 using WIL_Afcon.API.Data;
 using WIL_Afcon.API.Models;
 using WIL_Afcon.API.Repositories.Interfaces;
@@ -55,6 +55,11 @@ namespace WIL_Afcon.API.Repositories
         {
             await _attendanceRequests
                 .ReplaceOneAsync(r => r.Id == request.Id, request);
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            await _attendanceRequests.DeleteOneAsync(r => r.Id == id);
         }
     }
 }

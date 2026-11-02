@@ -130,6 +130,22 @@ namespace WIL_Afcon.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        // POST: /Department/Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var assigned = await _departmentService.DeleteAsync(id);
+
+            if (assigned > 0)
+                TempData["Error"] = $"This department still has {assigned} employee(s). " +
+                                    "Move them to another department or delete them first.";
+            else
+                TempData["Success"] = "Department deleted.";
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
 

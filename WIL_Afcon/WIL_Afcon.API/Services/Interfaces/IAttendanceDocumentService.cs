@@ -1,4 +1,4 @@
-﻿namespace WIL_Afcon.API.Services.Interfaces
+namespace WIL_Afcon.API.Services.Interfaces
 {
     public interface IAttendanceDocumentService
     {
@@ -9,5 +9,7 @@
 
         Task<(Stream Stream, string FileName, string ContentType)?>
             DownloadAsync(string documentId);
+
+        Task DeleteAsync(string documentId);
     }
 }

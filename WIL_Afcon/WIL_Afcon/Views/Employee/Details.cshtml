@@ -889,6 +889,63 @@
 
             </div>
 
+
+            <!-- ================================================== -->
+            <!-- DELETE EMPLOYEE (permanent, double confirmation)   -->
+            <!-- ================================================== -->
+
+            @{
+                var hasDeviceId = !string.IsNullOrWhiteSpace(Model.DeviceUserId);
+                var confirmIdLabel = hasDeviceId ? "Device User ID" : "Employee Number";
+            }
+
+            <div class="mt-6 rounded-2xl border border-red-200 bg-white shadow-sm">
+
+                <div class="border-b border-red-200 px-6 py-5">
+
+                    <h2 class="text-lg font-semibold text-red-700">
+                        Delete Employee
+                    </h2>
+
+                    <p class="mt-1 text-sm text-slate-500">
+                        Permanently deletes this employee, their login account, attendance records,
+                        attendance requests and uploaded documents, and removes them from the
+                        biometric device. This cannot be undone.
+                    </p>
+
+                </div>
+
+                <form asp-action="Delete" method="post" class="grid gap-5 px-6 py-5 md:grid-cols-2" autocomplete="off">
+
+                    <input type="hidden" name="id" value="@Model.Id" />
+
+                    <div>
+                        <label for="confirmDeviceUserId" class="text-sm font-medium text-slate-700">
+                            Enter the employee's @confirmIdLabel
+                        </label>
+                        <input id="confirmDeviceUserId" name="confirmDeviceUserId" required
+                               class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-red-400 focus:ring-2 focus:ring-red-100" />
+                    </div>
+
+                    <div>
+                        <label for="confirmFullName" class="text-sm font-medium text-slate-700">
+                            Enter the employee's full name
+                        </label>
+                        <input id="confirmFullName" name="confirmFullName" required
+                               class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-red-400 focus:ring-2 focus:ring-red-100" />
+                    </div>
+
+                    <div class="md:col-span-2 flex justify-end">
+                        <button type="submit"
+                                class="rounded-xl bg-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700">
+                            Permanently Delete Employee
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
         </main>
 
     </div>

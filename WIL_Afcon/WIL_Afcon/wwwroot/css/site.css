@@ -187,3 +187,62 @@ input[type="submit"].is-loading {
     transform: rotate(360deg);
   }
 }
+
+/* ---- Mobile sidebar menu (see site.js) ---- */
+
+.sidebar-toggle {
+  display: none;
+}
+
+@media (max-width: 1023.98px) {
+  aside.has-menu {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
+  aside.has-menu > :first-child {
+    height: 4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom: 0;
+  }
+
+  .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+    color: #0f172a;
+  }
+
+  .sidebar-toggle:hover {
+    background: #f1f5f9;
+  }
+
+  .sidebar-toggle svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  /* Menu opens as an overlay under the bar instead of pushing content down */
+  aside.has-menu > :first-child + * {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: calc(100dvh - 4rem);
+    overflow-y: auto;
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+  }
+
+  aside.has-menu.is-open > :first-child + * {
+    display: flex;
+  }
+}

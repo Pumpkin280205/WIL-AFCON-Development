@@ -115,3 +115,48 @@ window.addEventListener("pageshow", function (event) {
         });
     });
 });
+
+// ---- Mobile sidebar menu ----
+// Below the lg breakpoint the sidebar collapses to its brand bar plus a
+// menu button, so the navigation no longer pushes the page content down.
+// Added from script so every page's sidebar gets it without markup changes.
+
+document.querySelectorAll("aside").forEach(function (sidebar, index) {
+    var brand = sidebar.firstElementChild;
+    var panel = brand && brand.nextElementSibling;
+
+    if (!panel) {
+        return;
+    }
+
+    panel.id = panel.id || "sidebar-menu-" + index;
+    sidebar.classList.add("has-menu");
+
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "sidebar-toggle";
+    button.setAttribute("aria-label", "Open menu");
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-controls", panel.id);
+    button.innerHTML =
+        "<svg aria-hidden='true' focusable='false' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round'>" +
+        "<line x1='4' y1='6' x2='20' y2='6'></line><line x1='4' y1='12' x2='20' y2='12'></line><line x1='4' y1='18' x2='20' y2='18'></line></svg>";
+    brand.appendChild(button);
+
+    function setOpen(open) {
+        sidebar.classList.toggle("is-open", open);
+        button.setAttribute("aria-expanded", String(open));
+        button.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+
+    button.addEventListener("click", function () {
+        setOpen(!sidebar.classList.contains("is-open"));
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && sidebar.classList.contains("is-open")) {
+            setOpen(false);
+            button.focus();
+        }
+    });
+});

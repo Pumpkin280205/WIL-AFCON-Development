@@ -1,4 +1,4 @@
-﻿using WIL_Afcon.API.Models;
+using WIL_Afcon.API.Models;
 
 namespace WIL_Afcon.API.Repositories.Interfaces
 {
@@ -15,5 +15,7 @@ namespace WIL_Afcon.API.Repositories.Interfaces
         Task<List<AttendanceRequest>> GetPendingAsync();
 
         Task UpdateAsync(AttendanceRequest request);
+
+        Task DeleteAsync(string id);
     }
 }
