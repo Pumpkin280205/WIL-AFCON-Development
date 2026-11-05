@@ -24,9 +24,7 @@ env:
 jobs:
   build:
     name: Build & test
-    # Pinned: ubuntu-latest moved to a 7.x kernel, where the mongo:8.0 test
-    # container refuses to start (MongoDB SERVER-121912)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     # Cancel an in-progress build when a newer commit is pushed to the same branch/PR
     concurrency:
